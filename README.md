@@ -23,7 +23,7 @@ Lalu buka `site/index.html` di browser untuk melihat galeri.
 | `scripts/penjaga.mjs` | Pemeriksa falsafah: grid, kelipatan 0,25, area 2–22, ≤4 elemen, ≤1 KB, metadata |
 | `scripts/rakit.mjs` | Menghasilkan `dist/` |
 | `ruas.css` | Mode warna Garis, Lapis, Aksen, Isi |
-| `site/` | Galeri publik |
+| `site/` | Galeri publik. Sunting `site/galeri.html`; `site/index.html` dibuat oleh `npm run rakit` |
 | `docs/` | Falsafah dan catatan seri |
 
 Hasil rakit (`dist/`, tidak masuk git): `svg/<id>.svg`, `sprite.svg` (simbol `ruas-<id>`), `ruas.json`, `ruas.js`, `ruas.css`.
