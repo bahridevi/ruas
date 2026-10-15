@@ -1,0 +1,13 @@
+{
+  "nama": "Pesan",
+  "kategori": "antarmuka",
+  "tag": [
+    "obrolan",
+    "percakapan",
+    "balon",
+    "chat",
+    "message"
+  ],
+  "cermin": true,
+  "gerak": "ketik"
+}

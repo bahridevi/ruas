@@ -1,0 +1,15 @@
+/* Ruas — mode warna. Pasang salah satu kelas mode pada pembungkus ikon:
+   ruas-lapis, ruas-aksen, ruas-isi (boleh digabung, mis. "ruas-isi ruas-aksen").
+   Tanpa kelas mode, ikon tampil sebagai Garis. Warna utama mengikuti `color`. */
+.ruas-lapis { --ruas-badan: currentColor; --ruas-badan-pekat: .16; }
+.ruas-aksen { --ruas-aksen: #C27600; } /* kunyit */
+.ruas-isi { --ruas-badan: currentColor; --ruas-badan-pekat: 1; --ruas-detail: var(--ruas-latar, #fff); }
+
+svg .badan { fill: var(--ruas-badan, none); fill-opacity: var(--ruas-badan-pekat, 1); }
+svg .padat { fill: currentColor; }
+svg .aksen { stroke: var(--ruas-aksen, currentColor); }
+svg .aksen.padat { fill: var(--ruas-aksen, currentColor); }
+svg .detail { stroke: var(--ruas-detail, currentColor); }
+svg .detail.padat { fill: var(--ruas-detail, currentColor); }
+svg .aksen.detail { stroke: var(--ruas-detail, var(--ruas-aksen, currentColor)); }
+svg .aksen.detail.padat { fill: var(--ruas-detail, var(--ruas-aksen, currentColor)); }

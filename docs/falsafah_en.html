@@ -1,0 +1,764 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0">
+<title>Ruas Icon Philosophy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Tata letak: naskah satu kolom (±68 karakter) dengan daftar isi lengket di kiri; bab bisa digulung. */
+:root {
+  --bg: #F2F5EE;
+  --surface: #FBFCF8;
+  --ink: #17211A;
+  --muted: #56645A;
+  --line: #D3DBCD;
+  --bambu: #2D6843;
+  --kunyit: #C27600;
+  --grid: #E2E8DC;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1410; --surface: #151D17; --ink: #E3EBE1; --muted: #98A79B;
+    --line: #29352C; --bambu: #7DC496; --kunyit: #F0B23A; --grid: #1F2A22;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1410; --surface: #151D17; --ink: #E3EBE1; --muted: #98A79B;
+  --line: #29352C; --bambu: #7DC496; --kunyit: #F0B23A; --grid: #1F2A22;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.65 var(--body); }
+.wrap { max-width: 1140px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 48px; }
+@media (max-width: 920px) { .wrap { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-inline: 16px; } }
+
+a { color: var(--bambu); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--bambu); outline-offset: 3px; border-radius: 4px; }
+
+/* Daftar isi */
+.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: .9rem; }
+.toc p { font: 600 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; border-left: 1px solid var(--line); }
+.toc a { display: block; padding: 4px 12px; color: var(--muted); text-decoration: none; margin-left: -1px; border-left: 2px solid transparent; }
+.toc a:hover, .toc a:focus-visible { color: var(--ink); border-left-color: var(--bambu); }
+@media (max-width: 920px) {
+  .toc { position: static; }
+  .toc ol { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); border: 0; }
+  .toc a { border: 1px solid var(--line); border-radius: 6px 2px 6px 2px; margin: 0; }
+}
+
+main { min-width: 0; max-width: 760px; }
+
+/* Pembuka */
+.hero { padding-bottom: 32px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.eyebrow { font: 600 .75rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 { font: 800 clamp(4.5rem, 14vw, 8.5rem)/.9 var(--display); letter-spacing: -.045em; margin: 12px 0 18px; color: var(--ink); }
+h1 span { color: var(--bambu); }
+.lead { font-size: 1.25rem; line-height: 1.5; max-width: 34em; margin: 0 0 24px; text-wrap: pretty; }
+.ico-row { display: flex; flex-wrap: wrap; gap: 18px; --ico-c: var(--ink); --ico-a: var(--kunyit); --ico-w: 1.5; --ico-s: 40px; }
+
+/* Bab */
+.alat { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px; }
+.btn { font: 600 .85rem/1 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px 2px 8px 2px; padding: 9px 14px; cursor: pointer; }
+.btn:hover { border-color: var(--bambu); color: var(--bambu); }
+details.bab { border-bottom: 1px solid var(--line); }
+details.bab > summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 14px; padding: 22px 0 18px; }
+details.bab > summary::-webkit-details-marker { display: none; }
+details.bab > summary:hover h2 { color: var(--bambu); }
+.no { font: 600 .78rem/1 var(--mono); color: var(--muted); min-width: 2.2em; }
+h2 { font: 700 1.6rem/1.2 var(--display); letter-spacing: -.02em; margin: 0; flex: 1; text-wrap: balance; }
+.chev { width: 18px; height: 18px; flex: none; transition: transform .2s; stroke: var(--muted); fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; align-self: center; }
+details[open] > summary .chev { transform: rotate(180deg); }
+.isi { padding: 0 0 28px; }
+.isi > * + * { margin-top: 14px; }
+h3 { font: 700 1.15rem/1.3 var(--display); margin: 28px 0 0; }
+p, li { max-width: 68ch; text-wrap: pretty; }
+.isi ul, .isi ol { padding-left: 1.2em; }
+.isi li + li { margin-top: 6px; }
+strong { font-weight: 700; }
+code, .kode { font: 400 .88em/1.5 var(--mono); }
+code { background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+.catatan { font-size: .92rem; color: var(--muted); }
+.kutip { font: 600 1.35rem/1.45 var(--display); letter-spacing: -.01em; border-left: 3px solid var(--bambu); padding: 4px 0 4px 18px; margin: 8px 0; max-width: 36em; }
+
+/* Tabel */
+.tabel { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px 3px 10px 3px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; min-width: 560px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 .72rem/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+td:first-child { font-weight: 700; white-space: nowrap; }
+.ya { color: var(--bambu); font-weight: 700; }
+.tidak { color: var(--muted); }
+.pil { display: inline-block; font: 600 .75rem/1 var(--mono); padding: 5px 8px; border-radius: 6px 2px 6px 2px; border: 1px solid currentColor; }
+.pil.dipilih { color: var(--bambu); }
+.pil.ditolak { color: var(--muted); }
+
+/* Prinsip */
+.prinsip { display: grid; gap: 14px; }
+.kartu { background: var(--surface); border: 1px solid var(--line); border-radius: 14px 3px 14px 3px; padding: 18px 20px; }
+.kartu h3 { margin: 0 0 4px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.kartu h3 small { font: 600 .75rem/1 var(--mono); color: var(--bambu); letter-spacing: .04em; }
+.kartu dl { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 6px 12px; margin: 10px 0 0; font-size: .95rem; }
+.kartu dt { font: 600 .72rem/1.9 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.kartu dd { margin: 0; }
+@media (max-width: 520px) { .kartu dl { grid-template-columns: minmax(0, 1fr); } .kartu dt { line-height: 1.2; margin-top: 6px; } }
+
+/* Perbandingan tanda khas */
+.banding { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 520px) { .banding { grid-template-columns: minmax(0, 1fr); } }
+.banding figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px 3px 12px 3px; padding: 16px; display: grid; justify-items: center; gap: 10px; text-align: center; }
+.banding svg { width: 96px; height: 96px; fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.banding figure.kita { border-color: var(--bambu); }
+.banding figure.kita svg { stroke: var(--bambu); }
+.banding figcaption { font-size: .88rem; color: var(--muted); }
+.banding figcaption b { display: block; color: var(--ink); }
+
+/* Ikon */
+.ico { width: var(--ico-s); height: var(--ico-s); fill: none; stroke: currentColor; color: var(--ico-c); stroke-width: var(--ico-w); stroke-linecap: round; stroke-linejoin: round; overflow: visible; flex: none; }
+.ico .f { fill: currentColor; }
+.m-lapis .ico .b { fill: currentColor; fill-opacity: .16; }
+.m-aksen .ico .a { stroke: var(--ico-a); }
+.m-aksen .ico .a.f { fill: var(--ico-a); }
+.m-isi .ico .b { fill: currentColor; }
+.m-isi .ico .d { stroke: var(--surface); }
+.m-isi .ico .d.f { fill: var(--surface); }
+.cermin-on .ico.c { transform: scaleX(-1); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gerak-on .g-denyut .a, .gerak-on .g-tambah .a { animation: denyut 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .gerak-on .g-turun .a { animation: turun 1.4s ease-in-out infinite; }
+  .gerak-on .g-buka .a { animation: buka 2.2s ease-in-out infinite; }
+  .gerak-on .g-ketik .a { animation: ketik 1.2s ease-in-out infinite; }
+  .gerak-on .g-ketik circle:nth-of-type(2) { animation-delay: .15s; }
+  .gerak-on .g-ketik circle:nth-of-type(3) { animation-delay: .3s; }
+  .gerak-on .g-cari g > * { animation: cari 2.6s ease-in-out infinite; transform-box: view-box; transform-origin: 12px 12px; }
+}
+@keyframes denyut { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+@keyframes turun { 0%, 100% { transform: translateY(-1px); } 50% { transform: translateY(1.5px); } }
+@keyframes buka { 0%, 35%, 100% { transform: translateY(0); } 55%, 80% { transform: translateY(-2px); } }
+@keyframes ketik { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+@keyframes cari { 0%, 100% { transform: rotate(-14deg); } 50% { transform: rotate(10deg); } }
+
+/* Ruang coba */
+.coba { background: var(--surface); border: 1px solid var(--line); border-radius: 16px 4px 16px 4px; padding: 18px; display: grid; gap: 16px; }
+.kontrol { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px 18px; align-items: end; }
+.kontrol label, .kontrol legend { font: 600 .72rem/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); display: block; margin-bottom: 6px; }
+.kontrol fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 8px 2px 8px 2px; overflow: hidden; }
+.seg label { flex: 1; margin: 0; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg span { display: block; text-align: center; padding: 8px 4px; font: 600 .85rem/1 var(--body); text-transform: none; letter-spacing: 0; color: var(--ink); cursor: pointer; }
+.seg label + label span { border-left: 1px solid var(--line); }
+.seg span:hover { color: var(--bambu); }
+.seg input:checked + span { background: var(--bambu); color: var(--surface); }
+.seg input:focus-visible + span { outline: 2px solid var(--bambu); outline-offset: -4px; }
+input[type="range"] { width: 100%; accent-color: var(--bambu); }
+output { font: 600 .8rem/1 var(--mono); color: var(--ink); float: right; text-transform: none; }
+.warna { display: flex; gap: 8px; align-items: center; }
+input[type="color"] { width: 44px; height: 34px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); padding: 2px; cursor: pointer; }
+.cek { display: flex; flex-wrap: wrap; gap: 14px; }
+.cek label { display: flex; gap: 8px; align-items: center; font: 400 .95rem/1.2 var(--body); text-transform: none; letter-spacing: 0; color: var(--ink); margin: 0; cursor: pointer; }
+.cek input { accent-color: var(--bambu); width: 18px; height: 18px; }
+.cari { width: 100%; font: 400 1rem/1.2 var(--body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px 2px 8px 2px; padding: 9px 12px; }
+.cari:hover { border-color: var(--muted); }
+.ringkas { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.galeri { --ico-c: var(--ink); --ico-a: var(--kunyit); --ico-w: 1.5; --ico-s: 32px; display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 10px; }
+.tile { display: grid; justify-items: center; gap: 6px; padding: 18px 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px 3px 12px 3px; cursor: pointer; color: var(--ink); font: inherit; min-height: 132px; align-content: center; }
+.tile:hover { border-color: var(--bambu); background: var(--bg); }
+.tile .nm { font-weight: 700; font-size: .92rem; line-height: 1.2; }
+.tile .id { font: 400 .72rem/1.2 var(--mono); color: var(--muted); }
+.tile .tetap { font: 600 .68rem/1.2 var(--mono); color: var(--kunyit); display: none; }
+.cermin-on .tile .tetap { display: block; }
+.kosong { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 24px; }
+#manual textarea { width: 100%; min-height: 110px; font: 400 .8rem/1.5 var(--mono); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px 3px 10px 3px; font-size: .92rem; opacity: 0; pointer-events: none; transition: opacity .2s; max-width: calc(100% - 32px); }
+.toast.tampil { opacity: 1; }
+
+/* Diagram grid */
+.diagram { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 620px) { .diagram { grid-template-columns: minmax(0, 1fr); } }
+.diagram svg { width: 100%; max-width: 260px; height: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px 3px 12px 3px; }
+.g-garis { stroke: var(--grid); stroke-width: .05; }
+.g-pad { fill: var(--kunyit); fill-opacity: .14; }
+.g-key { fill: none; stroke: var(--bambu); stroke-width: .08; stroke-dasharray: .4 .3; }
+.g-ikon { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: .9; }
+.legenda { list-style: none; padding: 0 !important; margin: 0; display: grid; gap: 8px; font-size: .92rem; }
+.legenda li { display: flex; gap: 10px; align-items: center; }
+.sw { width: 18px; height: 18px; flex: none; border-radius: 4px 1px 4px 1px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0 !important; }
+.chips li { margin: 0 !important; font-size: .88rem; border: 1px solid var(--line); background: var(--surface); padding: 4px 10px; border-radius: 8px 2px 8px 2px; }
+.chips li.ada { border-color: var(--bambu); color: var(--bambu); font-weight: 700; }
+
+.langkah { list-style: none; padding: 0 !important; counter-reset: l; display: grid; gap: 12px; }
+.langkah li { counter-increment: l; display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 8px; margin: 0 !important; }
+.langkah li::before { content: counter(l); font: 700 1.1rem/1.4 var(--display); color: var(--bambu); }
+.periksa { list-style: none; padding: 0 !important; display: grid; gap: 8px; }
+.periksa label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.periksa input { accent-color: var(--bambu); width: 18px; height: 18px; margin-top: 4px; flex: none; }
+pre.kode { background: var(--surface); border: 1px solid var(--line); border-radius: 10px 3px 10px 3px; padding: 14px 16px; overflow-x: auto; margin: 0; }
+footer { margin-top: 40px; font-size: .88rem; color: var(--muted); }
+footer ul { padding-left: 1.2em; }
+</style>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#inti">Core</a></li>
+      <li><a href="#medan">Landscape</a></li>
+      <li><a href="#falsafah">Bamboo Philosophy</a></li>
+      <li><a href="#tanda">Signature</a></li>
+      <li><a href="#coba">Try it</a></li>
+      <li><a href="#rupa">Visual system</a></li>
+      <li><a href="#warna">Color modes</a></li>
+      <li><a href="#gerak">Motion</a></li>
+      <li><a href="#nusantara">Nusantara content</a></li>
+      <li><a href="#akses">Access &amp; language</a></li>
+      <li><a href="#teknik">Tech &amp; distribution</a></li>
+      <li><a href="#kelola">Governance</a></li>
+      <li><a href="#ukuran">Measuring "best"</a></li>
+      <li><a href="#jalan">Roadmap</a></li>
+      <li><a href="#periksa">New icon test</a></li>
+      <li><a href="#keputusan">Decisions</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <p class="eyebrow">Open icon philosophy · Draft 0.1 · 15 October 2026 · <a href="falsafah_id.html" hreflang="id" lang="id">Bahasa Indonesia</a></p>
+      <h1>Ruas<span>.</span></h1>
+      <p class="lead">A free public icon set that grows like bamboo: light because it is hollow, strong because it is jointed, flexible enough for every need, growing in clumps, and belonging to everyone.</p>
+      <p class="catatan"><em>Ruas</em> is Indonesian for the segment of a bamboo stem between two joints. The six principles keep their Indonesian names, with English beside them.</p>
+      <div class="ico-row m-aksen" id="hero-ikon" aria-hidden="true"></div>
+    </header>
+
+    <div class="alat">
+      <button class="btn" type="button" id="buka-semua">Expand all chapters</button>
+      <button class="btn" type="button" id="gulung-semua">Collapse all chapters</button>
+    </div>
+
+    <details class="bab" id="inti" open>
+      <summary><span class="no">00</span><h2>Core: why start from a philosophy</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p class="kutip">Every Ruas icon must answer one question: is it light, orderly, flexible, honest in meaning, part of the family, and for everyone?</p>
+        <p>Icon sets that last have written rules. SF Symbols and Material Symbols are guarded by very detailed guidelines. A set that relies only on its designer's taste stops growing when the designer gets busy. Feather stalled at around 280 icons, and in 2020 the community continued it as Lucide.</p>
+        <p>The philosophy here works as a fence. Every principle has a <strong>measurable drawing rule</strong> and <strong>a way to test it</strong>, so the 100th contributor produces icons as clean as the first. Rules a machine can check are checked by a machine.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="medan" open>
+      <summary><span class="no">01</span><h2>Landscape: who we aim to surpass</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Set</th><th>Strength</th><th>Gap we fill</th></tr></thead>
+            <tbody>
+              <tr><td>Lucide</td><td>Most popular in 2026 (±5 million npm downloads/week), MIT, default in shadcn/ui</td><td>Only one line style. Filled variants are not officially supported and have long been requested (issue #458).</td></tr>
+              <tr><td>Phosphor</td><td>6 weights (thin to duotone), more than 1,500 shapes</td><td>Duotone is only a 20% background plane; it carries no meaning</td></tr>
+              <tr><td>Tabler</td><td>More than 5,000 icons, strong for dashboards</td><td>Broad, but no layered color system and no motion</td></tr>
+              <tr><td>Heroicons</td><td>Very clean, made by the Tailwind team</td><td>Only ±300 icons</td></tr>
+              <tr><td>Material Symbols</td><td>2,500+ icons, 4 variable axes (fill, weight, grade, optical size)</td><td>Font-based, looks like Google, hard to use as standalone SVG</td></tr>
+              <tr><td>SF Symbols</td><td>The gold standard: 4 rendering modes (mono, hierarchical, palette, multicolor) and animation</td><td>Apple platforms only; not allowed on the web or Android</td></tr>
+              <tr><td>Solar</td><td>6 styles including <em>Broken</em> (gapped lines)</td><td>CC BY 4.0, so users must give attribution</td></tr>
+              <tr><td>Font Awesome</td><td>Best known</td><td>Many of its best icons are paid (Pro)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Where Ruas stands:</strong> the sophistication of SF Symbols (meaningful color layers and motion) for the open world, MIT licensed, pure SVG, with local Nusantara content and bilingual search. No set yet combines all five.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="falsafah" open>
+      <summary><span class="no">02</span><h2>Bamboo Philosophy: six traits, six principles</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Bamboo is light because it is hollow, strong because it is jointed, flexible in the wind, grows straight, lives in clumps, and is used by everyone, from homes to mosques. Each trait becomes a principle that can be tested.</p>
+        <div class="prinsip">
+          <article class="kartu">
+            <h3>1. Berongga · Hollow <small>LIGHT</small></h3>
+            <p>As few strokes as possible. Anything that does not help people recognize the icon is removed.</p>
+            <dl>
+              <dt>Rule</dt><dd>At most 4 elements per icon. Average file ≤ 400 bytes, largest 1 KB. No <code>filter</code>, <code>mask</code>, or gradients. Coordinates use at most 2 decimals.</dd>
+              <dt>Test</dt><dd>Machine: an automatic checker on every contribution.</dd>
+            </dl>
+          </article>
+          <article class="kartu">
+            <h3>2. Beruas · Jointed <small>ORDERLY</small></h3>
+            <p>Every bamboo joint is evenly spaced. Every icon stands on the same grid.</p>
+            <dl>
+              <dt>Rule</dt><dd>Canvas 24, live area 20. Line angles 0°, 45°, 90° (30° and 60° when needed). Gap between lines at least 2 px. Points on multiples of 0.25.</dd>
+              <dt>Test</dt><dd>Machine: checks area bounds, coordinate multiples, and gaps.</dd>
+            </dl>
+          </article>
+          <article class="kartu">
+            <h3>3. Lentur · Flexible <small>ONE SOURCE, MANY NEEDS</small></h3>
+            <p>One drawing serves every size, weight, and color mode.</p>
+            <dl>
+              <dt>Rule</dt><dd>Drawn as centerlines, readable at weights 1 to 2.5. Every part has a role: body, detail, or accent. That is what makes the Layer, Accent, and Fill modes possible without redrawing.</dd>
+              <dt>Test</dt><dd>Automatic contact sheet: 16/24/48 px × weight 1/1.5/2.5 × 4 modes.</dd>
+            </dl>
+          </article>
+          <article class="kartu">
+            <h3>4. Lurus · Straight <small>HONEST MEANING</small></h3>
+            <p>Bamboo grows straight. One icon carries one meaning that is understood at once.</p>
+            <dl>
+              <dt>Rule</dt><dd>Use objects people know today. Conventions that are already global stay (a floppy disk means save). No letters inside icons except currency symbols. No brand logos.</dd>
+              <dt>Test</dt><dd>Human: a 5-second recognition test with 10 people; passes when ≥ 8 guess correctly.</dd>
+            </dl>
+          </article>
+          <article class="kartu">
+            <h3>5. Berumpun · Clumping <small>ONE FAMILY</small></h3>
+            <p>No single stem stands out on its own. A new icon must look like a sibling.</p>
+            <dl>
+              <dt>Rule</dt><dd>Must carry the Leaf Corner signature when it has cornered planes. Visual weight matches its neighbors. Names follow the standard pattern.</dd>
+              <dt>Test</dt><dd>Human: placed among 8 random icons, then reviewed by 2 people.</dd>
+            </dl>
+          </article>
+          <article class="kartu">
+            <h3>6. Untuk semua · For everyone <small>INCLUSIVE</small></h3>
+            <p>Bamboo is used in palaces and in villages. Ruas is free for anyone to use.</p>
+            <dl>
+              <dt>Rule</dt><dd>MIT with no attribution required. Names and tags in two languages (ID and EN). Accessible labels. Human figures are neutral and faceless. Symbols of every religion in Indonesia are crafted to the same standard. Directional icons have a mirrored version.</dd>
+              <dt>Test</dt><dd>The accessibility checklist in chapter 09.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+    </details>
+
+    <details class="bab" id="tanda" open>
+      <summary><span class="no">03</span><h2>Signature: Sudut Daun (Leaf Corner)</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p><strong>Correction to the first idea:</strong> the "breathing gap" (broken line) turned out to be used already by the <em>Broken</em> style in Solar Icons. Gaps also disappear in the Fill variant and can change meaning, for example on a power icon or an open padlock. So gaps are not the signature, and the idea of "breath" moved to <a href="#gerak">motion</a>.</p>
+        <div class="banding">
+          <figure>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+            <figcaption><b>Even rounding</b>Lucide, Phosphor, Tabler</figcaption>
+          </figure>
+          <figure>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H18A3 3 0 0 1 21 6V18A3 3 0 0 1 18 21H6A3 3 0 0 1 3 18V6A3 3 0 0 1 6 3"/></svg>
+            <figcaption><b>Broken</b>Solar Broken</figcaption>
+          </figure>
+          <figure class="kita">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3H20A1 1 0 0 1 21 4V17A4 4 0 0 1 17 21H4A1 1 0 0 1 3 20V7A4 4 0 0 1 7 3Z"/></svg>
+            <figcaption><b>Leaf Corner</b>Ruas</figcaption>
+          </figure>
+        </div>
+        <h3>The rules</h3>
+        <ul>
+          <li>The <strong>top-left and bottom-right</strong> corners curve wide (R 4). The <strong>top-right and bottom-left</strong> corners are sharp (r 1). The shape recalls a bamboo leaf tapering at both ends, with the top-right tip as the direction of growth.</li>
+          <li>Applies to every cornered plane: documents, screens, cards, chat bubbles, calendars, padlocks.</li>
+          <li>R may not exceed half the shortest side. Small planes (&lt; 8 px) use R 2 and r 0.5.</li>
+          <li>Circles stay perfect and carry no signature.</li>
+          <li>In the mirrored (RTL) version, the Leaf Corner is redrawn in its standard direction. The signature does not flip.</li>
+        </ul>
+        <h3>Why the Leaf Corner was chosen</h3>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Candidate</th><th>Unused</th><th>Clear at 16 px</th><th>Survives Fill</th><th>Safe for meaning</th><th>Verdict</th></tr></thead>
+            <tbody>
+              <tr><td>Breathing gap</td><td class="tidak">No (Solar)</td><td class="ya">Yes</td><td class="tidak">No</td><td class="tidak">No</td><td><span class="pil ditolak">Rejected</span></td></tr>
+              <tr><td>Qalam-cut ends</td><td class="ya">Yes</td><td class="tidak">No</td><td class="ya">Yes</td><td class="ya">Yes</td><td><span class="pil ditolak">Rejected</span></td></tr>
+              <tr><td>Leaf Corner</td><td class="ya">Yes</td><td class="ya">Yes (3 px difference)</td><td class="ya">Yes (silhouette)</td><td class="ya">Yes</td><td><span class="pil dipilih">Chosen</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="catatan">"Unused" means not found in any large UI icon set. This must be rechecked before launch.</p>
+        <h3>Second differentiator: Aksen Makna (Meaning Accent)</h3>
+        <p>The second color is only for <strong>the part that changes when the meaning changes</strong>: the + on add user, the dot on a bell, the shackle on a padlock, the arrow on download, the needle on qibla. Icons without such a part (search, document, home) get no accent. Accent is never forced, and it must never be the only carrier of meaning, because the shape must stay complete for people with color blindness.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="coba" open>
+      <summary><span class="no">04</span><h2>Try it: 12 sample icons</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Every icon below is drawn with the rules in this document. Click an icon to copy its SVG. The file size under the name is the size of the copied SVG, as proof of the Hollow principle.</p>
+        <div class="coba">
+          <div class="kontrol">
+            <fieldset>
+              <legend>Mode</legend>
+              <div class="seg" id="mode">
+                <label><input type="radio" name="mode" value="garis" checked><span>Line</span></label>
+                <label><input type="radio" name="mode" value="lapis"><span>Layer</span></label>
+                <label><input type="radio" name="mode" value="aksen"><span>Accent</span></label>
+                <label><input type="radio" name="mode" value="isi"><span>Fill</span></label>
+              </div>
+            </fieldset>
+            <div>
+              <label for="tebal">Stroke weight <output id="tebal-o" for="tebal">1.5</output></label>
+              <input type="range" id="tebal" min="1" max="2.5" step="0.25" value="1.5">
+            </div>
+            <div>
+              <label for="ukuran">Size <output id="ukuran-o" for="ukuran">32 px</output></label>
+              <input type="range" id="ukuran" min="16" max="64" step="4" value="32">
+            </div>
+            <div>
+              <label for="warna-utama">Main &amp; accent color</label>
+              <div class="warna">
+                <input type="color" id="warna-utama" value="#17211a" aria-label="Main color">
+                <input type="color" id="warna-aksen" value="#c27600" aria-label="Accent color">
+                <button class="btn" type="button" id="warna-reset">Follow theme</button>
+              </div>
+            </div>
+            <div class="cek">
+              <label><input type="checkbox" id="gerak"> Breathing motion</label>
+              <label><input type="checkbox" id="cermin"> Mirror (RTL)</label>
+            </div>
+            <div>
+              <label for="cari">Search (EN or ID)</label>
+              <input class="cari" type="search" id="cari" placeholder="e.g. bell, lonceng, qibla…" autocomplete="off">
+            </div>
+          </div>
+          <div class="ringkas"><span id="jumlah">12 of 12 icons</span><span id="rerata"></span></div>
+          <p class="catatan" id="gerak-mati" hidden>Motion is off because your device asks for reduced motion.</p>
+          <div class="galeri m-garis" id="galeri"></div>
+          <div id="manual" hidden>
+            <label for="manual-kode">The browser blocked automatic copying. Copy this code manually:</label>
+            <textarea id="manual-kode" readonly></textarea>
+          </div>
+        </div>
+        <p class="catatan">Worth noticing: the Leaf Corner on document, calendar, padlock, and chat bubble. The mosque has a tiered (tumpang) roof. The qibla needle points to 295°. Accent mode colors only the meaningful part. When mirrored, qibla does not flip.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="rupa" open>
+      <summary><span class="no">05</span><h2>Visual system</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <div class="diagram">
+          <svg id="grid" viewBox="-1 -1 26 26" role="img" aria-label="24 grid with live area, keylines, and a sample document icon"></svg>
+          <ul class="legenda">
+            <li><span class="sw" style="background: var(--grid); border: 1px solid var(--line)"></span>24 × 24 grid, one square = 1 px</li>
+            <li><span class="sw" style="background: var(--kunyit); opacity: .35"></span>2 px padding, 20 × 20 live area</li>
+            <li><span class="sw" style="border: 1.5px dashed var(--bambu)"></span>Keylines: circle Ø20, square 18, portrait 16 × 20, landscape 20 × 16</li>
+            <li><span class="sw" style="border: 1.5px solid var(--ink)"></span>Sample: document with Leaf Corner</li>
+          </ul>
+        </div>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Element</th><th>Standard value</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td>Canvas</td><td><code>viewBox="0 0 24 24"</code></td><td>Default size 24 px, matching the WCAG 2.5.8 minimum touch target</td></tr>
+              <tr><td>Stroke</td><td>1.5 (range 1–2.5)</td><td>Round caps and joins</td></tr>
+              <tr><td>Leaf Corner</td><td>R 4 / r 1</td><td>Small planes R 2 / r 0.5, R ≤ ½ shortest side</td></tr>
+              <tr><td>Gap</td><td>≥ 2 px visible</td><td>Measured after stroke weight</td></tr>
+              <tr><td>Line angles</td><td>0°, 45°, 90°</td><td>30° and 60° when the shape demands</td></tr>
+              <tr><td>Round dots</td><td>Zero-length lines</td><td>Grow with the stroke weight</td></tr>
+              <tr><td>Optical size</td><td>Phase 2</td><td>Dedicated 16 px versions for dense icons, following Carbon and Fluent</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="bab" id="warna" open>
+      <summary><span class="no">06</span><h2>Color modes</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Four modes, equivalent to the SF Symbols rendering modes but for the open web. All modes come from one drawing because every part already has a role (body, detail, accent).</p>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Mode</th><th>How it works</th><th>Used for</th></tr></thead>
+            <tbody>
+              <tr><td>Line (Garis)</td><td>One color, <code>currentColor</code></td><td>Navigation, buttons, table content</td></tr>
+              <tr><td>Layer (Lapis)</td><td>Body filled with 16% of the main color</td><td>Empty states, feature cards, small illustrations</td></tr>
+              <tr><td>Accent (Aksen)</td><td>Meaningful part uses a second color</td><td>Notifications, status, primary actions</td></tr>
+              <tr><td>Fill (Isi)</td><td>Solid body, details knocked out</td><td>The active tab or menu item</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre class="kode">/* Set through CSS, without touching the icon files */
+.ruas {
+  color: #17211A;           /* main color */
+  --ruas-aksen: #C27600;    /* accent color */
+  --ruas-lapis: .16;        /* Layer mode opacity */
+  --ruas-tebal: 1.5;        /* stroke weight */
+}</pre>
+        <p class="catatan">The default accent (kunyit, turmeric) is tested at a minimum of 3:1 against light and dark backgrounds, per WCAG 1.4.11 for non-text elements.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="gerak" open>
+      <summary><span class="no">07</span><h2>Breathing motion</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Motion replaces the "breathing gap" as the form of breath. Each accented icon has one motion born from its meaning, and <strong>only the accent part moves</strong>. The color rule and the motion rule form one system.</p>
+        <ul>
+          <li><strong>Pulse</strong> (denyut) for new status: the bell dot, the date on a calendar, the + sign.</li>
+          <li><strong>Drop</strong> (turun) for progress: the download arrow.</li>
+          <li><strong>Typing</strong> (ketik) for ongoing activity: the dots in a chat bubble.</li>
+          <li><strong>Open</strong> (buka) for status change: the padlock shackle.</li>
+          <li><strong>Seek</strong> (cari) for direction finding: the qibla needle.</li>
+        </ul>
+        <p>Rules: 200–600 ms for one-shot motion. Looping motion only for ongoing status. Turns off automatically when the device asks for reduced motion (<code>prefers-reduced-motion</code>). Motion is pure CSS, no animation library.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="nusantara" open>
+      <summary><span class="no">08</span><h2>Nusantara content</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>This is the differentiator Western sets cannot copy, because it comes from knowledge we hold. (Nusantara is the Indonesian archipelago.)</p>
+        <ul>
+          <li>The default <strong>mosque</strong> has a tiered roof like the Great Mosque of Demak. A dome version is available as <code>mosque-dome</code>.</li>
+          <li>The <strong>qibla</strong> needle defaults to ±295°, the qibla direction from Indonesia.</li>
+          <li>Houses of worship of <strong>every religion in Indonesia</strong> are crafted to the same quality: mosque, church, pura, vihara, klenteng.</li>
+        </ul>
+        <h3>Starter list (24)</h3>
+        <ul class="chips">
+          <li class="ada">mosque</li><li class="ada">qibla</li><li>prayer times (5)</li><li>bedug drum</li><li>prayer mat</li><li>prayer beads</li><li>peci cap</li><li>ketupat</li><li>church</li><li>pura (Hindu temple)</li><li>vihara (Buddhist temple)</li><li>klenteng (Chinese temple)</li><li>rupiah</li><li>QR payment</li><li>ID card</li><li>warung (small shop)</li><li>ojek (motorbike taxi)</li><li>angkot (minibus)</li><li>becak (pedicab)</li><li>rice field</li><li>volcano</li><li>kentongan (slit drum)</li><li>posyandu (health post)</li><li>wayang (abstract)</li>
+        </ul>
+        <p class="catatan">Green = already sampled in chapter 04. The payment icon uses a generic QR code shape, not the QRIS logo, because brand logos are out of scope (Simple Icons covers those).</p>
+      </div>
+    </details>
+
+    <details class="bab" id="akses" open>
+      <summary><span class="no">09</span><h2>Accessibility &amp; language</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <ul>
+          <li><strong>Text alternatives (WCAG 1.1.1):</strong> a component without a <code>label</code> is automatically <code>aria-hidden</code> (decorative). With a <code>label</code>, it becomes <code>role="img"</code> and uses <code>aria-label</code>.</li>
+          <li><strong>Contrast (1.4.11):</strong> default palette ≥ 3:1. Accent must never be the only distinction.</li>
+          <li><strong>Touch target (2.5.8):</strong> default size 24 px.</li>
+          <li><strong>Motion:</strong> follows <code>prefers-reduced-motion</code>.</li>
+        </ul>
+        <h3>Mirroring for right-to-left languages</h3>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Mirrored</th><th>Not mirrored</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space: normal; font-weight: 400">Back/forward arrows, chat bubbles, send, log in/out, indented lists</td><td>Clock and qibla (real-world direction), check marks, media play buttons, numbers and currency, icons with Latin letters</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Naming and search</h3>
+        <p>Code names use English in the <code>object-modifier</code> pattern (<code>user-plus</code>, <code>bell-ring</code>) so they feel familiar to programmers everywhere. Every icon carries an Indonesian name, tags, and synonyms. Typing "cart" or the Indonesian "keranjang" finds <code>cart</code>; typing "bell" or "lonceng" finds <code>bell</code>.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="teknik" open>
+      <summary><span class="no">10</span><h2>Tech &amp; distribution</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <ol class="langkah">
+          <li><span><strong>Single source:</strong> one SVG file per icon, parts marked by role (body, detail, accent), plus one metadata file (ID/EN names, tags, category, mirrorable, motion).</span></li>
+          <li><span><strong>Philosophy guard:</strong> an automatic checker for viewBox, element count, decimals, file size, embedded colors (<code>currentColor</code> required), and live-area bounds. Submissions that fail cannot be merged.</span></li>
+          <li><span><strong>Build:</strong> SVG optimization, then output to <code>@ruas/react</code>, <code>vue</code>, <code>svelte</code>, <em>web components</em>, SVG sprite, CDN, and a Figma library. All <em>tree-shakable</em>, SSR-safe, with zero runtime dependencies.</span></li>
+          <li><span><strong>Site:</strong> controls like chapter 04, copy SVG/JSX/Vue, PNG download at 1×/2×/3×, and links that keep your settings.</span></li>
+        </ol>
+        <pre class="kode">// Planned usage (not released yet)
+import { Bell } from '@ruas/react'
+
+&lt;Bell mode="aksen" size={24} label="New notification" /&gt;</pre>
+        <p><strong>Versioning:</strong> semver. Renaming an icon is a major version, and the old name stays as an alias for one major version. Every release comes with a changelog.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="kelola" open>
+      <summary><span class="no">11</span><h2>Governance</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <ul>
+          <li><strong>MIT license:</strong> free to use, modify, and sell with no attribution required, just like Lucide and Phosphor.</li>
+          <li><strong>Contribution flow:</strong> request, then sketch, philosophy test (machine and human), review by 2 people, then release.</li>
+          <li><strong>Changing the philosophy</strong> happens only through a written proposal (RFC) that explains the problem and its impact on existing icons, never out of taste.</li>
+          <li><strong>Sustainability:</strong> open donations through GitHub Sponsors or Open Collective. Icons are never locked behind payment.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="bab" id="ukuran" open>
+      <summary><span class="no">12</span><h2>Measuring "best"</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>"Best" has to be measurable. These are the targets we judge by.</p>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Measure</th><th>Target</th></tr></thead>
+            <tbody>
+              <tr><td>Recognized</td><td>≥ 80% correct in the 5-second recognition test</td></tr>
+              <tr><td>Consistent</td><td>100% of icons pass the automatic checker</td></tr>
+              <tr><td>Light</td><td>Average ≤ 400 bytes per icon</td></tr>
+              <tr><td>Sharp when small</td><td>Every icon readable at 16 px</td></tr>
+              <tr><td>Quick to use</td><td>From search to copy in &lt; 10 seconds</td></tr>
+              <tr><td>Locally complete</td><td>The largest Nusantara set among open sets</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="bab" id="jalan" open>
+      <summary><span class="no">13</span><h2>Roadmap</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <ol class="langkah">
+          <li><span><strong>Philosophy (now):</strong> this document is agreed and becomes the fixed reference.</span></li>
+          <li><span><strong>Style test:</strong> 24 icons. Leaf Corner is compared with even rounding on 20 people to make sure the signature does not lower recognition.</span></li>
+          <li><span><strong>Core:</strong> 300 UI icons and 40 Nusantara icons, React/Vue packages, gallery site.</span></li>
+          <li><span><strong>Grow:</strong> 1,000+ icons, motion, Figma library, 16 px optical size, open contributions.</span></li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="bab" id="periksa" open>
+      <summary><span class="no">14</span><h2>New icon test</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Every new icon must pass every item. The checkboxes here are only a reading aid and are not saved.</p>
+        <ul class="periksa">
+          <li><label><input type="checkbox"> <span><strong>Hollow:</strong> ≤ 4 elements, ≤ 1 KB, no filter, mask, or gradient</span></label></li>
+          <li><label><input type="checkbox"> <span><strong>Jointed:</strong> inside the 20 live area, gaps ≥ 2 px, standard line angles</span></label></li>
+          <li><label><input type="checkbox"> <span><strong>Flexible:</strong> readable at 16 px and weight 2.5, part roles marked</span></label></li>
+          <li><label><input type="checkbox"> <span><strong>Straight:</strong> one meaning, passes the 5-second test, no letters or logos</span></label></li>
+          <li><label><input type="checkbox"> <span><strong>Clumping:</strong> Leaf Corner applied, looks like family among 8 random icons</span></label></li>
+          <li><label><input type="checkbox"> <span><strong>For everyone:</strong> ID/EN names and tags present, mirroring rule set, neutral figures</span></label></li>
+          <li><label><input type="checkbox"> <span><strong>Accent &amp; motion:</strong> accent only on the part whose change carries meaning, or no accent</span></label></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="bab" id="keputusan" open>
+      <summary><span class="no">15</span><h2>Decisions</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Agreed on 15 October 2026.</p>
+        <ul>
+          <li><strong>Name:</strong> Ruas. GitHub <code>ruas</code> is taken, so the organization is planned as <code>ruas-icons</code>.</li>
+          <li><strong>Leaf Corner direction:</strong> sharp at top-right and bottom-left.</li>
+          <li><strong>Default accent color:</strong> kunyit (turmeric) <code>#C27600</code>.</li>
+          <li><strong>License:</strong> MIT.</li>
+        </ul>
+      </div>
+    </details>
+
+    <footer>
+      <p><strong>Research sources</strong></p>
+      <ul>
+        <li><a href="https://www.pkgpulse.com/guides/lucide-vs-heroicons-vs-phosphor-react-icon-libraries-2026">Lucide vs Heroicons vs Phosphor 2026 (pkgpulse)</a></li>
+        <li><a href="https://allsvgicons.com/blog/best-free-svg-icon-libraries-2026/">Best Free SVG Icon Libraries 2026 (allsvgicons)</a></li>
+        <li><a href="https://v0.lucide.dev/guide/advanced/filled-icons">Lucide: filled icons</a></li>
+        <li><a href="https://uiuxshowcase.com/resources/solar-icons-set/">Solar Icons Set</a></li>
+        <li><a href="https://developer-mdn.apple.com/sf-symbols/">SF Symbols (Apple)</a></li>
+        <li><a href="https://developers.google.com/fonts/docs/material_symbols">Material Symbols guide (Google)</a></li>
+        <li><a href="https://phosphoricons.com/">Phosphor Icons</a></li>
+      </ul>
+    </footer>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const f = n => +n.toFixed(2);
+// Sudut Daun: kiri-atas & kanan-bawah melengkung R, kanan-atas & kiri-bawah runcing r
+function daun(x0, y0, x1, y1, R = 4, r = 1) {
+  return `M${f(x0 + R)} ${y0}H${f(x1 - r)}A${r} ${r} 0 0 1 ${x1} ${f(y0 + r)}V${f(y1 - R)}A${R} ${R} 0 0 1 ${f(x1 - R)} ${y1}H${f(x0 + r)}A${r} ${r} 0 0 1 ${x0} ${f(y1 - r)}V${f(y0 + R)}A${R} ${R} 0 0 1 ${f(x0 + R)} ${y0}Z`;
+}
+const P = (d, k = '') => ({ d, k });
+const C = (cx, cy, r, k = '') => ({ c: [cx, cy, r], k });
+// Peran: b = badan, d = detail di dalam badan, a = aksen, f = diisi
+const IKON = [
+  { id: 'house', nama: 'Home', tag: 'rumah beranda utama home', el: [P('M5 9.4L12 3.5L19 9.4V17A4 4 0 0 1 15 21H6A1 1 0 0 1 5 20Z', 'b'), P('M2.5 11.5L12 3.5L21.5 11.5'), P('M10 21V16.5A2 2 0 0 1 14 16.5V21', 'd')] },
+  { id: 'search', nama: 'Search', tag: 'cari pencarian telusur kaca pembesar search find', el: [C(10.5, 10.5, 7, 'b'), P('M15.5 15.5L21 21')] },
+  { id: 'user-plus', nama: 'Add user', tag: 'tambah pengguna orang akun anggota daftar user add person', gerak: 'tambah', el: [C(9, 7.5, 3.5, 'b'), P('M2.5 20.5C2.5 16.9 5.4 14.5 9 14.5S15.5 16.9 15.5 20.5Z', 'b'), P('M19 8V14M16 11H22', 'a')] },
+  { id: 'bell', nama: 'Bell', tag: 'lonceng notifikasi pemberitahuan bell notification alert', gerak: 'denyut', el: [P('M6.5 17V11.5A5.5 5.5 0 0 1 17.5 11.5V17L19 18.5H5Z', 'b'), P('M10 21H14'), C(19.5, 4.5, 1.5, 'a f')] },
+  { id: 'file', nama: 'Document', tag: 'dokumen berkas kertas surat file document', el: [P('M9 2.5H14L19 7.5V17.5A4 4 0 0 1 15 21.5H6A1 1 0 0 1 5 20.5V6.5A4 4 0 0 1 9 2.5Z', 'b'), P('M14 2.5V6.5A1 1 0 0 0 15 7.5H19', 'd'), P('M9 12.5H15M9 16.5H12.5', 'd')] },
+  { id: 'chat', nama: 'Chat', tag: 'pesan obrolan percakapan balon chat message', cermin: true, gerak: 'ketik', el: [P('M8 4H20A1 1 0 0 1 21 5V13.5A4 4 0 0 1 17 17.5H8.5L4 21V8A4 4 0 0 1 8 4Z', 'b'), C(8.5, 10.75, .6, 'a f d'), C(12.5, 10.75, .6, 'a f d'), C(16.5, 10.75, .6, 'a f d')] },
+  { id: 'calendar', nama: 'Calendar', tag: 'kalender tanggal jadwal agenda date schedule', gerak: 'denyut', el: [P(daun(3, 4.5, 21, 21), 'b'), P('M8 2.5V6.5M16 2.5V6.5'), P('M3 9.5H21', 'd'), P(daun(13, 13, 17, 17, 1.5, .5), 'a d')] },
+  { id: 'lock', nama: 'Lock', tag: 'kunci gembok keamanan sandi lock secure password', gerak: 'buka', el: [P(daun(4.5, 10.5, 19.5, 21.5), 'b'), P('M8 10.5V7.5A4 4 0 0 1 16 7.5V10.5', 'a'), P('M12 14.5V17.5', 'd')] },
+  { id: 'download', nama: 'Download', tag: 'unduh unduhan ambil simpan download', gerak: 'turun', el: [P('M3.5 14.5V20A1 1 0 0 0 4.5 21H16.5A4 4 0 0 0 20.5 17V14.5'), P('M12 3.5V14M7.5 9.5L12 14L16.5 9.5', 'a')] },
+  { id: 'money', nama: 'Money', tag: 'uang rupiah duit bayar tunai money cash payment', el: [P(daun(2.5, 6, 21.5, 18), 'b'), C(12, 12, 2.5, 'd'), P('M6 9.5h0M18 14.5h0', 'd')] },
+  { id: 'mosque', nama: 'Mosque', tag: 'masjid masjid nusantara atap tumpang ibadah salat mosque', el: [P('M12 2V4'), P('M12 4L15.5 7.5H8.5Z', 'b'), P('M9 7.5H15L18 11H6Z', 'b'), P('M6.5 11H17.5L21 14.5H3Z', 'b'), P('M5 14.5V20A1 1 0 0 0 6 21H16A3 3 0 0 0 19 18V14.5', 'b'), P('M10.5 21V18.5A1.5 1.5 0 0 1 13.5 18.5V21', 'd')] },
+  { id: 'qibla', nama: 'Qibla', tag: 'kiblat arah kompas salat qibla compass direction', tetap: true, gerak: 'cari', el: [C(12, 12, 9, 'b'), { g: 'rotate(-65 12 12)', kids: [P('M12 5.5L14 12H10Z', 'a f d'), P('M10 12H14L12 18.5Z', 'd')] }] },
+];
+
+function bagian(e) {
+  if (e.g) return `<g transform="${e.g}">${e.kids.map(bagian).join('')}</g>`;
+  const cls = e.k ? ` class="${e.k}"` : '';
+  return e.c ? `<circle${cls} cx="${e.c[0]}" cy="${e.c[1]}" r="${e.c[2]}"/>` : `<path${cls} d="${e.d}"/>`;
+}
+function svgIkon(ic) {
+  const cls = ['ico', ic.cermin ? 'c' : '', ic.gerak ? 'g-' + ic.gerak : ''].filter(Boolean).join(' ');
+  return `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ic.el.map(bagian).join('')}</svg>`;
+}
+// SVG siap pakai yang disalin pengguna (mode Garis, aksen ditandai class="aksen")
+function sumber(ic) {
+  const jalan = e => {
+    if (e.g) return `<g transform="${e.g}">${e.kids.map(jalan).join('')}</g>`;
+    const k = e.k.split(' ');
+    let at = '';
+    if (k.includes('a')) at += ' class="aksen"';
+    if (k.includes('f')) at += ' fill="currentColor"';
+    return e.c ? `<circle${at} cx="${e.c[0]}" cy="${e.c[1]}" r="${e.c[2]}"/>` : `<path${at} d="${e.d}"/>`;
+  };
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${ic.el.map(jalan).join('')}</svg>`;
+}
+const BYTE = Object.fromEntries(IKON.map(ic => [ic.id, new Blob([sumber(ic)]).size]));
+
+// Pembuka
+document.getElementById('hero-ikon').innerHTML = ['bell', 'chat', 'lock', 'calendar', 'mosque', 'qibla'].map(id => svgIkon(IKON.find(i => i.id === id))).join('');
+
+// Galeri
+const gal = document.getElementById('galeri');
+const kunci = ic => (ic.id + ' ' + ic.nama + ' ' + ic.tag).toLowerCase();
+function tampil() {
+  const q = document.getElementById('cari').value.trim().toLowerCase();
+  const hasil = IKON.filter(ic => !q || q.split(/\s+/).every(w => kunci(ic).includes(w)));
+  gal.innerHTML = hasil.length ? hasil.map(ic => `<button type="button" class="tile" data-id="${ic.id}" aria-label="Copy SVG ${ic.nama}">${svgIkon(ic)}<span class="nm">${ic.nama}</span><span class="id">${ic.id} · ${BYTE[ic.id]} B</span>${ic.tetap ? '<span class="tetap">not mirrored</span>' : ''}</button>`).join('')
+    : '<p class="kosong">No matching icons. Try another word, such as "bell" or "lonceng".</p>';
+  document.getElementById('jumlah').textContent = `${hasil.length} of ${IKON.length} icons`;
+}
+const rerata = Math.round(Object.values(BYTE).reduce((a, b) => a + b, 0) / IKON.length);
+document.getElementById('rerata').textContent = `Average ${rerata} bytes per icon (target ≤ 400)`;
+tampil();
+document.getElementById('cari').addEventListener('input', tampil);
+
+document.getElementById('mode').addEventListener('change', e => {
+  gal.classList.remove('m-garis', 'm-lapis', 'm-aksen', 'm-isi');
+  gal.classList.add('m-' + e.target.value);
+});
+const tebal = document.getElementById('tebal'), ukuran = document.getElementById('ukuran');
+tebal.addEventListener('input', () => { gal.style.setProperty('--ico-w', tebal.value); document.getElementById('tebal-o').textContent = String(tebal.value); });
+ukuran.addEventListener('input', () => { gal.style.setProperty('--ico-s', ukuran.value + 'px'); document.getElementById('ukuran-o').textContent = ukuran.value + ' px'; });
+document.getElementById('warna-utama').addEventListener('input', e => gal.style.setProperty('--ico-c', e.target.value));
+document.getElementById('warna-aksen').addEventListener('input', e => gal.style.setProperty('--ico-a', e.target.value));
+document.getElementById('warna-reset').addEventListener('click', () => { gal.style.removeProperty('--ico-c'); gal.style.removeProperty('--ico-a'); });
+const kurangiGerak = matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.getElementById('gerak').addEventListener('change', e => {
+  gal.classList.toggle('gerak-on', e.target.checked);
+  document.getElementById('gerak-mati').hidden = !(e.target.checked && kurangiGerak);
+});
+document.getElementById('cermin').addEventListener('change', e => gal.classList.toggle('cermin-on', e.target.checked));
+
+const toast = document.getElementById('toast');
+let toastT;
+function kabar(t) { toast.textContent = t; toast.classList.add('tampil'); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('tampil'), 2200); }
+gal.addEventListener('click', e => {
+  const tile = e.target.closest('.tile');
+  if (!tile) return;
+  const ic = IKON.find(i => i.id === tile.dataset.id);
+  const kode = sumber(ic);
+  const manual = () => {
+    const m = document.getElementById('manual'), ta = document.getElementById('manual-kode');
+    m.hidden = false; ta.value = kode; ta.focus(); ta.select();
+  };
+  try {
+    navigator.clipboard.writeText(kode).then(() => { document.getElementById('manual').hidden = true; kabar(`${ic.nama} SVG copied (${BYTE[ic.id]} bytes)`); }, manual);
+  } catch { manual(); }
+});
+
+// Diagram grid
+(() => {
+  let s = '<rect x="0" y="0" width="24" height="24" fill="var(--surface)"/>';
+  s += '<path class="g-pad" fill-rule="evenodd" d="M0 0H24V24H0ZM2 2V22H22V2Z"/>';
+  for (let i = 0; i <= 24; i++) s += `<path class="g-garis" d="M${i} 0V24M0 ${i}H24"/>`;
+  s += '<circle class="g-key" cx="12" cy="12" r="10"/><rect class="g-key" x="3" y="3" width="18" height="18"/><rect class="g-key" x="4" y="2" width="16" height="20"/><rect class="g-key" x="2" y="4" width="20" height="16"/>';
+  s += '<g class="g-ikon"><path d="M9 2.5H14L19 7.5V17.5A4 4 0 0 1 15 21.5H6A1 1 0 0 1 5 20.5V6.5A4 4 0 0 1 9 2.5Z"/><path d="M14 2.5V6.5A1 1 0 0 0 15 7.5H19"/><path d="M9 12.5H15M9 16.5H12.5"/></g>';
+  document.getElementById('grid').innerHTML = s;
+})();
+
+// Bab: buka/gulung semua, dan daftar isi membuka bab tujuannya
+const bab = [...document.querySelectorAll('details.bab')];
+document.getElementById('buka-semua').addEventListener('click', () => bab.forEach(d => d.open = true));
+document.getElementById('gulung-semua').addEventListener('click', () => bab.forEach(d => d.open = false));
+document.querySelectorAll('.toc a, a[href^="#"]').forEach(a => a.addEventListener('click', () => {
+  const d = document.getElementById(a.hash.slice(1));
+  if (d && d.tagName === 'DETAILS') d.open = true;
+}));
+</script>
+</body></html>

@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galeri Ikon Ruas</title>
+<meta name="description" content="Galeri ikon Ruas: set ikon publik gratis berlisensi MIT berfalsafah bambu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../dist/ruas.css">
+<style>
+/* Tata letak: satu kolom lebar; galeri berpaginasi, panel rincian, lembar uji, catatan. Token sama dengan halaman Falsafah Ruas. */
+:root {
+  --bg: #F2F5EE; --surface: #FBFCF8; --ink: #17211A; --muted: #56645A; --line: #D3DBCD;
+  --bambu: #2D6843; --kunyit: #C27600; --grid: #E2E8DC;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1410; --surface: #151D17; --ink: #E3EBE1; --muted: #98A79B; --line: #29352C;
+    --bambu: #7DC496; --kunyit: #F0B23A; --grid: #1F2A22; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1410; --surface: #151D17; --ink: #E3EBE1; --muted: #98A79B; --line: #29352C;
+  --bambu: #7DC496; --kunyit: #F0B23A; --grid: #1F2A22; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 1rem/1.6 var(--body); }
+.wrap { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 80px; }
+@media (max-width: 600px) { .wrap { padding-inline: 16px; } }
+a { color: var(--bambu); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--bambu); outline-offset: 3px; border-radius: 4px; }
+code { font: 400 .88em/1.5 var(--mono); background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+@media (max-width: 760px) { .hero { grid-template-columns: minmax(0, 1fr); } }
+.eyebrow { font: 600 .75rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 { font: 800 clamp(2.4rem, 7vw, 4.2rem)/.95 var(--display); letter-spacing: -.035em; margin: 10px 0 14px; text-wrap: balance; }
+h1 span { color: var(--bambu); }
+.lead { font-size: 1.1rem; line-height: 1.55; max-width: 40em; margin: 0; text-wrap: pretty; }
+.hero-ikon { display: grid; grid-template-columns: repeat(5, 44px); gap: 10px; --ico-c: var(--ink); --ico-w: 1.5; --ico-s: 44px; }
+
+.alat { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 4px; }
+.btn { font: 600 .85rem/1 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px 2px 8px 2px; padding: 9px 14px; cursor: pointer; }
+.btn:hover:not(:disabled) { border-color: var(--bambu); color: var(--bambu); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.utama { background: var(--bambu); border-color: var(--bambu); color: var(--surface); }
+.btn.utama:hover { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+
+details.bab { border-bottom: 1px solid var(--line); }
+details.bab > summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 14px; padding: 20px 0 16px; }
+details.bab > summary::-webkit-details-marker { display: none; }
+details.bab > summary:hover h2 { color: var(--bambu); }
+.no { font: 600 .78rem/1 var(--mono); color: var(--muted); min-width: 2.2em; }
+h2 { font: 700 1.45rem/1.2 var(--display); letter-spacing: -.02em; margin: 0; flex: 1; text-wrap: balance; }
+.chev { width: 18px; height: 18px; flex: none; transition: transform .2s; stroke: var(--muted); fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; align-self: center; }
+details[open] > summary .chev { transform: rotate(180deg); }
+.isi { padding: 0 0 26px; display: grid; gap: 14px; }
+.isi p, .isi li { max-width: 70ch; text-wrap: pretty; margin: 0; }
+.isi ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+h3 { font: 700 1.05rem/1.3 var(--display); margin: 8px 0 0; }
+.catatan { font-size: .9rem; color: var(--muted); }
+
+/* Kontrol */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px 4px 16px 4px; padding: 16px; display: grid; gap: 14px; }
+.kontrol { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px 16px; align-items: end; }
+.kontrol label, .kontrol legend { font: 600 .7rem/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); display: block; margin-bottom: 6px; }
+.kontrol fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 8px 2px 8px 2px; overflow: hidden; }
+.seg label { flex: 1; margin: 0; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg span { display: block; text-align: center; padding: 8px 4px; font: 600 .85rem/1 var(--body); text-transform: none; letter-spacing: 0; color: var(--ink); cursor: pointer; }
+.seg label + label span { border-left: 1px solid var(--line); }
+.seg span:hover { color: var(--bambu); }
+.seg input:checked + span { background: var(--bambu); color: var(--surface); }
+.seg input:focus-visible + span { outline: 2px solid var(--bambu); outline-offset: -4px; }
+input[type="range"] { width: 100%; accent-color: var(--bambu); }
+output { font: 600 .78rem/1 var(--mono); color: var(--ink); float: right; text-transform: none; }
+.warna { display: flex; gap: 8px; align-items: center; }
+input[type="color"] { width: 44px; height: 34px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); padding: 2px; cursor: pointer; }
+.field { width: 100%; font: 400 .95rem/1.2 var(--body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px 2px 8px 2px; padding: 9px 10px; }
+.field:hover { border-color: var(--muted); }
+.ringkas { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Ikon */
+.ico { width: var(--ico-s); height: var(--ico-s); fill: none; stroke: currentColor; color: var(--ico-c); stroke-width: var(--ico-w); stroke-linecap: round; stroke-linejoin: round; overflow: visible; flex: none; }
+#app { --ico-c: var(--ink); --ico-w: 1.5; --ico-s: 40px; --ruas-latar: var(--surface); }
+.hero-ikon .ico { --ico-s: 44px; }
+
+.galeri { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
+.tile { position: relative; display: grid; justify-items: center; gap: 4px; padding: 26px 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px 3px 12px 3px; cursor: pointer; color: var(--ink); font: inherit; text-align: center; }
+.tile:hover { border-color: var(--bambu); }
+.tile[aria-pressed="true"] { border-color: var(--bambu); box-shadow: inset 0 0 0 1px var(--bambu); }
+.tile .nr { position: absolute; top: 8px; left: 10px; font: 600 .7rem/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.tile .nm { font-weight: 700; font-size: .92rem; line-height: 1.2; margin-top: 6px; }
+.tile .pv { font-size: .78rem; color: var(--muted); line-height: 1.25; }
+.kosong { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 28px; }
+.paging { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.paging .kanan { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.paging select { width: auto; padding: 6px 8px; }
+
+/* Rincian */
+.rinci { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (max-width: 640px) { .rinci { grid-template-columns: minmax(0, 1fr); } }
+.kanvas { position: relative; width: 100%; max-width: 240px; aspect-ratio: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 14px 3px 14px 3px; overflow: hidden; }
+.kanvas svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.kanvas .ico { --ico-s: 100%; }
+.g-garis { stroke: var(--grid); stroke-width: .05; fill: none; }
+.g-pad { fill: var(--kunyit); fill-opacity: .1; }
+.g-key { fill: none; stroke: var(--bambu); stroke-width: .06; stroke-dasharray: .4 .3; opacity: .7; }
+.rinci h3 { font-size: 1.5rem; margin: 0; }
+.rinci .pv { color: var(--muted); margin: 2px 0 10px; }
+.fakta { display: grid; grid-template-columns: 9em minmax(0, 1fr); gap: 6px 12px; margin: 12px 0; font-size: .92rem; }
+.fakta dt { font: 600 .7rem/1.9 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.fakta dd { margin: 0; }
+.tombol { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+/* Lembar uji */
+.tabel { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px 3px 10px 3px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; min-width: 560px; }
+th, td { text-align: left; vertical-align: middle; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 .7rem/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+td.nr { font: 600 .78rem/1 var(--mono); color: var(--muted); width: 3em; font-variant-numeric: tabular-nums; }
+td .ico { color: var(--ico-c); }
+pre { background: var(--surface); border: 1px solid var(--line); border-radius: 10px 3px 10px 3px; padding: 12px 14px; overflow-x: auto; margin: 0; font: 400 .82rem/1.55 var(--mono); }
+#manual textarea { width: 100%; min-height: 110px; font: 400 .8rem/1.5 var(--mono); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px 3px 10px 3px; font-size: .92rem; opacity: 0; pointer-events: none; transition: opacity .2s; max-width: calc(100% - 32px); }
+.toast.tampil { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Ruas · Galeri · lisensi MIT</p>
+      <h1>Ruas<span>.</span></h1>
+      <p class="lead">Set ikon publik gratis berfalsafah bambu. Setiap ikon dijaga oleh <a href="../docs/falsafah_id.html">Falsafah Ruas</a> (<a href="../docs/falsafah_en.html" hreflang="en" lang="en">English</a>) dan diperiksa mesin sebelum dirakit.</p>
+    </div>
+    <div class="hero-ikon" id="hero-ikon" aria-hidden="true"></div>
+  </header>
+
+  <p class="galat" id="galat" hidden>Data ikon belum ada. Jalankan <code>npm run rakit</code> di folder ruas, lalu muat ulang halaman ini.</p>
+
+  <div class="alat">
+    <button class="btn" type="button" id="buka-semua">Buka semua bagian</button>
+    <button class="btn" type="button" id="gulung-semua">Gulung semua bagian</button>
+  </div>
+
+  <div id="app">
+    <details class="bab" id="galeri-bab" open>
+      <summary><span class="no">01</span><h2>Galeri</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <div class="panel">
+          <div class="kontrol">
+            <div>
+              <label for="cari">Cari (ID atau EN)</label>
+              <input class="field" type="search" id="cari" placeholder="mis. lonceng, gonjong, papua…" autocomplete="off">
+            </div>
+            <div>
+              <label for="kategori">Kategori</label>
+              <select class="field" id="kategori"></select>
+            </div>
+            <div>
+              <label for="urut">Urutkan</label>
+              <select class="field" id="urut">
+                <option value="bawaan">Bawaan</option>
+                <option value="az">Nama A–Z</option>
+                <option value="za">Nama Z–A</option>
+              </select>
+            </div>
+            <fieldset>
+              <legend>Mode</legend>
+              <div class="seg" id="mode">
+                <label><input type="radio" name="mode" value="" checked><span>Garis</span></label>
+                <label><input type="radio" name="mode" value="ruas-lapis"><span>Lapis</span></label>
+                <label><input type="radio" name="mode" value="ruas-aksen"><span>Aksen</span></label>
+                <label><input type="radio" name="mode" value="ruas-isi"><span>Isi</span></label>
+              </div>
+            </fieldset>
+            <div>
+              <label for="tebal">Tebal garis <output id="tebal-o" for="tebal">1,5</output></label>
+              <input type="range" id="tebal" min="1" max="2.5" step="0.25" value="1.5">
+            </div>
+            <div>
+              <label for="ukuran">Ukuran <output id="ukuran-o" for="ukuran">40 px</output></label>
+              <input type="range" id="ukuran" min="16" max="64" step="4" value="40">
+            </div>
+            <div>
+              <label for="warna">Warna utama &amp; aksen</label>
+              <div class="warna">
+                <input type="color" id="warna" value="#17211a" aria-label="Warna utama">
+                <input type="color" id="warna-aksen" value="#c27600" aria-label="Warna aksen">
+                <button class="btn" type="button" id="warna-reset">Ikut tema</button>
+              </div>
+            </div>
+          </div>
+          <div class="ringkas">
+            <span id="jumlah"></span>
+            <button class="btn" type="button" id="salin-sprite">Salin sprite hasil saringan</button>
+          </div>
+        </div>
+        <div class="galeri" id="galeri"></div>
+        <div class="paging">
+          <span id="rentang"></span>
+          <div class="kanan">
+            <label for="per">Ikon per halaman</label>
+            <select class="field" id="per">
+              <option value="12">12</option>
+              <option value="24" selected>24</option>
+              <option value="48">48</option>
+            </select>
+            <button class="btn" type="button" id="sebelum">Sebelumnya</button>
+            <span id="halaman"></span>
+            <button class="btn" type="button" id="berikut">Berikutnya</button>
+          </div>
+        </div>
+        <p class="catatan">Mode Aksen hanya mewarnai bagian yang berubah ketika maknanya berubah. Ikon benda diam, seperti rumah adat, tidak punya aksen.</p>
+      </div>
+    </details>
+
+    <details class="bab" id="rinci-bab" open>
+      <summary><span class="no">02</span><h2>Rincian ikon terpilih</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <div class="rinci" id="rinci"></div>
+        <div id="manual" hidden>
+          <label for="manual-kode">Penyalinan otomatis ditolak browser. Salin kode ini secara manual:</label>
+          <textarea id="manual-kode" readonly></textarea>
+        </div>
+      </div>
+    </details>
+
+    <details class="bab" id="uji-bab" open>
+      <summary><span class="no">03</span><h2>Uji Lentur: 16 · 24 · 48 px</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Prinsip Lentur menuntut setiap ikon tetap terbaca di 16 px. Lembar ini mengikuti saringan, halaman, tebal garis, dan warna galeri di atas.</p>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>No</th><th>Nama</th><th>16 px</th><th>24 px</th><th>48 px</th><th>Isi 24 px</th><th>Ukuran</th></tr></thead>
+            <tbody id="lembar"></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <details class="bab" id="pakai-bab" open>
+    <summary><span class="no">04</span><h2>Cara pakai</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="isi">
+      <h3>SVG langsung</h3>
+      <p>Tempel SVG dari tombol <em>Salin SVG</em>, atau ambil berkasnya dari <code>dist/svg/</code>. Warna mengikuti <code>color</code> teks di sekitarnya.</p>
+      <h3>Mode warna</h3>
+      <pre>&lt;link rel="stylesheet" href="ruas.css"&gt;
+
+&lt;span class="ruas-aksen" style="color:#17211A"&gt; …svg… &lt;/span&gt;
+&lt;!-- ruas-lapis · ruas-aksen · ruas-isi; atur --ruas-aksen dan --ruas-latar --&gt;</pre>
+      <h3>Sprite</h3>
+      <pre>&lt;svg width="24" height="24" role="img" aria-label="Rumah Gadang"&gt;
+  &lt;use href="#ruas-house-gadang"/&gt;
+&lt;/svg&gt;</pre>
+      <p class="catatan">Lisensi MIT: bebas dipakai, diubah, dan dijual tanpa wajib mencantumkan atribusi.</p>
+    </div>
+  </details>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../dist/ruas.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const DATA = window.RUAS || [];
+const KEPALA = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
+const ATRIBUT = 'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
+const KATEGORI = { antarmuka: 'Antarmuka', keuangan: 'Keuangan', ibadah: 'Ibadah', 'rumah-adat': 'Rumah Adat' };
+const WILAYAH = ['Sumatera', 'Jawa', 'Bali & Nusa Tenggara', 'Kalimantan', 'Sulawesi', 'Maluku & Papua'];
+const urutKat = Object.keys(KATEGORI);
+
+const svgIkon = (r, gaya = '') => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"${gaya ? ` style="${gaya}"` : ''}>${r.isi}</svg>`;
+const sumber = r => `${KEPALA}${r.isi}</svg>`;
+const sub = r => r.asal ? `${r.asal.provinsi} · ${r.asal.wilayah}` : KATEGORI[r.kategori];
+const pascal = id => id.split('-').map(s => s[0].toUpperCase() + s.slice(1)).join('');
+const jsx = r => `export function ${pascal(r.id)}({ size = 24, label, ...props }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : true} {...props}>
+      ${r.isi.replace(/class=/g, 'className=').replace(/></g, '>\n      <')}
+    </svg>
+  )
+}`;
+
+if (!DATA.length) $('galat').hidden = false;
+$('hero-ikon').innerHTML = ['bell', 'chat', 'mosque', 'house-gadang', 'house-tongkonan'].map(id => DATA.find(r => r.id === id)).filter(Boolean).map(r => svgIkon(r)).join('');
+
+const st = { q: '', kat: '', urut: 'bawaan', per: 24, hal: 1, pilih: '' };
+$('kategori').innerHTML = `<option value="">Semua kategori (${DATA.length})</option>` + urutKat.map(k => `<option value="${k}">${KATEGORI[k]} (${DATA.filter(r => r.kategori === k).length})</option>`).join('');
+
+function saring() {
+  const kata = st.q.toLowerCase().split(/\s+/).filter(Boolean);
+  const h = DATA.filter(r => (!st.kat || r.kategori === st.kat) &&
+    kata.every(k => `${r.id} ${r.nama} ${KATEGORI[r.kategori]} ${r.tag.join(' ')} ${r.asal ? r.asal.provinsi + ' ' + r.asal.wilayah : ''}`.toLowerCase().includes(k)));
+  if (st.urut === 'az') return h.sort((a, b) => a.nama.localeCompare(b.nama, 'id'));
+  if (st.urut === 'za') return h.sort((a, b) => b.nama.localeCompare(a.nama, 'id'));
+  // Bawaan: per kategori; rumah adat dari barat ke timur
+  return h.sort((a, b) => urutKat.indexOf(a.kategori) - urutKat.indexOf(b.kategori) ||
+    (a.asal && b.asal ? WILAYAH.indexOf(a.asal.wilayah) - WILAYAH.indexOf(b.asal.wilayah) : 0));
+}
+
+function tampil() {
+  const h = saring();
+  const total = h.length, halMaks = Math.max(1, Math.ceil(total / st.per));
+  st.hal = Math.min(st.hal, halMaks);
+  const awal = (st.hal - 1) * st.per, isi = h.slice(awal, awal + st.per);
+  const nr = i => String(awal + i + 1).padStart(2, '0');
+
+  $('galeri').innerHTML = isi.length ? isi.map((r, i) => `<button type="button" class="tile" data-id="${r.id}" aria-pressed="${r.id === st.pilih}" aria-label="${r.nama}, ${sub(r)}"><span class="nr">${nr(i)}</span>${svgIkon(r)}<span class="nm">${r.nama}</span><span class="pv">${r.asal ? r.asal.provinsi : KATEGORI[r.kategori]}</span></button>`).join('')
+    : '<p class="kosong">Tidak ada ikon yang cocok. Coba kata lain atau pilih "Semua kategori".</p>';
+  $('lembar').innerHTML = isi.length ? isi.map((r, i) => `<tr><td class="nr">${nr(i)}</td><td>${r.nama}</td><td>${svgIkon(r, '--ico-s:16px')}</td><td>${svgIkon(r, '--ico-s:24px')}</td><td>${svgIkon(r, '--ico-s:48px')}</td><td class="ruas-isi">${svgIkon(r, '--ico-s:24px')}</td><td>${r.byte} B</td></tr>`).join('')
+    : '<tr><td colspan="7" class="kosong">Tidak ada ikon pada saringan ini.</td></tr>';
+
+  $('jumlah').textContent = `${total} dari ${DATA.length} ikon`;
+  $('rentang').textContent = total ? `${awal + 1}–${awal + isi.length} dari ${total}` : '0 dari 0';
+  $('halaman').textContent = `Halaman ${st.hal} dari ${halMaks}`;
+  $('sebelum').disabled = st.hal <= 1;
+  $('berikut').disabled = st.hal >= halMaks;
+  $('salin-sprite').disabled = !total;
+}
+
+const GRID = (() => {
+  let s = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="g-pad" fill-rule="evenodd" d="M0 0H24V24H0ZM2 2V22H22V2Z"/>';
+  for (let i = 1; i < 24; i++) s += `<path class="g-garis" d="M${i} 0V24M0 ${i}H24"/>`;
+  return s + '<circle class="g-key" cx="12" cy="12" r="10"/><rect class="g-key" x="3" y="3" width="18" height="18"/></svg>';
+})();
+
+function rinci() {
+  const r = DATA.find(x => x.id === st.pilih);
+  if (!r) return;
+  const elemen = (r.isi.match(/<(path|circle)\b/g) || []).length;
+  $('rinci').innerHTML = `<div class="kanvas">${GRID}${svgIkon(r)}</div>
+    <div>
+      <h3>${r.nama}</h3>
+      <p class="pv">${sub(r)}</p>
+      ${r.ciri ? `<p>${r.ciri}</p>` : ''}
+      <dl class="fakta">
+        <dt>ID kode</dt><dd><code>${r.id}</code></dd>
+        <dt>Ukuran berkas</dt><dd>${r.byte} byte · ${elemen} elemen</dd>
+        <dt>Aksen</dt><dd>${r.isi.includes('aksen') ? 'Ada' : 'Tidak ada (benda diam)'}${r.gerak ? ` · gerak ${r.gerak}` : ''}</dd>
+        <dt>Cermin RTL</dt><dd>${r.cermin ? 'Dicerminkan' : 'Tidak dicerminkan'}</dd>
+        <dt>Kata kunci</dt><dd>${r.tag.join(', ')}</dd>
+      </dl>
+      <p class="catatan">Lolos penjaga falsafah saat dirakit.</p>
+      <div class="tombol">
+        <button class="btn utama" type="button" data-salin="svg">Salin SVG</button>
+        <button class="btn" type="button" data-salin="jsx">Salin komponen React</button>
+      </div>
+    </div>`;
+}
+
+const toast = $('toast');
+let toastT;
+function kabar(t) { toast.textContent = t; toast.classList.add('tampil'); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('tampil'), 2400); }
+function salin(teks, label) {
+  const manual = () => {
+    $('rinci-bab').open = true;
+    $('manual').hidden = false;
+    $('manual-kode').value = teks;
+    $('manual-kode').focus();
+    $('manual-kode').select();
+  };
+  try {
+    navigator.clipboard.writeText(teks).then(() => { $('manual').hidden = true; kabar(`${label} disalin`); }, manual);
+  } catch { manual(); }
+}
+
+$('galeri').addEventListener('click', e => {
+  const t = e.target.closest('.tile');
+  if (!t) return;
+  st.pilih = t.dataset.id;
+  $('galeri').querySelectorAll('.tile').forEach(x => x.setAttribute('aria-pressed', x === t));
+  rinci();
+  $('rinci-bab').open = true;
+});
+$('rinci').addEventListener('click', e => {
+  const b = e.target.closest('[data-salin]');
+  if (!b) return;
+  const r = DATA.find(x => x.id === st.pilih);
+  b.dataset.salin === 'svg' ? salin(sumber(r), `SVG ${r.nama}`) : salin(jsx(r), `Komponen ${pascal(r.id)}`);
+});
+$('salin-sprite').addEventListener('click', () => {
+  const h = saring();
+  salin(`<svg xmlns="http://www.w3.org/2000/svg" style="display:none">\n${h.map(r => `  <symbol id="ruas-${r.id}" viewBox="0 0 24 24" ${ATRIBUT}>${r.isi}</symbol>`).join('\n')}\n</svg>`, `Sprite ${h.length} ikon`);
+});
+
+$('cari').addEventListener('input', e => { st.q = e.target.value.trim(); st.hal = 1; tampil(); });
+$('kategori').addEventListener('change', e => { st.kat = e.target.value; st.hal = 1; tampil(); });
+$('urut').addEventListener('change', e => { st.urut = e.target.value; st.hal = 1; tampil(); });
+$('per').addEventListener('change', e => { st.per = +e.target.value; st.hal = 1; tampil(); });
+$('sebelum').addEventListener('click', () => { st.hal--; tampil(); });
+$('berikut').addEventListener('click', () => { st.hal++; tampil(); });
+
+const app = $('app');
+$('mode').addEventListener('change', e => {
+  app.classList.remove('ruas-lapis', 'ruas-aksen', 'ruas-isi');
+  if (e.target.value) app.classList.add(e.target.value);
+});
+$('tebal').addEventListener('input', e => { app.style.setProperty('--ico-w', e.target.value); $('tebal-o').textContent = e.target.value.replace('.', ','); });
+$('ukuran').addEventListener('input', e => { app.style.setProperty('--ico-s', e.target.value + 'px'); $('ukuran-o').textContent = e.target.value + ' px'; });
+$('warna').addEventListener('input', e => app.style.setProperty('--ico-c', e.target.value));
+$('warna-aksen').addEventListener('input', e => app.style.setProperty('--ruas-aksen', e.target.value));
+$('warna-reset').addEventListener('click', () => { app.style.removeProperty('--ico-c'); app.style.removeProperty('--ruas-aksen'); });
+
+const bab = [...document.querySelectorAll('details.bab')];
+$('buka-semua').addEventListener('click', () => bab.forEach(d => d.open = true));
+$('gulung-semua').addEventListener('click', () => bab.forEach(d => d.open = false));
+
+st.pilih = saring()[0]?.id;
+tampil();
+rinci();
+</script>
+</body>
+</html>

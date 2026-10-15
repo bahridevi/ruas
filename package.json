@@ -1,0 +1,15 @@
+{
+  "name": "ruas",
+  "version": "0.1.0",
+  "description": "Set ikon publik gratis berfalsafah bambu: ringan, beruas, lentur, lurus, berumpun, untuk semua.",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist"],
+  "scripts": {
+    "penjaga": "node scripts/penjaga.mjs",
+    "rakit": "node scripts/rakit.mjs"
+  },
+  "devDependencies": {
+    "svg-path-bbox": "^2.1.0"
+  }
+}
