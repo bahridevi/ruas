@@ -12,6 +12,9 @@
     "website",
     "chrome",
     "firefox",
-    "edge"
-  ]
+    "edge",
+    "medsos",
+    "media sosial"
+  ],
+  "seri": "medsos"
 }
