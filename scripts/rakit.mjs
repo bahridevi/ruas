@@ -27,6 +27,10 @@ writeFileSync(new URL('sprite.svg', dist), `<svg xmlns="http://www.w3.org/2000/s
 writeFileSync(new URL('ruas.json', dist), JSON.stringify(data, null, 2) + '\n');
 writeFileSync(new URL('ruas.js', dist), `window.RUAS = ${JSON.stringify(data)};\nwindow.RUAS_KATEGORI = ${JSON.stringify(KATEGORI)};\nwindow.RUAS_SERI = ${JSON.stringify(SERI)};\n`);
 copyFileSync(new URL('../ruas.css', import.meta.url), new URL('ruas.css', dist));
+// Peta situs untuk mesin pencari: galeri, falsafah, dan satu alamat per ikon (?ikon=<id>).
+const SITUS = 'https://ruas.metabahri.com';
+const alamat = ['/site/', '/docs/falsafah_id.html', '/docs/falsafah_en.html', ...data.map(d => `/site/?ikon=${d.id}`)];
+writeFileSync(new URL('sitemap.xml', dist), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${alamat.map(a => `  <url><loc>${SITUS}${a}</loc></url>`).join('\n')}\n</urlset>\n`);
 
 const rerata = Math.round(data.reduce((a, d) => a + d.byte, 0) / data.length);
 console.log(`✓ ${data.length} ikon dirakit ke dist/ · rata-rata ${rerata} byte per ikon (target ≤ 400)`);

@@ -3,8 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Galeri Ikon Ruas</title>
-<meta name="description" content="Galeri ikon Ruas: set ikon publik gratis berlisensi MIT berfalsafah bambu.">
+<title>Ruas · Ikon SVG gratis berbahasa Indonesia</title>
+<meta name="description" content="Ruas: ikon SVG gratis (lisensi MIT) dengan nama dan kata kunci bahasa Indonesia dan Inggris. Antarmuka, keuangan & akuntansi, niaga, keagamaan, rumah adat Nusantara. Salin SVG, komponen React, atau sprite.">
+<meta name="theme-color" content="#2D6843">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ruas">
+<meta property="og:title" content="Ruas · Ikon SVG gratis berbahasa Indonesia">
+<meta property="og:description" content="Ikon SVG gratis berlisensi MIT, berfalsafah bambu. Cari dalam bahasa Indonesia atau Inggris.">
+<meta property="og:url" content="https://ruas.metabahri.com/site/">
+<link rel="icon" type="image/svg+xml" href="../dist/svg/house-gadang.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -43,12 +50,15 @@ code { font: 400 .88em/1.5 var(--mono); background: var(--grid); padding: 1px 5p
 h1 { font: 800 clamp(2.4rem, 7vw, 4.2rem)/.95 var(--display); letter-spacing: -.035em; margin: 10px 0 14px; text-wrap: balance; }
 h1 span { color: var(--bambu); }
 .lead { font-size: 1.1rem; line-height: 1.55; max-width: 40em; margin: 0; text-wrap: pretty; }
+.angka { margin: 12px 0 0; font-size: .95rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.angka strong { color: var(--ink); }
 .hero-ikon { display: grid; grid-template-columns: repeat(5, 44px); gap: 10px; --ico-c: var(--ink); --ico-w: 1.5; --ico-s: 44px; }
 
 .alat { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 4px; }
 .btn { font: 600 .85rem/1 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px 2px 8px 2px; padding: 9px 14px; cursor: pointer; }
 .btn:hover:not(:disabled) { border-color: var(--bambu); color: var(--bambu); }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
+a.btn { display: inline-flex; align-items: center; text-decoration: none; }
 .btn.utama { background: var(--bambu); border-color: var(--bambu); color: var(--surface); }
 .btn.utama:hover { background: var(--ink); border-color: var(--ink); color: var(--surface); }
 
@@ -141,6 +151,7 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
       <p class="eyebrow">Ruas · Galeri · lisensi MIT</p>
       <h1>Ruas<span>.</span></h1>
       <p class="lead">Set ikon publik gratis berfalsafah bambu. Setiap ikon dijaga oleh <a href="../docs/falsafah_id.html">Falsafah Ruas</a> (<a href="../docs/falsafah_en.html" hreflang="en" lang="en">English</a>) dan diperiksa mesin sebelum dirakit.</p>
+      <p class="angka"><strong id="total-ikon">0</strong> ikon · <span id="total-kat">0</span> kategori · <a href="https://github.com/bahridevi/ruas">Kode sumber di GitHub</a></p>
     </div>
     <div class="hero-ikon" id="hero-ikon" aria-hidden="true"></div>
   </header>
@@ -159,7 +170,7 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
         <div class="panel">
           <div class="kontrol">
             <div>
-              <label for="cari">Cari (ID atau EN)</label>
+              <label for="cari">Cari (ID atau EN) · tekan /</label>
               <input class="field" type="search" id="cari" placeholder="mis. hapus, lonceng, gonjong…" autocomplete="off">
             </div>
             <div>
@@ -298,7 +309,7 @@ const jsx = r => `export function ${pascal(r.id)}({ size = 24, label, ...props }
 }`;
 
 if (!DATA.length) $('galat').hidden = false;
-$('hero-ikon').innerHTML = ['bell', 'chat', 'mosque', 'house-gadang', 'house-tongkonan'].map(id => DATA.find(r => r.id === id)).filter(Boolean).map(r => svgIkon(r)).join('');
+$('hero-ikon').innerHTML = ['wallet', 'journal', 'store', 'mosque', 'house-gadang'].map(id => DATA.find(r => r.id === id)).filter(Boolean).map(r => svgIkon(r)).join('');
 
 const st = { q: '', kat: '', seri: '', urut: 'bawaan', per: 48, hal: 1, pilih: '' };
 // Kategori berisi saja; dikelompokkan Inti dan Bidang. Hitungan memasukkan kategori tambahan (juga).
@@ -365,6 +376,8 @@ function rinci() {
       <div class="tombol">
         <button class="btn utama" type="button" data-salin="svg">Salin SVG</button>
         <button class="btn" type="button" data-salin="jsx">Salin komponen React</button>
+        <a class="btn" href="../dist/svg/${r.id}.svg" download="${r.id}.svg">Unduh SVG</a>
+        <button class="btn" type="button" data-salin="tautan">Salin tautan</button>
       </div>
     </div>`;
 }
@@ -391,22 +404,40 @@ $('galeri').addEventListener('click', e => {
   st.pilih = t.dataset.id;
   $('galeri').querySelectorAll('.tile').forEach(x => x.setAttribute('aria-pressed', x === t));
   rinci();
+  alamat();
   $('rinci-bab').open = true;
 });
 $('rinci').addEventListener('click', e => {
   const b = e.target.closest('[data-salin]');
   if (!b) return;
   const r = DATA.find(x => x.id === st.pilih);
-  b.dataset.salin === 'svg' ? salin(sumber(r), `SVG ${r.nama}`) : salin(jsx(r), `Komponen ${pascal(r.id)}`);
+  if (b.dataset.salin === 'svg') salin(sumber(r), `SVG ${r.nama}`);
+  else if (b.dataset.salin === 'jsx') salin(jsx(r), `Komponen ${pascal(r.id)}`);
+  else salin(`${location.origin}${location.pathname}?ikon=${r.id}`, `Tautan ${r.nama}`);
 });
 $('salin-sprite').addEventListener('click', () => {
   const h = saring();
   salin(`<svg xmlns="http://www.w3.org/2000/svg" style="display:none">\n${h.map(r => `  <symbol id="ruas-${r.id}" viewBox="0 0 24 24" ${ATRIBUT}>${r.isi}</symbol>`).join('\n')}\n</svg>`, `Sprite ${h.length} ikon`);
 });
 
-$('cari').addEventListener('input', e => { st.q = e.target.value.trim(); st.hal = 1; tampil(); });
-$('kategori').addEventListener('change', e => { st.kat = e.target.value; st.hal = 1; tampil(); });
-$('seri').addEventListener('change', e => { st.seri = e.target.value; st.hal = 1; tampil(); });
+// Alamat bisa dibagikan: ?q=, ?kat=, ?seri=, ?ikon=. Judul tab mengikuti ikon terpilih.
+function alamat() {
+  const p = new URLSearchParams();
+  if (st.q) p.set('q', st.q);
+  if (st.kat) p.set('kat', st.kat);
+  if (st.seri) p.set('seri', st.seri);
+  if (st.pilih) p.set('ikon', st.pilih);
+  history.replaceState(null, '', String(p) ? `?${p}` : location.pathname);
+  const r = DATA.find(x => x.id === st.pilih);
+  document.title = r ? `${r.nama} (${r.id}) · Ikon SVG gratis · Ruas` : 'Ruas · Ikon SVG gratis berbahasa Indonesia';
+}
+
+$('cari').addEventListener('input', e => { st.q = e.target.value.trim(); st.hal = 1; tampil(); alamat(); });
+$('kategori').addEventListener('change', e => { st.kat = e.target.value; st.hal = 1; tampil(); alamat(); });
+$('seri').addEventListener('change', e => { st.seri = e.target.value; st.hal = 1; tampil(); alamat(); });
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && !e.ctrlKey && !e.metaKey && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) { e.preventDefault(); $('cari').focus(); }
+});
 $('urut').addEventListener('change', e => { st.urut = e.target.value; st.hal = 1; tampil(); });
 $('per').addEventListener('change', e => { st.per = +e.target.value; st.hal = 1; tampil(); });
 $('sebelum').addEventListener('click', () => { st.hal--; tampil(); });
@@ -427,9 +458,25 @@ const bab = [...document.querySelectorAll('details.bab')];
 $('buka-semua').addEventListener('click', () => bab.forEach(d => d.open = true));
 $('gulung-semua').addEventListener('click', () => bab.forEach(d => d.open = false));
 
-st.pilih = saring()[0]?.id;
+$('total-ikon').textContent = DATA.length;
+$('total-kat').textContent = new Set(DATA.flatMap(r => [r.kategori, ...(r.juga || [])])).size;
+
+// Keadaan awal dari alamat; nilai yang tidak dikenal diabaikan.
+const mula = new URLSearchParams(location.search);
+st.q = (mula.get('q') || '').trim();
+st.kat = KAT[mula.get('kat')] ? mula.get('kat') : '';
+st.seri = SERI[mula.get('seri')] ? mula.get('seri') : '';
+$('cari').value = st.q;
+$('kategori').value = st.kat;
+$('seri').value = st.seri;
+const diminta = DATA.find(r => r.id === mula.get('ikon'));
+st.pilih = diminta?.id || saring()[0]?.id;
+// Ikon dari tautan: buka halaman galeri tempat ikon itu berada.
+const posisi = saring().findIndex(r => r.id === st.pilih);
+if (posisi >= 0) st.hal = Math.floor(posisi / st.per) + 1;
 tampil();
 rinci();
+if (diminta) { alamat(); $('rinci-bab').scrollIntoView(); }
 </script>
 </body>
 </html>
