@@ -1,0 +1,12 @@
+{
+  "nama": "Transfer",
+  "kategori": "keuangan",
+  "tag": [
+    "pindah dana",
+    "kirim uang",
+    "mutasi",
+    "transfer",
+    "swap"
+  ],
+  "cermin": true
+}

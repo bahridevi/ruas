@@ -1,0 +1,13 @@
+{
+  "nama": "Faktur",
+  "kategori": "keuangan",
+  "juga": [
+    "berkas"
+  ],
+  "tag": [
+    "tagihan",
+    "invoice",
+    "nota",
+    "bill"
+  ]
+}
