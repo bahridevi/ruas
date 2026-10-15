@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path class="badan" d="M12 3L21.25 9.75L17.75 20.75L6.25 20.75L2.75 9.75Z"/>
+  <path class="aksen detail padat" d="M12 12.75L16.75 6.25L21.25 9.75L19.5 15.25Z"/>
+  <path class="detail" d="M12 12.75L16.75 6.25M12 12.75L19.5 15.25M12 12.75L12 20.75M12 12.75L4.5 15.25M12 12.75L7.25 6.25"/>
+</svg>

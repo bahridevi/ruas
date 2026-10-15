@@ -32,7 +32,10 @@ export const KATEGORI = {
   alam: { nama: 'Alam, Cuaca & Pertanian', en: 'Nature, Weather & Farming', kelompok: 'bidang' },
 };
 // Seri: penanda lintas kategori (mis. Nusantara). Seri rumah-adat wajib asal dan ciri.
-export const SERI = { 'rumah-adat': { nama: 'Rumah Adat Nusantara', en: 'Indonesian Traditional Houses' } };
+export const SERI = {
+  'rumah-adat': { nama: 'Rumah Adat Nusantara', en: 'Indonesian Traditional Houses' },
+  psikometri: { nama: 'Model Psikometri', en: 'Psychometric Models' },
+};
 const GERAK = new Set(['denyut', 'tambah', 'turun', 'buka', 'ketik', 'cari']);
 const ATRIBUT = { path: ['class', 'd'], circle: ['class', 'cx', 'cy', 'r'], g: ['transform'] };
 const DIR = new URL('../icons/', import.meta.url);
