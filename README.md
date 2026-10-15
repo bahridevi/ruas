@@ -19,7 +19,7 @@ Lalu buka `site/index.html` di browser untuk melihat galeri.
 | Folder/berkas | Isi |
 |---|---|
 | `icons/<id>.svg` | Sumber tunggal tiap ikon (grid 24, garis 1,5, kelas peran `badan` `detail` `aksen` `padat`) |
-| `icons/<id>.json` | Nama Indonesia, kategori, kata kunci, dan `asal`/`ciri` untuk rumah adat |
+| `icons/<id>.json` | Nama Indonesia, kategori (Inti/Bidang, lihat bab 16 falsafah), `juga`, `seri`, kata kunci, dan `asal`/`ciri` untuk rumah adat |
 | `scripts/penjaga.mjs` | Pemeriksa falsafah: grid, kelipatan 0,25, area 2–22, ≤4 elemen, ≤1 KB, metadata |
 | `scripts/rakit.mjs` | Menghasilkan `dist/` |
 | `ruas.css` | Mode warna Garis, Lapis, Aksen, Isi |

@@ -1,6 +1,9 @@
 {
   "nama": "Unduh",
-  "kategori": "antarmuka",
+  "kategori": "aksi",
+  "juga": [
+    "berkas"
+  ],
   "tag": [
     "unduhan",
     "ambil",

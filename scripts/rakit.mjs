@@ -1,7 +1,7 @@
 // Perakit: menjalankan penjaga, lalu menghasilkan dist/ (svg per ikon, sprite, css, json, js untuk situs).
 // Jalankan: npm run rakit
 import { mkdirSync, rmSync, writeFileSync, copyFileSync } from 'node:fs';
-import { bacaSemua, KEPALA } from './penjaga.mjs';
+import { bacaSemua, KEPALA, KATEGORI, SERI } from './penjaga.mjs';
 
 const semua = bacaSemua(), gagal = semua.filter(i => i.salah.length);
 if (gagal.length) {
@@ -25,7 +25,7 @@ const data = semua.map(i => {
 
 writeFileSync(new URL('sprite.svg', dist), `<svg xmlns="http://www.w3.org/2000/svg" style="display:none">\n${data.map(d => `<symbol id="ruas-${d.id}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${d.isi}</symbol>`).join('\n')}\n</svg>\n`);
 writeFileSync(new URL('ruas.json', dist), JSON.stringify(data, null, 2) + '\n');
-writeFileSync(new URL('ruas.js', dist), `window.RUAS = ${JSON.stringify(data)};\n`);
+writeFileSync(new URL('ruas.js', dist), `window.RUAS = ${JSON.stringify(data)};\nwindow.RUAS_KATEGORI = ${JSON.stringify(KATEGORI)};\nwindow.RUAS_SERI = ${JSON.stringify(SERI)};\n`);
 copyFileSync(new URL('../ruas.css', import.meta.url), new URL('ruas.css', dist));
 
 const rerata = Math.round(data.reduce((a, d) => a + d.byte, 0) / data.length);

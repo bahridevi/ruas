@@ -1,0 +1,16 @@
+{
+  "nama": "Tutup",
+  "kategori": "navigasi",
+  "juga": [
+    "aksi"
+  ],
+  "tag": [
+    "silang",
+    "batal",
+    "keluar",
+    "close",
+    "x",
+    "cancel",
+    "dismiss"
+  ]
+}

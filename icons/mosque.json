@@ -1,6 +1,9 @@
 {
   "nama": "Masjid",
-  "kategori": "ibadah",
+  "kategori": "keagamaan",
+  "juga": [
+    "bangunan"
+  ],
   "tag": [
     "masjid",
     "nusantara",

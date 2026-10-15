@@ -1,0 +1,15 @@
+{
+  "nama": "Keluar",
+  "kategori": "navigasi",
+  "juga": [
+    "pengguna"
+  ],
+  "tag": [
+    "logout",
+    "keluar akun",
+    "pintu",
+    "sign out",
+    "exit"
+  ],
+  "cermin": true
+}

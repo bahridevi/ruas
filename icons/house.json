@@ -1,7 +1,11 @@
 {
-  "nama": "Rumah",
-  "kategori": "antarmuka",
+  "nama": "Beranda",
+  "kategori": "navigasi",
+  "juga": [
+    "bangunan"
+  ],
   "tag": [
+    "rumah",
     "beranda",
     "utama",
     "home"

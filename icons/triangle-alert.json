@@ -1,0 +1,11 @@
+{
+  "nama": "Peringatan",
+  "kategori": "status",
+  "tag": [
+    "awas",
+    "hati-hati",
+    "warning",
+    "alert",
+    "caution"
+  ]
+}

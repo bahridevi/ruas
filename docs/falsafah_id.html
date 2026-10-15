@@ -227,6 +227,7 @@ footer ul { padding-left: 1.2em; }
       <li><a href="#jalan">Peta jalan</a></li>
       <li><a href="#periksa">Uji ikon baru</a></li>
       <li><a href="#keputusan">Keputusan</a></li>
+      <li><a href="#klasifikasi">Klasifikasi</a></li>
     </ol>
   </nav>
 
@@ -622,6 +623,59 @@ import { Bell } from '@ruas/react'
           <li><strong>Arah Sudut Daun:</strong> runcing di kanan-atas dan kiri-bawah.</li>
           <li><strong>Warna aksen bawaan:</strong> kunyit <code>#C27600</code>.</li>
           <li><strong>Lisensi:</strong> MIT.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="bab" id="klasifikasi" open>
+      <summary><span class="no">16</span><h2>Klasifikasi</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Ikon dibagi dua lapis. <strong>Inti</strong> adalah ikon antarmuka yang dipakai semua aplikasi. <strong>Bidang</strong> adalah ikon khusus suatu ranah. Disepakati 15 Oktober 2026.</p>
+        <h3>Inti</h3>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Kode</th><th>Nama</th><th>Contoh</th></tr></thead>
+            <tbody>
+              <tr><td><code>navigasi</code></td><td>Navigasi & Panah</td><td style="white-space: normal; font-weight: 400">panah, menu, beranda, keluar</td></tr>
+              <tr><td><code>aksi</code></td><td>Aksi & Sunting</td><td style="white-space: normal; font-weight: 400">tambah, hapus, ubah, salin, cetak, saring</td></tr>
+              <tr><td><code>berkas</code></td><td>Berkas & Dokumen</td><td style="white-space: normal; font-weight: 400">dokumen, folder, lampiran, arsip</td></tr>
+              <tr><td><code>komunikasi</code></td><td>Komunikasi</td><td style="white-space: normal; font-weight: 400">pesan, surel, telepon, lonceng</td></tr>
+              <tr><td><code>pengguna</code></td><td>Pengguna & Akun</td><td style="white-space: normal; font-weight: 400">orang, grup, tambah pengguna</td></tr>
+              <tr><td><code>status</code></td><td>Status & Peringatan</td><td style="white-space: normal; font-weight: 400">berhasil, galat, info, peringatan</td></tr>
+              <tr><td><code>keamanan</code></td><td>Keamanan</td><td style="white-space: normal; font-weight: 400">gembok, kunci, perisai, mata</td></tr>
+              <tr><td><code>perangkat</code></td><td>Perangkat & Sistem</td><td style="white-space: normal; font-weight: 400">ponsel, laptop, wi-fi, pengaturan</td></tr>
+              <tr><td><code>media</code></td><td>Media</td><td style="white-space: normal; font-weight: 400">putar, kamera, gambar, mikrofon</td></tr>
+              <tr><td><code>waktu</code></td><td>Waktu & Kalender</td><td style="white-space: normal; font-weight: 400">jam, kalender, riwayat</td></tr>
+              <tr><td><code>data</code></td><td>Data & Grafik</td><td style="white-space: normal; font-weight: 400">grafik, tabel, basis data</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Bidang</h3>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Kode</th><th>Nama</th><th>Contoh</th></tr></thead>
+            <tbody>
+              <tr><td><code>keuangan</code></td><td>Keuangan & Akuntansi</td><td style="white-space: normal; font-weight: 400">uang, kas, jurnal, buku besar, neraca, faktur, pajak</td></tr>
+              <tr><td><code>niaga</code></td><td>Niaga & Gudang</td><td style="white-space: normal; font-weight: 400">toko, keranjang, barcode, stok opname</td></tr>
+              <tr><td><code>kesehatan</code></td><td>Kesehatan</td><td style="white-space: normal; font-weight: 400">stetoskop, obat, rumah sakit, posyandu</td></tr>
+              <tr><td><code>sains</code></td><td>Sains & Teknologi</td><td style="white-space: normal; font-weight: 400">atom, mikroskop, tabung uji, kode</td></tr>
+              <tr><td><code>pendidikan</code></td><td>Pendidikan & Budaya</td><td style="white-space: normal; font-weight: 400">buku, toga, sejarah, bahasa, seni, wayang</td></tr>
+              <tr><td><code>keagamaan</code></td><td>Keagamaan</td><td style="white-space: normal; font-weight: 400">masjid, gereja, pura, vihara, klenteng, kitab</td></tr>
+              <tr><td><code>pemerintahan</code></td><td>Pemerintahan & Hukum</td><td style="white-space: normal; font-weight: 400">KTP, stempel, palu sidang, surat resmi</td></tr>
+              <tr><td><code>bangunan</code></td><td>Tempat & Bangunan</td><td style="white-space: normal; font-weight: 400">rumah, kantor, pabrik, rumah adat</td></tr>
+              <tr><td><code>transportasi</code></td><td>Transportasi & Peta</td><td style="white-space: normal; font-weight: 400">mobil, ojek, angkot, becak, pin peta</td></tr>
+              <tr><td><code>alam</code></td><td>Alam, Cuaca & Pertanian</td><td style="white-space: normal; font-weight: 400">matahari, hujan, sawah, gunung api</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Aturan</h3>
+        <ul>
+          <li><strong>Satu kategori utama</strong> per ikon, dipilih dari tempat orang paling mungkin mencarinya, bukan dari bendanya. Kalkulator masuk <code>keuangan</code>, bukan <code>perangkat</code>.</li>
+          <li><strong>Paling banyak 2 kategori tambahan</strong> (<code>juga</code>), agar ikon muncul di bidang lain tanpa digandakan.</li>
+          <li><strong>Seri</strong> adalah penanda lintas kategori. Ikon Nusantara tetap masuk bidang sesuai fungsinya: becak di <code>transportasi</code>, beduk di <code>keagamaan</code>. Rumah adat masuk <code>bangunan</code> dengan seri <code>rumah-adat</code>.</li>
+          <li><strong>Humaniora</strong> tidak berdiri sendiri karena terlalu abstrak untuk digambar. Sejarah, bahasa, seni, dan filsafat masuk <code>pendidikan</code>.</li>
+          <li><strong>Keagamaan setara:</strong> setiap agama di Indonesia mendapat paket dasar yang sama banyaknya (rumah ibadah, kitab, simbol, hari raya).</li>
+          <li><strong>Kategori baru</strong> hanya lewat usulan tertulis (RFC). Penjaga falsafah menolak kategori yang tidak ada di daftar.</li>
         </ul>
       </div>
     </details>

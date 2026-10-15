@@ -1,6 +1,9 @@
 {
   "nama": "Kiblat",
-  "kategori": "ibadah",
+  "kategori": "keagamaan",
+  "juga": [
+    "navigasi"
+  ],
   "tag": [
     "arah",
     "kompas",

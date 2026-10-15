@@ -1,0 +1,11 @@
+{
+  "nama": "Memuat",
+  "kategori": "status",
+  "tag": [
+    "proses",
+    "tunggu",
+    "loading",
+    "spinner",
+    "progress"
+  ]
+}

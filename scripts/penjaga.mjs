@@ -1,4 +1,4 @@
-// Penjaga falsafah: memeriksa setiap ikon di icons/ terhadap aturan Falsafah Ruas (docs/falsafah.html).
+// Penjaga falsafah: memeriksa setiap ikon di icons/ terhadap aturan Falsafah Ruas (docs/falsafah_id.html).
 // Jalankan: npm run penjaga. Keluar dengan kode 1 bila ada ikon yang gagal.
 import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -7,7 +7,32 @@ import { svgPathBbox } from 'svg-path-bbox';
 
 export const KEPALA = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
 const PERAN = new Set(['badan', 'detail', 'aksen', 'padat']);
-const KATEGORI = new Set(['antarmuka', 'keuangan', 'ibadah', 'rumah-adat']);
+// Klasifikasi (bab 16 falsafah). Urutan di sini = urutan tampil di galeri. Kategori baru hanya lewat RFC.
+export const KATEGORI = {
+  navigasi: { nama: 'Navigasi & Panah', en: 'Navigation', kelompok: 'inti' },
+  aksi: { nama: 'Aksi & Sunting', en: 'Actions', kelompok: 'inti' },
+  berkas: { nama: 'Berkas & Dokumen', en: 'Files', kelompok: 'inti' },
+  komunikasi: { nama: 'Komunikasi', en: 'Communication', kelompok: 'inti' },
+  pengguna: { nama: 'Pengguna & Akun', en: 'People', kelompok: 'inti' },
+  status: { nama: 'Status & Peringatan', en: 'Status', kelompok: 'inti' },
+  keamanan: { nama: 'Keamanan', en: 'Security', kelompok: 'inti' },
+  perangkat: { nama: 'Perangkat & Sistem', en: 'Devices', kelompok: 'inti' },
+  media: { nama: 'Media', en: 'Media', kelompok: 'inti' },
+  waktu: { nama: 'Waktu & Kalender', en: 'Time', kelompok: 'inti' },
+  data: { nama: 'Data & Grafik', en: 'Data & Charts', kelompok: 'inti' },
+  keuangan: { nama: 'Keuangan & Akuntansi', en: 'Finance & Accounting', kelompok: 'bidang' },
+  niaga: { nama: 'Niaga & Gudang', en: 'Commerce & Inventory', kelompok: 'bidang' },
+  kesehatan: { nama: 'Kesehatan', en: 'Health', kelompok: 'bidang' },
+  sains: { nama: 'Sains & Teknologi', en: 'Science & Technology', kelompok: 'bidang' },
+  pendidikan: { nama: 'Pendidikan & Budaya', en: 'Education & Culture', kelompok: 'bidang' },
+  keagamaan: { nama: 'Keagamaan', en: 'Religion', kelompok: 'bidang' },
+  pemerintahan: { nama: 'Pemerintahan & Hukum', en: 'Government & Law', kelompok: 'bidang' },
+  bangunan: { nama: 'Tempat & Bangunan', en: 'Places & Buildings', kelompok: 'bidang' },
+  transportasi: { nama: 'Transportasi & Peta', en: 'Transport & Maps', kelompok: 'bidang' },
+  alam: { nama: 'Alam, Cuaca & Pertanian', en: 'Nature, Weather & Farming', kelompok: 'bidang' },
+};
+// Seri: penanda lintas kategori (mis. Nusantara). Seri rumah-adat wajib asal dan ciri.
+export const SERI = { 'rumah-adat': { nama: 'Rumah Adat Nusantara', en: 'Indonesian Traditional Houses' } };
 const GERAK = new Set(['denyut', 'tambah', 'turun', 'buka', 'ketik', 'cari']);
 const ATRIBUT = { path: ['class', 'd'], circle: ['class', 'cx', 'cy', 'r'], g: ['transform'] };
 const DIR = new URL('../icons/', import.meta.url);
@@ -56,11 +81,17 @@ export function periksa(id, svg, meta) {
 
   if (!meta) return [...salah, `berkas keterangan icons/${id}.json tidak ada`];
   if (typeof meta.nama !== 'string' || !meta.nama) salah.push('keterangan: "nama" (bahasa Indonesia) wajib diisi');
-  if (!KATEGORI.has(meta.kategori)) salah.push(`keterangan: kategori "${meta.kategori}" tidak dikenal (${[...KATEGORI].join(', ')})`);
+  if (!KATEGORI[meta.kategori]) salah.push(`keterangan: kategori "${meta.kategori}" tidak dikenal (${Object.keys(KATEGORI).join(', ')})`);
+  if (meta.juga !== undefined) {
+    const j = meta.juga;
+    if (!Array.isArray(j) || !j.length || j.length > 2) salah.push('keterangan: "juga" berisi 1–2 kategori tambahan');
+    else for (const k of j) if (!KATEGORI[k] || k === meta.kategori || j.indexOf(k) !== j.lastIndexOf(k)) salah.push(`keterangan: kategori tambahan "${k}" tidak dikenal, ganda, atau sama dengan kategori utama`);
+  }
+  if (meta.seri !== undefined && !SERI[meta.seri]) salah.push(`keterangan: seri "${meta.seri}" tidak dikenal (${Object.keys(SERI).join(', ')})`);
   if (!Array.isArray(meta.tag) || !meta.tag.length) salah.push('keterangan: "tag" wajib berisi kata kunci ID dan EN');
   if (meta.gerak && !GERAK.has(meta.gerak)) salah.push(`keterangan: gerak "${meta.gerak}" tidak dikenal`);
   if (meta.gerak && !svg.includes('aksen')) salah.push('Aksen Makna: gerak hanya untuk ikon yang punya bagian aksen');
-  if (meta.kategori === 'rumah-adat' && !(meta.asal?.provinsi && meta.asal?.wilayah && meta.ciri)) salah.push('keterangan: rumah adat wajib punya asal.provinsi, asal.wilayah, dan ciri');
+  if (meta.seri === 'rumah-adat' && !(meta.asal?.provinsi && meta.asal?.wilayah && meta.ciri)) salah.push('keterangan: seri rumah adat wajib punya asal.provinsi, asal.wilayah, dan ciri');
   return salah;
 }
 

@@ -1,6 +1,9 @@
 {
   "nama": "Lonceng",
-  "kategori": "antarmuka",
+  "kategori": "komunikasi",
+  "juga": [
+    "status"
+  ],
   "tag": [
     "notifikasi",
     "pemberitahuan",

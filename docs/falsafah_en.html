@@ -227,6 +227,7 @@ footer ul { padding-left: 1.2em; }
       <li><a href="#jalan">Roadmap</a></li>
       <li><a href="#periksa">New icon test</a></li>
       <li><a href="#keputusan">Decisions</a></li>
+      <li><a href="#klasifikasi">Classification</a></li>
     </ol>
   </nav>
 
@@ -623,6 +624,59 @@ import { Bell } from '@ruas/react'
           <li><strong>Leaf Corner direction:</strong> sharp at top-right and bottom-left.</li>
           <li><strong>Default accent color:</strong> kunyit (turmeric) <code>#C27600</code>.</li>
           <li><strong>License:</strong> MIT.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="bab" id="klasifikasi" open>
+      <summary><span class="no">16</span><h2>Classification</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="isi">
+        <p>Icons sit in two layers. <strong>Core</strong> (Inti) icons are interface icons every app uses. <strong>Domain</strong> (Bidang) icons belong to a specific field. Agreed on 15 October 2026.</p>
+        <h3>Core</h3>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Code</th><th>Name</th><th>Examples</th></tr></thead>
+            <tbody>
+              <tr><td><code>navigasi</code></td><td>Navigation</td><td style="white-space: normal; font-weight: 400">arrows, menu, home, log out</td></tr>
+              <tr><td><code>aksi</code></td><td>Actions</td><td style="white-space: normal; font-weight: 400">add, delete, edit, copy, print, filter</td></tr>
+              <tr><td><code>berkas</code></td><td>Files</td><td style="white-space: normal; font-weight: 400">document, folder, attachment, archive</td></tr>
+              <tr><td><code>komunikasi</code></td><td>Communication</td><td style="white-space: normal; font-weight: 400">chat, mail, phone, bell</td></tr>
+              <tr><td><code>pengguna</code></td><td>People</td><td style="white-space: normal; font-weight: 400">user, group, add user</td></tr>
+              <tr><td><code>status</code></td><td>Status</td><td style="white-space: normal; font-weight: 400">success, error, info, warning</td></tr>
+              <tr><td><code>keamanan</code></td><td>Security</td><td style="white-space: normal; font-weight: 400">padlock, key, shield, eye</td></tr>
+              <tr><td><code>perangkat</code></td><td>Devices</td><td style="white-space: normal; font-weight: 400">phone, laptop, wi-fi, settings</td></tr>
+              <tr><td><code>media</code></td><td>Media</td><td style="white-space: normal; font-weight: 400">play, camera, image, mic</td></tr>
+              <tr><td><code>waktu</code></td><td>Time</td><td style="white-space: normal; font-weight: 400">clock, calendar, history</td></tr>
+              <tr><td><code>data</code></td><td>Data & Charts</td><td style="white-space: normal; font-weight: 400">charts, table, database</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Domain</h3>
+        <div class="tabel">
+          <table>
+            <thead><tr><th>Code</th><th>Name</th><th>Examples</th></tr></thead>
+            <tbody>
+              <tr><td><code>keuangan</code></td><td>Finance & Accounting</td><td style="white-space: normal; font-weight: 400">money, cash, journal, ledger, balance sheet, invoice, tax</td></tr>
+              <tr><td><code>niaga</code></td><td>Commerce & Inventory</td><td style="white-space: normal; font-weight: 400">shop, cart, barcode, stock take</td></tr>
+              <tr><td><code>kesehatan</code></td><td>Health</td><td style="white-space: normal; font-weight: 400">stethoscope, medicine, hospital, health post</td></tr>
+              <tr><td><code>sains</code></td><td>Science & Technology</td><td style="white-space: normal; font-weight: 400">atom, microscope, test tube, code</td></tr>
+              <tr><td><code>pendidikan</code></td><td>Education & Culture</td><td style="white-space: normal; font-weight: 400">book, graduation, history, language, art, wayang</td></tr>
+              <tr><td><code>keagamaan</code></td><td>Religion</td><td style="white-space: normal; font-weight: 400">mosque, church, pura, vihara, klenteng, scripture</td></tr>
+              <tr><td><code>pemerintahan</code></td><td>Government & Law</td><td style="white-space: normal; font-weight: 400">ID card, stamp, gavel, official letter</td></tr>
+              <tr><td><code>bangunan</code></td><td>Places & Buildings</td><td style="white-space: normal; font-weight: 400">house, office, factory, traditional house</td></tr>
+              <tr><td><code>transportasi</code></td><td>Transport & Maps</td><td style="white-space: normal; font-weight: 400">car, ojek, angkot, becak, map pin</td></tr>
+              <tr><td><code>alam</code></td><td>Nature, Weather & Farming</td><td style="white-space: normal; font-weight: 400">sun, rain, rice field, volcano</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Rules</h3>
+        <ul>
+          <li><strong>One primary category</strong> per icon, chosen by where people are most likely to look for it, not by the object. A calculator goes in <code>keuangan</code>, not <code>perangkat</code>.</li>
+          <li><strong>At most 2 extra categories</strong> (<code>juga</code>), so an icon appears in other fields without being duplicated.</li>
+          <li><strong>Series</strong> are markers that cross categories. Nusantara icons stay in the field that matches their function: becak in <code>transportasi</code>, bedug in <code>keagamaan</code>. Traditional houses go in <code>bangunan</code> with series <code>rumah-adat</code>.</li>
+          <li><strong>Humanities</strong> is not a category of its own, because it is too abstract to draw. History, language, art, and philosophy go in <code>pendidikan</code>.</li>
+          <li><strong>Religions are equal:</strong> every religion in Indonesia gets the same basic set (house of worship, scripture, symbol, holy day).</li>
+          <li><strong>New categories</strong> only come through a written proposal (RFC). The philosophy guard rejects categories that are not on the list.</li>
         </ul>
       </div>
     </details>

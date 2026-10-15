@@ -160,11 +160,15 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
           <div class="kontrol">
             <div>
               <label for="cari">Cari (ID atau EN)</label>
-              <input class="field" type="search" id="cari" placeholder="mis. lonceng, gonjong, papua…" autocomplete="off">
+              <input class="field" type="search" id="cari" placeholder="mis. hapus, lonceng, gonjong…" autocomplete="off">
             </div>
             <div>
               <label for="kategori">Kategori</label>
               <select class="field" id="kategori"></select>
+            </div>
+            <div>
+              <label for="seri">Seri</label>
+              <select class="field" id="seri"></select>
             </div>
             <div>
               <label for="urut">Urutkan</label>
@@ -211,9 +215,9 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
           <div class="kanan">
             <label for="per">Ikon per halaman</label>
             <select class="field" id="per">
-              <option value="12">12</option>
-              <option value="24" selected>24</option>
-              <option value="48">48</option>
+              <option value="24">24</option>
+              <option value="48" selected>48</option>
+              <option value="96">96</option>
             </select>
             <button class="btn" type="button" id="sebelum">Sebelumnya</button>
             <span id="halaman"></span>
@@ -274,13 +278,16 @@ const $ = id => document.getElementById(id);
 const DATA = window.RUAS || [];
 const KEPALA = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
 const ATRIBUT = 'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
-const KATEGORI = { antarmuka: 'Antarmuka', keuangan: 'Keuangan', ibadah: 'Ibadah', 'rumah-adat': 'Rumah Adat' };
+const KAT = window.RUAS_KATEGORI || {}, SERI = window.RUAS_SERI || {};
+const KATEGORI = Object.fromEntries(Object.entries(KAT).map(([k, v]) => [k, v.nama]));
 const WILAYAH = ['Sumatera', 'Jawa', 'Bali & Nusa Tenggara', 'Kalimantan', 'Sulawesi', 'Maluku & Papua'];
 const urutKat = Object.keys(KATEGORI);
 
 const svgIkon = (r, gaya = '') => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"${gaya ? ` style="${gaya}"` : ''}>${r.isi}</svg>`;
 const sumber = r => `${KEPALA}${r.isi}</svg>`;
 const sub = r => r.asal ? `${r.asal.provinsi} · ${r.asal.wilayah}` : KATEGORI[r.kategori];
+const diKat = (r, k) => r.kategori === k || (r.juga || []).includes(k);
+const katLengkap = r => [r.kategori, ...(r.juga || [])].map(k => KATEGORI[k]).join(', ');
 const pascal = id => id.split('-').map(s => s[0].toUpperCase() + s.slice(1)).join('');
 const jsx = r => `export function ${pascal(r.id)}({ size = 24, label, ...props }) {
   return (
@@ -293,18 +300,22 @@ const jsx = r => `export function ${pascal(r.id)}({ size = 24, label, ...props }
 if (!DATA.length) $('galat').hidden = false;
 $('hero-ikon').innerHTML = ['bell', 'chat', 'mosque', 'house-gadang', 'house-tongkonan'].map(id => DATA.find(r => r.id === id)).filter(Boolean).map(r => svgIkon(r)).join('');
 
-const st = { q: '', kat: '', urut: 'bawaan', per: 24, hal: 1, pilih: '' };
-$('kategori').innerHTML = `<option value="">Semua kategori (${DATA.length})</option>` + urutKat.map(k => `<option value="${k}">${KATEGORI[k]} (${DATA.filter(r => r.kategori === k).length})</option>`).join('');
+const st = { q: '', kat: '', seri: '', urut: 'bawaan', per: 48, hal: 1, pilih: '' };
+// Kategori berisi saja; dikelompokkan Inti dan Bidang. Hitungan memasukkan kategori tambahan (juga).
+const opsiKat = kel => urutKat.filter(k => KAT[k].kelompok === kel).map(k => [k, DATA.filter(r => diKat(r, k)).length]).filter(([, n]) => n)
+  .map(([k, n]) => `<option value="${k}">${KATEGORI[k]} (${n})</option>`).join('');
+$('kategori').innerHTML = `<option value="">Semua kategori (${DATA.length})</option><optgroup label="Inti">${opsiKat('inti')}</optgroup><optgroup label="Bidang">${opsiKat('bidang')}</optgroup>`;
+$('seri').innerHTML = `<option value="">Semua seri</option>` + Object.keys(SERI).map(k => `<option value="${k}">${SERI[k].nama} (${DATA.filter(r => r.seri === k).length})</option>`).join('');
 
 function saring() {
   const kata = st.q.toLowerCase().split(/\s+/).filter(Boolean);
-  const h = DATA.filter(r => (!st.kat || r.kategori === st.kat) &&
-    kata.every(k => `${r.id} ${r.nama} ${KATEGORI[r.kategori]} ${r.tag.join(' ')} ${r.asal ? r.asal.provinsi + ' ' + r.asal.wilayah : ''}`.toLowerCase().includes(k)));
+  const h = DATA.filter(r => (!st.kat || diKat(r, st.kat)) && (!st.seri || r.seri === st.seri) &&
+    kata.every(k => `${r.id} ${r.nama} ${katLengkap(r)} ${r.seri ? SERI[r.seri].nama : ''} ${r.tag.join(' ')} ${r.asal ? r.asal.provinsi + ' ' + r.asal.wilayah : ''}`.toLowerCase().includes(k)));
   if (st.urut === 'az') return h.sort((a, b) => a.nama.localeCompare(b.nama, 'id'));
   if (st.urut === 'za') return h.sort((a, b) => b.nama.localeCompare(a.nama, 'id'));
   // Bawaan: per kategori; rumah adat dari barat ke timur
   return h.sort((a, b) => urutKat.indexOf(a.kategori) - urutKat.indexOf(b.kategori) ||
-    (a.asal && b.asal ? WILAYAH.indexOf(a.asal.wilayah) - WILAYAH.indexOf(b.asal.wilayah) : 0));
+    (a.asal && b.asal ? WILAYAH.indexOf(a.asal.wilayah) - WILAYAH.indexOf(b.asal.wilayah) : 0) || a.nama.localeCompare(b.nama, 'id'));
 }
 
 function tampil() {
@@ -315,7 +326,7 @@ function tampil() {
   const nr = i => String(awal + i + 1).padStart(2, '0');
 
   $('galeri').innerHTML = isi.length ? isi.map((r, i) => `<button type="button" class="tile" data-id="${r.id}" aria-pressed="${r.id === st.pilih}" aria-label="${r.nama}, ${sub(r)}"><span class="nr">${nr(i)}</span>${svgIkon(r)}<span class="nm">${r.nama}</span><span class="pv">${r.asal ? r.asal.provinsi : KATEGORI[r.kategori]}</span></button>`).join('')
-    : '<p class="kosong">Tidak ada ikon yang cocok. Coba kata lain atau pilih "Semua kategori".</p>';
+    : '<p class="kosong">Tidak ada ikon yang cocok. Coba kata lain, atau pilih "Semua kategori" dan "Semua seri".</p>';
   $('lembar').innerHTML = isi.length ? isi.map((r, i) => `<tr><td class="nr">${nr(i)}</td><td>${r.nama}</td><td>${svgIkon(r, '--ico-s:16px')}</td><td>${svgIkon(r, '--ico-s:24px')}</td><td>${svgIkon(r, '--ico-s:48px')}</td><td class="ruas-isi">${svgIkon(r, '--ico-s:24px')}</td><td>${r.byte} B</td></tr>`).join('')
     : '<tr><td colspan="7" class="kosong">Tidak ada ikon pada saringan ini.</td></tr>';
 
@@ -344,6 +355,7 @@ function rinci() {
       ${r.ciri ? `<p>${r.ciri}</p>` : ''}
       <dl class="fakta">
         <dt>ID kode</dt><dd><code>${r.id}</code></dd>
+        <dt>Kategori</dt><dd>${katLengkap(r)}${r.seri ? ` · seri ${SERI[r.seri].nama}` : ''}</dd>
         <dt>Ukuran berkas</dt><dd>${r.byte} byte · ${elemen} elemen</dd>
         <dt>Aksen</dt><dd>${r.isi.includes('aksen') ? 'Ada' : 'Tidak ada (benda diam)'}${r.gerak ? ` · gerak ${r.gerak}` : ''}</dd>
         <dt>Cermin RTL</dt><dd>${r.cermin ? 'Dicerminkan' : 'Tidak dicerminkan'}</dd>
@@ -394,6 +406,7 @@ $('salin-sprite').addEventListener('click', () => {
 
 $('cari').addEventListener('input', e => { st.q = e.target.value.trim(); st.hal = 1; tampil(); });
 $('kategori').addEventListener('change', e => { st.kat = e.target.value; st.hal = 1; tampil(); });
+$('seri').addEventListener('change', e => { st.seri = e.target.value; st.hal = 1; tampil(); });
 $('urut').addEventListener('change', e => { st.urut = e.target.value; st.hal = 1; tampil(); });
 $('per').addEventListener('change', e => { st.per = +e.target.value; st.hal = 1; tampil(); });
 $('sebelum').addEventListener('click', () => { st.hal--; tampil(); });
