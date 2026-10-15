@@ -1,0 +1,17 @@
+{
+  "nama": "Biasa",
+  "kategori": "pengguna",
+  "juga": [
+    "kesehatan",
+    "komunikasi"
+  ],
+  "tag": [
+    "wajah",
+    "suasana hati",
+    "netral",
+    "datar",
+    "neutral",
+    "meh",
+    "mood"
+  ]
+}
