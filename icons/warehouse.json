@@ -1,0 +1,15 @@
+{
+  "nama": "Gudang",
+  "kategori": "niaga",
+  "juga": [
+    "bangunan"
+  ],
+  "tag": [
+    "stok",
+    "penyimpanan",
+    "persediaan",
+    "warehouse",
+    "inventory",
+    "storage"
+  ]
+}

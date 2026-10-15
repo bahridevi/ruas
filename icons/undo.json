@@ -1,0 +1,11 @@
+{
+  "nama": "Urungkan",
+  "kategori": "aksi",
+  "tag": [
+    "batal",
+    "kembalikan",
+    "undo",
+    "revert"
+  ],
+  "cermin": true
+}
