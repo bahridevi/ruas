@@ -1,0 +1,20 @@
+{
+  "nama": "Umur dokumen",
+  "kategori": "berkas",
+  "juga": [
+    "keuangan",
+    "waktu"
+  ],
+  "tag": [
+    "umur piutang",
+    "umur hutang",
+    "jatuh tempo",
+    "tertunda",
+    "aging",
+    "due date",
+    "overdue",
+    "akuntansi",
+    "accounting",
+    "pembukuan"
+  ]
+}

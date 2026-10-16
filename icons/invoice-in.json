@@ -1,0 +1,15 @@
+{
+  "nama": "Faktur masuk",
+  "kategori": "keuangan",
+  "juga": [
+    "berkas"
+  ],
+  "tag": [
+    "faktur pembelian",
+    "tagihan pemasok",
+    "bill",
+    "purchase invoice",
+    "hutang",
+    "payable"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "nama": "Pengguna daring",
+  "kategori": "pengguna",
+  "juga": [
+    "status"
+  ],
+  "tag": [
+    "online",
+    "sedang aktif",
+    "hadir",
+    "tersambung",
+    "presence",
+    "active user"
+  ],
+  "gerak": "denyut"
+}
