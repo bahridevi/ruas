@@ -152,7 +152,7 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
       <p class="eyebrow">Ruas · Galeri · lisensi MIT</p>
       <h1>Ruas<span>.</span></h1>
       <p class="lead">Set ikon publik gratis berfalsafah bambu. Setiap ikon dijaga oleh <a href="../docs/falsafah_id.html">Falsafah Ruas</a> (<a href="../docs/falsafah_en.html" hreflang="en" lang="en">English</a>) dan diperiksa mesin sebelum dirakit.</p>
-      <p class="angka"><strong id="total-ikon">0</strong> ikon · <span id="total-kat">0</span> kategori · <a href="https://github.com/bahridevi/ruas">Kode sumber di GitHub</a></p>
+      <p class="angka"><strong id="total-ikon">0</strong> ikon · <span id="total-kat">0</span> kategori<span id="stat-umum" hidden> · dilihat <strong id="stat-lihat"></strong> kali · diunduh <strong id="stat-unduh"></strong> kali</span> · <a href="https://github.com/bahridevi/ruas">Kode sumber di GitHub</a></p>
     </div>
     <div class="hero-ikon" id="hero-ikon" aria-hidden="true"></div>
   </header>
@@ -412,14 +412,25 @@ $('rinci').addEventListener('click', e => {
   const b = e.target.closest('[data-salin]');
   if (!b) return;
   const r = DATA.find(x => x.id === st.pilih);
+  catat('salin-' + b.dataset.salin, r.id);
   if (b.dataset.salin === 'svg') salin(sumber(r), `SVG ${r.nama}`);
   else if (b.dataset.salin === 'jsx') salin(jsx(r), `Komponen ${pascal(r.id)}`);
   else salin(`${location.origin}${location.pathname}?ikon=${r.id}`, `Tautan ${r.nama}`);
 });
 $('salin-sprite').addEventListener('click', () => {
   const h = saring();
+  catat('salin-sprite');
   salin(`<svg xmlns="http://www.w3.org/2000/svg" style="display:none">\n${h.map(r => `  <symbol id="ruas-${r.id}" viewBox="0 0 24 24" ${ATRIBUT}>${r.isi}</symbol>`).join('\n')}\n</svg>`, `Sprite ${h.length} ikon`);
 });
+
+// Statistik tanpa cookie: penanda salin ke log server, dan angka umum dilihat/diunduh di kepala halaman.
+function catat(e, id = '') { try { navigator.sendBeacon(`../stat/hit?e=${e}&id=${id}`); } catch {} }
+fetch('../stat/umum.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : Promise.reject()).then(s => {
+  const n = new Intl.NumberFormat('id-ID');
+  $('stat-lihat').textContent = n.format(s.dilihat);
+  $('stat-unduh').textContent = n.format(s.diunduh);
+  $('stat-umum').hidden = false;
+}).catch(() => {});
 
 // Alamat bisa dibagikan: ?q=, ?kat=, ?seri=, ?ikon=. Judul tab mengikuti ikon terpilih.
 function alamat() {

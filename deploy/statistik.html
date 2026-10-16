@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Statistik Ruas</title>
+<link rel="icon" type="image/svg+xml" href="/dist/svg/chart-bar.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="/dist/ruas.css">
+<style>
+/* Statistik pemilik (dibuat ulang scripts/statistik.mjs). Token sama dengan galeri Ruas. */
+:root {
+  --bg: #F2F5EE; --surface: #FBFCF8; --ink: #17211A; --muted: #56645A; --line: #D3DBCD;
+  --bambu: #2D6843; --kunyit: #C27600; --grid: #E2E8DC;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --ruas-aksen: var(--kunyit); --ruas-latar: var(--surface);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1410; --surface: #151D17; --ink: #E3EBE1; --muted: #98A79B; --line: #29352C;
+    --bambu: #7DC496; --kunyit: #F0B23A; --grid: #1F2A22; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1410; --surface: #151D17; --ink: #E3EBE1; --muted: #98A79B; --line: #29352C;
+  --bambu: #7DC496; --kunyit: #F0B23A; --grid: #1F2A22; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1rem/1.55 var(--body); }
+.wrap { max-width: 1060px; margin: 0 auto; padding: 32px 20px 80px; }
+@media (max-width: 600px) { .wrap { padding-inline: 16px; } }
+:focus-visible { outline: 2px solid var(--bambu); outline-offset: 3px; border-radius: 4px; }
+svg.ico { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vertical-align: -3px; }
+.eyebrow { font: 600 .75rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 { font: 800 clamp(2rem, 6vw, 3.2rem)/1 var(--display); letter-spacing: -.03em; margin: 8px 0 10px; }
+h1 span { color: var(--bambu); }
+.muted { color: var(--muted); font-size: .92rem; margin: 0; }
+.alat { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; margin: 18px 0 6px; }
+label.f { display: grid; gap: 4px; font: 600 .72rem/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+select, input { font: 400 .92rem/1.2 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-width: 0; }
+select:hover, input:hover { border-color: var(--bambu); }
+.btn { display: inline-flex; align-items: center; gap: 6px; font: 600 .85rem/1 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px 2px 8px 2px; padding: 9px 13px; cursor: pointer; }
+.btn:hover:not(:disabled) { border-color: var(--bambu); color: var(--bambu); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+details.bab { border-bottom: 1px solid var(--line); }
+details.bab > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 18px 0 14px; }
+details.bab > summary::-webkit-details-marker { display: none; }
+details.bab > summary:hover h2 { color: var(--bambu); }
+.no { font: 600 .78rem/1 var(--mono); color: var(--muted); min-width: 2.2em; }
+h2 { font: 700 1.3rem/1.2 var(--display); margin: 0; flex: 1; }
+.ringkas-bab { font: 400 .85rem/1 var(--mono); color: var(--muted); }
+details[open] > summary .chev { transform: rotate(180deg); }
+.chev { transition: transform .2s; color: var(--muted); }
+.isi { padding: 0 0 24px; display: grid; gap: 12px; }
+.kartu { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.kartu div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px 3px 10px 3px; padding: 12px 14px; }
+.kartu b { display: block; font: 800 1.6rem/1.1 var(--display); font-variant-numeric: tabular-nums; margin-top: 4px; }
+.kartu small { color: var(--muted); font-size: .8rem; display: flex; gap: 6px; align-items: center; }
+.grafik { background: var(--surface); border: 1px solid var(--line); border-radius: 10px 3px 10px 3px; padding: 12px; overflow-x: auto; }
+.grafik svg { display: block; min-width: 100%; }
+.legenda { display: flex; gap: 16px; font-size: .82rem; color: var(--muted); }
+.legenda i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: 0; }
+.tbl-alat { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
+.tbl-alat .cari { flex: 1 1 200px; }
+.tbl-alat .cari input { width: 100%; }
+.gulir { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font: 600 .72rem/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); background: var(--grid); }
+td.n, th.n { text-align: right; }
+td.urut { color: var(--muted); width: 3em; }
+tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: var(--grid); }
+.kosong { color: var(--muted); text-align: center; padding: 18px; }
+.pager { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; font-size: .88rem; color: var(--muted); }
+.pager div { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.galat { background: var(--surface); border: 1px solid var(--kunyit); border-radius: 8px; padding: 14px; }
+@media print {
+  body { background: #fff; color: #000; }
+  .alat, .tbl-alat, .pager, .cetak-bab, summary .chev { display: none !important; }
+  body[data-cetak] details.bab:not([data-cetak-ini]) { display: none; }
+  details.bab { break-inside: avoid-page; }
+  .gulir { border: 0; overflow: visible; }
+}
+</style>
+</head>
+<body>
+<script src="/dist/ruas.js"></script>
+<main class="wrap">
+  <p class="eyebrow">Ruas · khusus pemilik</p>
+  <h1>Statistik<span>.</span></h1>
+  <p class="muted" id="info">Memuat data…</p>
+  <div class="alat">
+    <label class="f">Periode
+      <select id="periode" aria-label="Periode statistik">
+        <option value="7">7 hari terakhir</option>
+        <option value="30" selected>30 hari terakhir</option>
+        <option value="90">90 hari terakhir</option>
+        <option value="0">Semua</option>
+      </select>
+    </label>
+    <button class="btn" type="button" id="buka-semua"></button>
+    <button class="btn" type="button" id="gulung-semua"></button>
+    <button class="btn" type="button" id="cetak-semua"></button>
+  </div>
+  <div id="isi"></div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const IKON = Object.fromEntries((window.RUAS || []).map(r => [r.id, r.isi]));
+const ico = (id, label) => `<svg class="ico" viewBox="0 0 24 24" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>${IKON[id] || ''}</svg>`;
+const angka = new Intl.NumberFormat('id-ID');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+$('buka-semua').innerHTML = ico('chevron-down') + 'Buka semua';
+$('gulung-semua').innerHTML = ico('chevron-up') + 'Gulung semua';
+$('cetak-semua').innerHTML = ico('printer') + 'Cetak semua';
+
+const BAB = [
+  ['ringkasan', 'Ringkasan', 'layout-grid'],
+  ['grafik', 'Grafik harian', 'chart-bar'],
+  ['harian', 'Per hari', 'calendar'],
+  ['ikon', 'Ikon diunduh & disalin', 'download'],
+  ['perujuk', 'Perujuk (dari mana datang)', 'link'],
+  ['negara', 'Negara', 'globe'],
+  ['halaman', 'Halaman & berkas', 'file'],
+];
+const nama = Object.fromEntries((window.RUAS || []).map(r => [r.id, r.nama]));
+let DATA, tabel = {};
+
+function bab(id, judul, ikon, ringkas, isi) {
+  return `<details class="bab" id="bab-${id}" open><summary><span class="no">${String(BAB.findIndex(b => b[0] === id) + 1).padStart(2, '0')}</span>${ico(ikon)}<h2>${judul}</h2><span class="ringkas-bab">${ringkas}</span>${ico('chevron-down').replace('class="ico"', 'class="ico chev"')}</summary>
+    <div class="isi">${isi}<div><button class="btn cetak-bab" type="button" data-cetak="${id}">${ico('printer')}Cetak bagian ini</button></div></div></details>`;
+}
+
+// Tabel baku: cari, saring minimal, urutkan, "x dari y", paginasi, nomor urut, cetak hasil saringan (semua baris).
+function buatTabel(id, kolom, baris) {
+  const st = tabel[id] = { kolom, baris, q: '', min: 0, urut: kolom.findIndex(k => k.n) , naik: false, hal: 1, per: 10, cetak: false };
+  return `<div class="tbl-alat">
+      <label class="f cari">Cari<input type="search" data-t="${id}" data-k="q" placeholder="Ketik untuk mencari…" aria-label="Cari di ${id}"></label>
+      <label class="f">Minimal ${kolom.find(k => k.n).judul.toLowerCase()}<input type="number" min="0" value="0" data-t="${id}" data-k="min" style="width:7em" aria-label="Saring jumlah minimal"></label>
+      <label class="f">Urutkan<select data-t="${id}" data-k="urut" aria-label="Urutkan">${kolom.map((k, i) => `<option value="${i}" ${i === st.urut ? 'selected' : ''}>${k.judul}</option>`).join('')}</select></label>
+      <label class="f">Arah<select data-t="${id}" data-k="naik" aria-label="Arah urutan"><option value="">Besar → kecil</option><option value="1">Kecil → besar</option></select></label>
+    </div>
+    <div class="gulir"><table><thead><tr><th>No</th>${kolom.map(k => `<th class="${k.n ? 'n' : ''}">${k.judul}</th>`).join('')}</tr></thead><tbody id="tb-${id}"></tbody></table></div>
+    <div class="pager"><span id="jml-${id}"></span><div>
+      <label>Baris per halaman <select data-t="${id}" data-k="per" aria-label="Baris per halaman"><option>10</option><option>25</option><option>50</option><option>100</option></select></label>
+      <button class="btn" type="button" data-t="${id}" data-hal="-1">${ico('chevron-left')}Sebelumnya</button>
+      <span id="hal-${id}"></span>
+      <button class="btn" type="button" data-t="${id}" data-hal="1">Berikutnya${ico('chevron-right')}</button>
+    </div></div>`;
+}
+function saring(st) {
+  const k = st.kolom[st.urut], ki = st.kolom.findIndex(c => c.n);
+  const q = st.q.toLowerCase();
+  return st.baris.filter(b => (!q || b.some(v => String(v).toLowerCase().includes(q))) && b[ki] >= st.min)
+    .sort((a, b) => { const x = a[st.urut], y = b[st.urut]; const c = k.n ? x - y : String(x).localeCompare(String(y)); return st.naik ? c : -c; });
+}
+function gambarTabel(id) {
+  const st = tabel[id], h = saring(st), total = st.baris.length;
+  const hal = Math.max(1, Math.ceil(h.length / st.per));
+  st.hal = Math.min(st.hal, hal);
+  const awal = st.cetak ? 0 : (st.hal - 1) * st.per, tampil = st.cetak ? h : h.slice(awal, awal + st.per);
+  $('tb-' + id).innerHTML = tampil.length
+    ? tampil.map((b, i) => `<tr><td class="urut">${awal + i + 1}</td>${b.map((v, j) => `<td class="${st.kolom[j].n ? 'n' : ''}">${st.kolom[j].n ? angka.format(v) : (st.kolom[j].tampil ? st.kolom[j].tampil(v) : esc(v))}</td>`).join('')}</tr>`).join('')
+    : `<tr><td colspan="${st.kolom.length + 1}" class="kosong">Belum ada data untuk saringan ini.</td></tr>`;
+  $('jml-' + id).textContent = `${h.length ? awal + 1 : 0}–${awal + tampil.length} dari ${angka.format(h.length)} (tersaring dari ${angka.format(total)})`;
+  $('hal-' + id).textContent = `Halaman ${st.hal} dari ${hal}`;
+  document.querySelector(`[data-t="${id}"][data-hal="-1"]`).disabled = st.hal <= 1;
+  document.querySelector(`[data-t="${id}"][data-hal="1"]`).disabled = st.hal >= hal;
+}
+
+const jumlahkan = (hari, k) => hari.reduce((s, [, d]) => s + (d[k] || 0), 0);
+function gabung(hari, k) {
+  const o = {};
+  for (const [, d] of hari) for (const [a, n] of Object.entries(d[k] || {})) o[a] = (o[a] || 0) + n;
+  return o;
+}
+function grafik(hari) {
+  if (!hari.length) return '<p class="muted">Belum ada data.</p>';
+  const L = 26, T = 160, maks = Math.max(1, ...hari.map(([, d]) => Math.max(d.lihat, d.unduh + d.salin)));
+  const lebar = Math.max(hari.length * L, 300);
+  const batang = hari.map(([t, d], i) => {
+    const h1 = d.lihat / maks * (T - 30), h2 = (d.unduh + d.salin) / maks * (T - 30), x = i * L + 4;
+    return `<g><title>${t}: dilihat ${d.lihat}, diunduh ${d.unduh + d.salin}</title>
+      <rect x="${x}" y="${T - 18 - h1}" width="9" height="${h1}" rx="2" fill="var(--bambu)"/>
+      <rect x="${x + 10}" y="${T - 18 - h2}" width="9" height="${h2}" rx="2" fill="var(--kunyit)"/>
+      ${i % Math.ceil(hari.length / 12) === 0 ? `<text x="${x}" y="${T - 4}" font-size="9" fill="var(--muted)" font-family="var(--mono)">${t.slice(5)}</text>` : ''}</g>`;
+  }).join('');
+  return `<div class="legenda"><span><i style="background:var(--bambu)"></i>Dilihat</span><span><i style="background:var(--kunyit)"></i>Diunduh + disalin</span><span>Puncak ${angka.format(maks)}</span></div>
+    <div class="grafik"><svg viewBox="0 0 ${lebar} ${T}" width="${lebar}" height="${T}" role="img" aria-label="Grafik dilihat dan diunduh per hari">${batang}</svg></div>`;
+}
+
+function gambar() {
+  const p = +$('periode').value;
+  const semua = Object.entries(DATA.harian);
+  const hari = p ? semua.slice(-p) : semua;
+  const ikon = {};
+  for (const [, d] of hari) for (const [id, v] of Object.entries(d.ikon || {})) { const o = ikon[id] ??= { unduh: 0, salin: 0 }; o.unduh += v.unduh || 0; o.salin += v.salin || 0; }
+  const k = (label, n, i) => `<div><small>${ico(i)}${label}</small><b>${angka.format(n)}</b></div>`;
+  const dilihat = jumlahkan(hari, 'lihat'), diunduh = jumlahkan(hari, 'unduh') + jumlahkan(hari, 'salin');
+  const peta = (o, judul) => Object.entries(o).map(([a, n]) => [a, n]);
+  const kolNama = judul => ({ judul }), kolN = judul => ({ judul, n: true });
+  tabel = {};
+  $('isi').innerHTML = [
+    bab('ringkasan', 'Ringkasan', 'layout-grid', `${hari.length} hari`, `<div class="kartu">
+      ${k('Dilihat', dilihat, 'eye')}${k('Pengunjung unik harian', jumlahkan(hari, 'unik'), 'users')}
+      ${k('Diunduh (berkas SVG)', jumlahkan(hari, 'unduh'), 'download')}${k('Disalin (SVG/React/sprite)', jumlahkan(hari, 'salin'), 'copy')}
+      ${k('Tautan dibagikan', jumlahkan(hari, 'bagikan'), 'share')}${k('Pemakaian langsung (API)', jumlahkan(hari, 'api'), 'database')}
+      ${k('Bot & pemindai disaring', jumlahkan(hari, 'bot'), 'shield')}</div>
+      <p class="muted">Angka publik di galeri: dilihat ${angka.format(jumlahkan(semua, 'lihat'))} · diunduh ${angka.format(jumlahkan(semua, 'unduh') + jumlahkan(semua, 'salin'))} (sepanjang waktu). Pengunjung unik dihitung per hari tanpa menyimpan IP.</p>`),
+    bab('grafik', 'Grafik harian', 'chart-bar', `${angka.format(dilihat)} dilihat · ${angka.format(diunduh)} diunduh`, grafik(hari)),
+    bab('harian', 'Per hari', 'calendar', `${hari.length} baris`, buatTabel('harian', [kolNama('Tanggal'), kolN('Dilihat'), kolN('Unik'), kolN('Diunduh'), kolN('Disalin'), kolN('Dibagikan'), kolN('API'), kolN('Bot')],
+      hari.map(([t, d]) => [t, d.lihat, d.unik, d.unduh, d.salin, d.bagikan, d.api, d.bot]))),
+    bab('ikon', 'Ikon diunduh & disalin', 'download', `${Object.keys(ikon).length} ikon`, buatTabel('ikon', [{ judul: 'Ikon', tampil: v => `${ico(v)} ${esc(nama[v] || v)} <code style="color:var(--muted)">${esc(v)}</code>` }, kolN('Total'), kolN('Diunduh'), kolN('Disalin')],
+      Object.entries(ikon).map(([id, v]) => [id, v.unduh + v.salin, v.unduh, v.salin]))),
+    bab('perujuk', 'Perujuk (dari mana datang)', 'link', `${Object.keys(gabung(hari, 'perujuk')).length} sumber`, buatTabel('perujuk', [kolNama('Sumber'), kolN('Kunjungan')], peta(gabung(hari, 'perujuk')))),
+    bab('negara', 'Negara', 'globe', `${Object.keys(gabung(hari, 'negara')).length} negara`, buatTabel('negara', [{ judul: 'Negara', tampil: v => { try { return esc(new Intl.DisplayNames(['id'], { type: 'region' }).of(v) + ` (${v})`); } catch { return esc(v); } } }, kolN('Kunjungan')], peta(gabung(hari, 'negara')))),
+    bab('halaman', 'Halaman & berkas', 'file', `${Object.keys(gabung(hari, 'halaman')).length} alamat`, buatTabel('halaman', [kolNama('Alamat'), kolN('Dibuka')], peta(gabung(hari, 'halaman')))),
+  ].join('');
+  for (const id in tabel) gambarTabel(id);
+}
+
+$('isi').addEventListener('input', e => {
+  const t = e.target.dataset.t;
+  if (!t) return;
+  const st = tabel[t], k = e.target.dataset.k;
+  st[k] = k === 'q' ? e.target.value : k === 'naik' ? !!e.target.value : +e.target.value || 0;
+  if (k === 'per' && !st.per) st.per = 10;
+  st.hal = 1;
+  gambarTabel(t);
+});
+$('isi').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.hal) { tabel[b.dataset.t].hal += +b.dataset.hal; gambarTabel(b.dataset.t); }
+  if (b.dataset.cetak) cetak(b.dataset.cetak);
+});
+function cetak(id) {
+  if (id) { document.body.dataset.cetak = id; $('bab-' + id).dataset.cetakIni = ''; }
+  print();
+}
+addEventListener('beforeprint', () => { document.querySelectorAll('details.bab').forEach(d => { d.dataset.tadi = d.open; d.open = true; }); for (const id in tabel) { tabel[id].cetak = true; gambarTabel(id); } });
+addEventListener('afterprint', () => {
+  document.querySelectorAll('details.bab').forEach(d => { d.open = d.dataset.tadi === 'true'; delete d.dataset.cetakIni; });
+  delete document.body.dataset.cetak;
+  for (const id in tabel) { tabel[id].cetak = false; gambarTabel(id); }
+});
+$('cetak-semua').onclick = () => cetak();
+$('buka-semua').onclick = () => document.querySelectorAll('details.bab').forEach(d => d.open = true);
+$('gulung-semua').onclick = () => document.querySelectorAll('details.bab').forEach(d => d.open = false);
+$('periode').onchange = gambar;
+
+fetch('data.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }).then(d => {
+  DATA = d;
+  const hari = Object.keys(d.harian);
+  $('info').textContent = `Diperbarui ${new Date(d.diperbarui).toLocaleString('id-ID')} · data sejak ${hari[0] || '-'} · diperbarui otomatis tiap 15 menit.`;
+  gambar();
+}).catch(e => { $('info').outerHTML = `<p class="galat">Data statistik gagal dimuat (${esc(e.message)}). Coba muat ulang halaman; bila tetap gagal, periksa cron statistik di server.</p>`; });
+</script>
+</body>
+</html>
