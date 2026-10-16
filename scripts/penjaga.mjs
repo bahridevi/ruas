@@ -36,6 +36,7 @@ export const SERI = {
   'rumah-adat': { nama: 'Rumah Adat Nusantara', en: 'Indonesian Traditional Houses' },
   psikometri: { nama: 'Model Psikometri', en: 'Psychometric Models' },
   medsos: { nama: 'Web & Media Sosial', en: 'Web & Social Media' },
+  pajak: { nama: 'Perpajakan', en: 'Taxation' },
 };
 const GERAK = new Set(['denyut', 'tambah', 'turun', 'buka', 'ketik', 'cari']);
 const ATRIBUT = { path: ['class', 'd'], circle: ['class', 'cx', 'cy', 'r'], g: ['transform'] };

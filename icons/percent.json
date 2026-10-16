@@ -10,6 +10,9 @@
     "diskon",
     "percent",
     "percentage",
-    "rate"
-  ]
+    "rate",
+    "pajak",
+    "perpajakan"
+  ],
+  "seri": "pajak"
 }

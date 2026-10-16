@@ -9,6 +9,9 @@
     "pph",
     "faktur pajak",
     "tax",
-    "vat"
-  ]
+    "vat",
+    "pajak",
+    "perpajakan"
+  ],
+  "seri": "pajak"
 }
