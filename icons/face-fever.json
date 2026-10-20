@@ -1,0 +1,20 @@
+{
+  "nama": "Sakit",
+  "en": "Sick",
+  "kategori": "kesehatan",
+  "juga": [
+    "waktu"
+  ],
+  "tag": [
+    "sakit",
+    "demam",
+    "izin sakit",
+    "meriang",
+    "tidak enak badan",
+    "sick",
+    "fever",
+    "ill",
+    "sick leave"
+  ],
+  "seri": "absensi"
+}

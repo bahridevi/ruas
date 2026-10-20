@@ -1,19 +1,17 @@
 {
-  "nama": "Sakit",
-  "en": "Sick",
+  "nama": "Termometer",
+  "en": "Thermometer",
   "kategori": "kesehatan",
   "juga": [
     "waktu"
   ],
   "tag": [
-    "sakit",
-    "izin sakit",
-    "demam",
+    "termometer",
     "suhu",
-    "sick",
-    "sick leave",
-    "fever",
-    "temperature"
-  ],
-  "seri": "absensi"
+    "suhu tubuh",
+    "demam",
+    "thermometer",
+    "temperature",
+    "fever"
+  ]
 }
