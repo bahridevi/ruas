@@ -28,6 +28,8 @@ writeFileSync(new URL('sprite.svg', dist), `<svg xmlns="http://www.w3.org/2000/s
 writeFileSync(new URL('ruas.json', dist), JSON.stringify(data, null, 2) + '\n');
 writeFileSync(new URL('ruas.js', dist), `window.RUAS = ${JSON.stringify(data)};\nwindow.RUAS_KATEGORI = ${JSON.stringify(KATEGORI)};\nwindow.RUAS_SERI = ${JSON.stringify(SERI)};\n`);
 copyFileSync(new URL('../ruas.css', import.meta.url), new URL('ruas.css', dist));
+// Teks lisensi MIT ikut disajikan agar pemakai bisa menyertakannya walau repo tidak publik.
+copyFileSync(new URL('../LICENSE', import.meta.url), new URL('LICENSE.txt', dist));
 // Peta situs untuk mesin pencari: galeri, falsafah, dan satu alamat per ikon (?ikon=<id>).
 const SITUS = 'https://ruas.metabahri.com';
 const alamat = ['/site/', '/site/?lang=en', '/docs/falsafah_id.html', '/docs/falsafah_en.html', ...data.map(d => `/site/?ikon=${d.id}`)];
