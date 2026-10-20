@@ -1,5 +1,6 @@
 {
   "nama": "Monas",
+  "en": "National Monument (Monas)",
   "kategori": "bangunan",
   "juga": [
     "pemerintahan"
@@ -21,5 +22,6 @@
     "provinsi": "DKI Jakarta",
     "wilayah": "Jawa"
   },
-  "ciri": "Tugu menjulang beralas cawan lebar, dimahkotai lidah api di atas pelataran puncak."
+  "ciri": "Tugu menjulang beralas cawan lebar, dimahkotai lidah api di atas pelataran puncak.",
+  "ciri_en": "A soaring obelisk on a wide cup-shaped base, crowned by a flame above the top platform."
 }

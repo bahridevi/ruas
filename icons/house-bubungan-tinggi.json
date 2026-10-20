@@ -1,5 +1,6 @@
 {
   "nama": "Bubungan Tinggi",
+  "en": "Bubungan Tinggi house",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -10,5 +11,6 @@
     "provinsi": "Kalimantan Selatan",
     "wilayah": "Kalimantan"
   },
-  "ciri": "Atap pusat sangat curam diapit anjung beratap landai."
+  "ciri": "Atap pusat sangat curam diapit anjung beratap landai.",
+  "ciri_en": "A very steep central roof flanked by low-pitched side wings."
 }

@@ -1,5 +1,6 @@
 {
   "nama": "Julang Ngapak",
+  "en": "Julang Ngapak house",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -11,5 +12,6 @@
     "provinsi": "Jawa Barat",
     "wilayah": "Jawa"
   },
-  "ciri": "Atap melebar seperti burung julang mengepakkan sayap, cagak gunting di puncak."
+  "ciri": "Atap melebar seperti burung julang mengepakkan sayap, cagak gunting di puncak.",
+  "ciri_en": "A roof spread like a hornbill flapping its wings, with crossed finials at the ridge."
 }

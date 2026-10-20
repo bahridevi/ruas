@@ -30,7 +30,7 @@ writeFileSync(new URL('ruas.js', dist), `window.RUAS = ${JSON.stringify(data)};\
 copyFileSync(new URL('../ruas.css', import.meta.url), new URL('ruas.css', dist));
 // Peta situs untuk mesin pencari: galeri, falsafah, dan satu alamat per ikon (?ikon=<id>).
 const SITUS = 'https://ruas.metabahri.com';
-const alamat = ['/site/', '/docs/falsafah_id.html', '/docs/falsafah_en.html', ...data.map(d => `/site/?ikon=${d.id}`)];
+const alamat = ['/site/', '/site/?lang=en', '/docs/falsafah_id.html', '/docs/falsafah_en.html', ...data.map(d => `/site/?ikon=${d.id}`)];
 // Galeri: alamat ruas.js/css/svg diberi ?v=<sidik isi> agar browser dan Cloudflare langsung memakai versi baru.
 const versi = createHash('sha1').update(readFileSync(new URL('ruas.js', dist))).update(readFileSync(new URL('ruas.css', dist))).digest('hex').slice(0, 10);
 writeFileSync(new URL('../site/index.html', import.meta.url), readFileSync(new URL('../site/galeri.html', import.meta.url), 'utf8').replaceAll('__VERSI__', versi));

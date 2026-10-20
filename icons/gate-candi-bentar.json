@@ -1,5 +1,6 @@
 {
   "nama": "Candi Bentar",
+  "en": "Candi Bentar gate",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -13,5 +14,6 @@
     "provinsi": "Bali",
     "wilayah": "Bali & Nusa Tenggara"
   },
-  "ciri": "Gapura terbelah dua yang bertingkat, gerbang khas rumah adat Bali."
+  "ciri": "Gapura terbelah dua yang bertingkat, gerbang khas rumah adat Bali.",
+  "ciri_en": "A tiered gateway split in two, the typical entrance of a Balinese compound."
 }

@@ -1,5 +1,6 @@
 {
   "nama": "NPWP",
+  "en": "Tax ID (NPWP)",
   "kategori": "keuangan",
   "juga": [
     "pengguna"

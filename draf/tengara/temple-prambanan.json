@@ -1,5 +1,6 @@
 {
   "nama": "Candi Prambanan",
+  "en": "Prambanan Temple",
   "kategori": "bangunan",
   "juga": [
     "keagamaan"
@@ -21,5 +22,6 @@
     "provinsi": "DI Yogyakarta",
     "wilayah": "Jawa"
   },
-  "ciri": "Tiga candi runcing berundak, candi Siwa di tengah paling tinggi."
+  "ciri": "Tiga candi runcing berundak, candi Siwa di tengah paling tinggi.",
+  "ciri_en": "Three pointed stepped temples, the central Shiva temple the tallest."
 }

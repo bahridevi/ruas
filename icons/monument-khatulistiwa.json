@@ -1,5 +1,6 @@
 {
   "nama": "Tugu Khatulistiwa",
+  "en": "Equator Monument",
   "kategori": "bangunan",
   "juga": [
     "transportasi"
@@ -20,5 +21,6 @@
     "provinsi": "Kalimantan Barat",
     "wilayah": "Kalimantan"
   },
-  "ciri": "Tiang penyangga lingkaran yang ditembus anak panah penunjuk arah."
+  "ciri": "Tiang penyangga lingkaran yang ditembus anak panah penunjuk arah.",
+  "ciri_en": "Posts holding a ring pierced by a direction arrow."
 }

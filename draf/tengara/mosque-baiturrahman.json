@@ -1,5 +1,6 @@
 {
   "nama": "Masjid Raya Baiturrahman",
+  "en": "Baiturrahman Grand Mosque",
   "kategori": "bangunan",
   "juga": [
     "keagamaan"
@@ -19,5 +20,6 @@
     "provinsi": "Aceh",
     "wilayah": "Sumatera"
   },
-  "ciri": "Kubah bawang besar diapit dua kubah kecil di atas serambi lebar."
+  "ciri": "Kubah bawang besar diapit dua kubah kecil di atas serambi lebar.",
+  "ciri_en": "A large onion dome flanked by two small domes above a wide porch."
 }

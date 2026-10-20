@@ -1,5 +1,6 @@
 {
   "nama": "Joglo",
+  "en": "Joglo",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -12,5 +13,6 @@
     "provinsi": "Jawa Tengah & DI Yogyakarta",
     "wilayah": "Jawa"
   },
-  "ciri": "Atap bertingkat: brunjung curam di atas atap landai, ditopang saka."
+  "ciri": "Atap bertingkat: brunjung curam di atas atap landai, ditopang saka.",
+  "ciri_en": "Tiered roof: a steep brunjung above a gentle roof, carried by saka pillars."
 }

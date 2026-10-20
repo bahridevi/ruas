@@ -87,6 +87,7 @@ export function periksa(id, svg, meta) {
 
   if (!meta) return [...salah, `berkas keterangan icons/${id}.json tidak ada`];
   if (typeof meta.nama !== 'string' || !meta.nama) salah.push('keterangan: "nama" (bahasa Indonesia) wajib diisi');
+  if (typeof meta.en !== 'string' || !meta.en) salah.push('keterangan: "en" (nama bahasa Inggris) wajib diisi');
   if (!KATEGORI[meta.kategori]) salah.push(`keterangan: kategori "${meta.kategori}" tidak dikenal (${Object.keys(KATEGORI).join(', ')})`);
   if (meta.juga !== undefined) {
     const j = meta.juga;
@@ -98,6 +99,7 @@ export function periksa(id, svg, meta) {
   if (meta.gerak && !GERAK.has(meta.gerak)) salah.push(`keterangan: gerak "${meta.gerak}" tidak dikenal`);
   if (meta.gerak && !svg.includes('aksen')) salah.push('Aksen Makna: gerak hanya untuk ikon yang punya bagian aksen');
   if (['rumah-adat', 'tengara'].includes(meta.seri) && !(meta.asal?.provinsi && meta.asal?.wilayah && meta.ciri)) salah.push(`keterangan: seri ${meta.seri} wajib punya asal.provinsi, asal.wilayah, dan ciri`);
+  if (meta.ciri && !meta.ciri_en) salah.push('keterangan: "ciri_en" (ciri dalam bahasa Inggris) wajib diisi bila ada "ciri"');
   return salah;
 }
 

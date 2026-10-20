@@ -1,5 +1,6 @@
 {
   "nama": "Jam Gadang",
+  "en": "Jam Gadang clock tower",
   "kategori": "bangunan",
   "juga": [
     "waktu"
@@ -19,5 +20,6 @@
     "provinsi": "Sumatera Barat",
     "wilayah": "Sumatera"
   },
-  "ciri": "Menara jam beratap gonjong yang ujungnya naik seperti tanduk kerbau."
+  "ciri": "Menara jam beratap gonjong yang ujungnya naik seperti tanduk kerbau.",
+  "ciri_en": "A clock tower with a gonjong roof whose tips rise like buffalo horns."
 }

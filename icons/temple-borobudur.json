@@ -1,5 +1,6 @@
 {
   "nama": "Candi Borobudur",
+  "en": "Borobudur Temple",
   "kategori": "bangunan",
   "juga": [
     "keagamaan"
@@ -21,5 +22,6 @@
     "provinsi": "Jawa Tengah",
     "wilayah": "Jawa"
   },
-  "ciri": "Punden berundak lebar dan rendah dengan stupa induk berbentuk lonceng di puncak."
+  "ciri": "Punden berundak lebar dan rendah dengan stupa induk berbentuk lonceng di puncak.",
+  "ciri_en": "A wide, low stepped terrace topped by a bell-shaped main stupa."
 }

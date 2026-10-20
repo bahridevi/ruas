@@ -1,5 +1,6 @@
 {
   "nama": "Jembatan Ampera",
+  "en": "Ampera Bridge",
   "kategori": "bangunan",
   "juga": [
     "transportasi"
@@ -19,5 +20,6 @@
     "provinsi": "Sumatera Selatan",
     "wilayah": "Sumatera"
   },
-  "ciri": "Dua menara tegak di atas Sungai Musi yang disatukan rangka di puncaknya."
+  "ciri": "Dua menara tegak di atas Sungai Musi yang disatukan rangka di puncaknya.",
+  "ciri_en": "Two upright towers over the Musi River, joined by a truss at the top."
 }

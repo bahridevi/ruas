@@ -1,5 +1,6 @@
 {
   "nama": "Gedung Sate",
+  "en": "Gedung Sate",
   "kategori": "bangunan",
   "juga": [
     "pemerintahan"
@@ -18,5 +19,6 @@
     "provinsi": "Jawa Barat",
     "wilayah": "Jawa"
   },
-  "ciri": "Gedung memanjang dengan menara tengah beratap tumpang, puncaknya ornamen bertusuk seperti sate."
+  "ciri": "Gedung memanjang dengan menara tengah beratap tumpang, puncaknya ornamen bertusuk seperti sate.",
+  "ciri_en": "A long building with a central tower under a tiered roof, topped by a skewer-like ornament."
 }

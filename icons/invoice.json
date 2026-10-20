@@ -1,5 +1,6 @@
 {
   "nama": "Faktur",
+  "en": "Invoice",
   "kategori": "keuangan",
   "juga": [
     "berkas"

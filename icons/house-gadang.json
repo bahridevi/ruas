@@ -1,5 +1,6 @@
 {
   "nama": "Rumah Gadang",
+  "en": "Rumah Gadang",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -12,5 +13,6 @@
     "provinsi": "Sumatera Barat",
     "wilayah": "Sumatera"
   },
-  "ciri": "Gonjong bertingkat: dua lapis atap melengkung yang meruncing ke atas seperti tanduk kerbau."
+  "ciri": "Gonjong bertingkat: dua lapis atap melengkung yang meruncing ke atas seperti tanduk kerbau.",
+  "ciri_en": "Tiered gonjong: two layers of curved roof rising to points like buffalo horns."
 }

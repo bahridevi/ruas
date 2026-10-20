@@ -1,5 +1,6 @@
 {
   "nama": "Faktur pajak",
+  "en": "Tax invoice",
   "kategori": "keuangan",
   "juga": [
     "berkas"

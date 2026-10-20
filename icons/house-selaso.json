@@ -1,5 +1,6 @@
 {
   "nama": "Selaso Jatuh Kembar",
+  "en": "Selaso Jatuh Kembar house",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -11,5 +12,6 @@
     "provinsi": "Riau",
     "wilayah": "Sumatera"
   },
-  "ciri": "Selembayung: hiasan bersilang di kedua ujung bubungan."
+  "ciri": "Selembayung: hiasan bersilang di kedua ujung bubungan.",
+  "ciri_en": "Selembayung: crossed ornaments at both ends of the ridge."
 }

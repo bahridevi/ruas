@@ -1,5 +1,6 @@
 {
   "nama": "Rumoh Aceh",
+  "en": "Rumoh Aceh",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -13,5 +14,6 @@
     "provinsi": "Aceh",
     "wilayah": "Sumatera"
   },
-  "ciri": "Rumah panggung bertiang tinggi, atap pelana, tangga di depan."
+  "ciri": "Rumah panggung bertiang tinggi, atap pelana, tangga di depan.",
+  "ciri_en": "A stilt house on tall posts with a gable roof and front stairs."
 }

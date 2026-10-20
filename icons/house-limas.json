@@ -1,5 +1,6 @@
 {
   "nama": "Rumah Limas",
+  "en": "Limas house",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -11,5 +12,6 @@
     "provinsi": "Sumatera Selatan",
     "wilayah": "Sumatera"
   },
-  "ciri": "Atap limas curam dengan simbar di bubungan, berdiri di atas tiang."
+  "ciri": "Atap limas curam dengan simbar di bubungan, berdiri di atas tiang.",
+  "ciri_en": "A steep hipped roof with simbar ornaments on the ridge, standing on posts."
 }

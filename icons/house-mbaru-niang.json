@@ -1,5 +1,6 @@
 {
   "nama": "Mbaru Niang",
+  "en": "Mbaru Niang",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -14,5 +15,6 @@
     "provinsi": "Nusa Tenggara Timur",
     "wilayah": "Bali & Nusa Tenggara"
   },
-  "ciri": "Rumah kerucut tinggi dari Wae Rebo."
+  "ciri": "Rumah kerucut tinggi dari Wae Rebo.",
+  "ciri_en": "A tall conical house from Wae Rebo."
 }

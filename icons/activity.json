@@ -1,5 +1,6 @@
 {
   "nama": "Aktivitas",
+  "en": "Activity",
   "kategori": "data",
   "juga": [
     "status"

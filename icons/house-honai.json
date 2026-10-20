@@ -1,5 +1,6 @@
 {
   "nama": "Honai",
+  "en": "Honai hut",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -14,5 +15,6 @@
     "provinsi": "Papua Pegunungan",
     "wilayah": "Maluku & Papua"
   },
-  "ciri": "Rumah bundar beratap jerami berbentuk kubah, berpintu rendah."
+  "ciri": "Rumah bundar beratap jerami berbentuk kubah, berpintu rendah.",
+  "ciri_en": "A round thatched hut with a dome roof and a low door."
 }

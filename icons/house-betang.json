@@ -1,5 +1,6 @@
 {
   "nama": "Rumah Betang",
+  "en": "Betang longhouse",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -13,5 +14,6 @@
     "provinsi": "Kalimantan Barat & Tengah",
     "wilayah": "Kalimantan"
   },
-  "ciri": "Rumah panjang di atas tiang tinggi, dihuni banyak keluarga."
+  "ciri": "Rumah panjang di atas tiang tinggi, dihuni banyak keluarga.",
+  "ciri_en": "A longhouse on tall posts, home to many families."
 }

@@ -1,5 +1,6 @@
 {
   "nama": "Kotak centang",
+  "en": "Checkbox",
   "kategori": "aksi",
   "juga": [
     "status"

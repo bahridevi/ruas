@@ -1,5 +1,6 @@
 {
   "nama": "Siger Lampung",
+  "en": "Lampung siger crown",
   "kategori": "bangunan",
   "seri": "tengara",
   "tag": [
@@ -14,5 +15,6 @@
     "provinsi": "Lampung",
     "wilayah": "Sumatera"
   },
-  "ciri": "Mahkota siger: lima puncak meruncing berpita lengkung, puncak tengah tertinggi."
+  "ciri": "Mahkota siger: lima puncak meruncing berpita lengkung, puncak tengah tertinggi.",
+  "ciri_en": "Siger crown: five tapering peaks on a curved band, the middle one tallest."
 }

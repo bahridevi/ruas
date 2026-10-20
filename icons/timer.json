@@ -1,5 +1,6 @@
 {
   "nama": "Pengukur waktu",
+  "en": "Timer",
   "kategori": "waktu",
   "tag": [
     "stopwatch",

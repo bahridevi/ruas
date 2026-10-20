@@ -1,5 +1,6 @@
 {
   "nama": "Lumbung Sasak",
+  "en": "Sasak rice barn",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -13,5 +14,6 @@
     "provinsi": "Nusa Tenggara Barat",
     "wilayah": "Bali & Nusa Tenggara"
   },
-  "ciri": "Atap tinggi berbentuk tudung di atas tiang berpiringan penahan tikus."
+  "ciri": "Atap tinggi berbentuk tudung di atas tiang berpiringan penahan tikus.",
+  "ciri_en": "Tall hood-shaped roof on posts fitted with rat-guard discs."
 }

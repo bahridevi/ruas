@@ -1,5 +1,6 @@
 {
   "nama": "Rumah Bolon",
+  "en": "Bolon house",
   "kategori": "bangunan",
   "seri": "rumah-adat",
   "tag": [
@@ -11,5 +12,6 @@
     "provinsi": "Sumatera Utara",
     "wilayah": "Sumatera"
   },
-  "ciri": "Atap pelana raksasa yang melengkung naik di kedua ujung, badan pendek di atas tiang."
+  "ciri": "Atap pelana raksasa yang melengkung naik di kedua ujung, badan pendek di atas tiang.",
+  "ciri_en": "A huge gable roof sweeping up at both ends over a short body on posts."
 }

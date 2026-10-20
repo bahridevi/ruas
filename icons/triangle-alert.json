@@ -1,5 +1,6 @@
 {
   "nama": "Peringatan",
+  "en": "Warning",
   "kategori": "status",
   "tag": [
     "awas",

@@ -8,9 +8,9 @@
    ```
 3. Buat `icons/<id>.json`:
    ```json
-   { "nama": "Lonceng", "kategori": "komunikasi", "juga": ["status"], "tag": ["notifikasi", "notification", "bell"] }
+   { "nama": "Lonceng", "en": "Bell", "kategori": "komunikasi", "juga": ["status"], "tag": ["notifikasi", "notification", "bell"] }
    ```
-   Kategori mengikuti bab 16 falsafah (daftarnya di `KATEGORI`, `scripts/penjaga.mjs`). Tambahkan `"juga": [...]` untuk paling banyak 2 kategori tambahan. Seri rumah adat (`"seri": "rumah-adat"`) wajib `asal` `{ provinsi, wilayah }` dan `ciri`.
+   Kategori mengikuti bab 16 falsafah (daftarnya di `KATEGORI`, `scripts/penjaga.mjs`). Tambahkan `"juga": [...]` untuk paling banyak 2 kategori tambahan. Seri rumah adat (`"seri": "rumah-adat"`) wajib `asal` `{ provinsi, wilayah }`, `ciri`, dan `ciri_en`. `en` adalah nama bahasa Inggris yang tampil di galeri versi EN.
 4. Jalankan `npm run penjaga` sampai lolos, lalu `npm run rakit` dan periksa ikon di `site/index.html` pada 16, 24, dan 48 px serta keempat mode.
 
 ## Daftar periksa manusia (tidak bisa diperiksa mesin)

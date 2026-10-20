@@ -12,6 +12,9 @@
 <meta property="og:title" content="Ruas · Ikon SVG gratis berbahasa Indonesia">
 <meta property="og:description" content="Ikon SVG gratis berlisensi MIT, berfalsafah bambu. Cari dalam bahasa Indonesia atau Inggris.">
 <meta property="og:url" content="https://ruas.metabahri.com/site/">
+<link rel="alternate" hreflang="id" href="https://ruas.metabahri.com/site/?lang=id">
+<link rel="alternate" hreflang="en" href="https://ruas.metabahri.com/site/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://ruas.metabahri.com/site/">
 <link rel="icon" type="image/svg+xml" href="../dist/svg/house-gadang.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,6 +48,8 @@ a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--bambu); outline-offset: 3px; border-radius: 4px; }
 code { font: 400 .88em/1.5 var(--mono); background: var(--grid); padding: 1px 5px; border-radius: 4px; }
 
+.atas { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.bahasa { flex: none; min-width: 112px; }
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
 @media (max-width: 760px) { .hero { grid-template-columns: minmax(0, 1fr); } }
 .eyebrow { font: 600 .75rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
@@ -148,116 +153,122 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
 <body>
 <div class="wrap">
   <header class="hero">
+    <div class="atas">
+      <p class="eyebrow" data-en="Ruas · Gallery · MIT licence">Ruas · Galeri · lisensi MIT</p>
+      <div class="seg bahasa" id="bahasa" role="radiogroup" aria-label="Bahasa · Language">
+        <label><input type="radio" name="bahasa" value="id" aria-label="Bahasa Indonesia"><span lang="id">ID</span></label>
+        <label><input type="radio" name="bahasa" value="en" aria-label="English"><span lang="en">EN</span></label>
+      </div>
+    </div>
     <div>
-      <p class="eyebrow">Ruas · Galeri · lisensi MIT</p>
       <h1>Ruas<span>.</span></h1>
-      <p class="lead">Set ikon publik gratis berfalsafah bambu. Setiap ikon dijaga oleh <a href="../docs/falsafah_id.html">Falsafah Ruas</a> (<a href="../docs/falsafah_en.html" hreflang="en" lang="en">English</a>) dan diperiksa mesin sebelum dirakit.</p>
-      <p class="angka"><strong id="total-ikon">0</strong> ikon · <span id="total-kat">0</span> kategori<span id="stat-umum" hidden> · dilihat <strong id="stat-lihat"></strong> kali · diunduh <strong id="stat-unduh"></strong> kali</span> · <a href="https://github.com/bahridevi/ruas">Kode sumber di GitHub</a></p>
+      <p class="lead" data-en='A free public icon set built on a bamboo philosophy. Every icon is guarded by the <a href="../docs/falsafah_en.html">Ruas Philosophy</a> (<a href="../docs/falsafah_id.html" hreflang="id" lang="id">Bahasa Indonesia</a>) and checked by machine before it is built.'>Set ikon publik gratis berfalsafah bambu. Setiap ikon dijaga oleh <a href="../docs/falsafah_id.html">Falsafah Ruas</a> (<a href="../docs/falsafah_en.html" hreflang="en" lang="en">English</a>) dan diperiksa mesin sebelum dirakit.</p>
+      <p class="angka"><strong id="total-ikon">0</strong> <span data-en="icons">ikon</span> · <span id="total-kat">0</span> <span data-en="categories">kategori</span><span id="stat-umum" hidden> · <span data-en="viewed">dilihat</span> <strong id="stat-lihat"></strong> <span data-en="times">kali</span> · <span data-en="downloaded">diunduh</span> <strong id="stat-unduh"></strong> <span data-en="times">kali</span></span> · <a href="https://github.com/bahridevi/ruas" data-en="Source code on GitHub">Kode sumber di GitHub</a></p>
     </div>
     <div class="hero-ikon" id="hero-ikon" aria-hidden="true"></div>
   </header>
 
-  <p class="galat" id="galat" hidden>Data ikon belum ada. Jalankan <code>npm run rakit</code> di folder ruas, lalu muat ulang halaman ini.</p>
+  <p class="galat" id="galat" hidden data-en="Icon data is missing. Run <code>npm run rakit</code> in the ruas folder, then reload this page.">Data ikon belum ada. Jalankan <code>npm run rakit</code> di folder ruas, lalu muat ulang halaman ini.</p>
 
   <div class="alat">
-    <button class="btn" type="button" id="buka-semua">Buka semua bagian</button>
-    <button class="btn" type="button" id="gulung-semua">Gulung semua bagian</button>
+    <button class="btn" type="button" id="buka-semua" data-en="Expand all sections">Buka semua bagian</button>
+    <button class="btn" type="button" id="gulung-semua" data-en="Collapse all sections">Gulung semua bagian</button>
   </div>
 
   <div id="app">
     <details class="bab" id="galeri-bab" open>
-      <summary><span class="no">01</span><h2>Galeri</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <summary><span class="no">01</span><h2 data-en="Gallery">Galeri</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
       <div class="isi">
         <div class="panel">
           <div class="kontrol">
             <div>
-              <label for="cari">Cari (ID atau EN)</label>
-              <input class="field" type="search" id="cari" placeholder="Tekan / · mis. dompet, pajak, gonjong" autocomplete="off">
+              <label for="cari" data-en="Search (ID or EN)">Cari (ID atau EN)</label>
+              <input class="field" type="search" id="cari" placeholder="Tekan / · mis. dompet, pajak, gonjong" data-en-placeholder="Press / · e.g. wallet, tax, gonjong" autocomplete="off">
             </div>
             <div>
-              <label for="kategori">Kategori</label>
+              <label for="kategori" data-en="Category">Kategori</label>
               <select class="field" id="kategori"></select>
             </div>
             <div>
-              <label for="seri">Seri</label>
+              <label for="seri" data-en="Series">Seri</label>
               <select class="field" id="seri"></select>
             </div>
             <div>
-              <label for="urut">Urutkan</label>
+              <label for="urut" data-en="Sort">Urutkan</label>
               <select class="field" id="urut">
-                <option value="bawaan">Bawaan</option>
-                <option value="az">Nama A–Z</option>
-                <option value="za">Nama Z–A</option>
+                <option value="bawaan" data-en="Default">Bawaan</option>
+                <option value="az" data-en="Name A–Z">Nama A–Z</option>
+                <option value="za" data-en="Name Z–A">Nama Z–A</option>
               </select>
             </div>
             <fieldset>
               <legend>Mode</legend>
               <div class="seg" id="mode">
-                <label><input type="radio" name="mode" value="" checked><span>Garis</span></label>
-                <label><input type="radio" name="mode" value="ruas-lapis"><span>Lapis</span></label>
-                <label><input type="radio" name="mode" value="ruas-aksen"><span>Aksen</span></label>
-                <label><input type="radio" name="mode" value="ruas-isi"><span>Isi</span></label>
+                <label><input type="radio" name="mode" value="" checked><span data-en="Line">Garis</span></label>
+                <label><input type="radio" name="mode" value="ruas-lapis"><span data-en="Layer">Lapis</span></label>
+                <label><input type="radio" name="mode" value="ruas-aksen"><span data-en="Accent">Aksen</span></label>
+                <label><input type="radio" name="mode" value="ruas-isi"><span data-en="Fill">Isi</span></label>
               </div>
             </fieldset>
             <div>
-              <label for="tebal">Tebal garis <output id="tebal-o" for="tebal">1,5</output></label>
+              <label for="tebal"><span data-en="Stroke width">Tebal garis</span> <output id="tebal-o" for="tebal">1,5</output></label>
               <input type="range" id="tebal" min="1" max="2.5" step="0.25" value="1.5">
             </div>
             <div>
-              <label for="ukuran">Ukuran <output id="ukuran-o" for="ukuran">40 px</output></label>
+              <label for="ukuran"><span data-en="Size">Ukuran</span> <output id="ukuran-o" for="ukuran">40 px</output></label>
               <input type="range" id="ukuran" min="16" max="64" step="4" value="40">
             </div>
             <div>
-              <label for="warna">Warna utama &amp; aksen</label>
+              <label for="warna" data-en="Main &amp; accent colour">Warna utama &amp; aksen</label>
               <div class="warna">
-                <input type="color" id="warna" value="#17211a" aria-label="Warna utama">
-                <input type="color" id="warna-aksen" value="#c27600" aria-label="Warna aksen">
-                <button class="btn" type="button" id="warna-reset">Ikut tema</button>
+                <input type="color" id="warna" value="#17211a" aria-label="Warna utama" data-en-aria-label="Main colour">
+                <input type="color" id="warna-aksen" value="#c27600" aria-label="Warna aksen" data-en-aria-label="Accent colour">
+                <button class="btn" type="button" id="warna-reset" data-en="Reset">Ikut tema</button>
               </div>
             </div>
           </div>
           <div class="ringkas">
             <span id="jumlah"></span>
-            <button class="btn" type="button" id="salin-sprite">Salin sprite hasil saringan</button>
+            <button class="btn" type="button" id="salin-sprite" data-en="Copy sprite of filtered icons">Salin sprite hasil saringan</button>
           </div>
         </div>
         <div class="galeri" id="galeri"></div>
         <div class="paging">
           <span id="rentang"></span>
           <div class="kanan">
-            <label for="per">Ikon per halaman</label>
+            <label for="per" data-en="Icons per page">Ikon per halaman</label>
             <select class="field" id="per">
               <option value="24">24</option>
               <option value="48" selected>48</option>
               <option value="96">96</option>
             </select>
-            <button class="btn" type="button" id="sebelum">Sebelumnya</button>
+            <button class="btn" type="button" id="sebelum" data-en="Previous">Sebelumnya</button>
             <span id="halaman"></span>
-            <button class="btn" type="button" id="berikut">Berikutnya</button>
+            <button class="btn" type="button" id="berikut" data-en="Next">Berikutnya</button>
           </div>
         </div>
-        <p class="catatan">Mode Aksen hanya mewarnai bagian yang berubah ketika maknanya berubah. Ikon benda diam, seperti rumah adat, tidak punya aksen.</p>
+        <p class="catatan" data-en="Accent mode colours only the part that changes when the meaning changes. Static objects, such as traditional houses, have no accent.">Mode Aksen hanya mewarnai bagian yang berubah ketika maknanya berubah. Ikon benda diam, seperti rumah adat, tidak punya aksen.</p>
       </div>
     </details>
 
     <details class="bab" id="rinci-bab" open>
-      <summary><span class="no">02</span><h2>Rincian ikon terpilih</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <summary><span class="no">02</span><h2 data-en="Selected icon details">Rincian ikon terpilih</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
       <div class="isi">
         <div class="rinci" id="rinci"></div>
         <div id="manual" hidden>
-          <label for="manual-kode">Penyalinan otomatis ditolak browser. Salin kode ini secara manual:</label>
+          <label for="manual-kode" data-en="The browser blocked automatic copying. Copy this code manually:">Penyalinan otomatis ditolak browser. Salin kode ini secara manual:</label>
           <textarea id="manual-kode" readonly></textarea>
         </div>
       </div>
     </details>
 
     <details class="bab" id="uji-bab" open>
-      <summary><span class="no">03</span><h2>Uji Lentur: 16 · 24 · 48 px</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <summary><span class="no">03</span><h2 data-en="Flexible test: 16 · 24 · 48 px">Uji Lentur: 16 · 24 · 48 px</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
       <div class="isi">
-        <p>Prinsip Lentur menuntut setiap ikon tetap terbaca di 16 px. Lembar ini mengikuti saringan, halaman, tebal garis, dan warna galeri di atas.</p>
+        <p data-en="The Flexible principle requires every icon to stay legible at 16 px. This sheet follows the filter, page, stroke width, and colours of the gallery above.">Prinsip Lentur menuntut setiap ikon tetap terbaca di 16 px. Lembar ini mengikuti saringan, halaman, tebal garis, dan warna galeri di atas.</p>
         <div class="tabel">
           <table>
-            <thead><tr><th>No</th><th>Nama</th><th>16 px</th><th>24 px</th><th>48 px</th><th>Isi 24 px</th><th>Ukuran</th></tr></thead>
+            <thead><tr><th>No</th><th data-en="Name">Nama</th><th>16 px</th><th>24 px</th><th>48 px</th><th data-en="Fill 24 px">Isi 24 px</th><th data-en="Size">Ukuran</th></tr></thead>
             <tbody id="lembar"></tbody>
           </table>
         </div>
@@ -266,11 +277,11 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
   </div>
 
   <details class="bab" id="pakai-bab" open>
-    <summary><span class="no">04</span><h2>Cara pakai</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <summary><span class="no">04</span><h2 data-en="How to use">Cara pakai</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
     <div class="isi">
-      <h3>SVG langsung</h3>
-      <p>Tempel SVG dari tombol <em>Salin SVG</em>, atau ambil berkasnya dari <code>dist/svg/</code>. Warna mengikuti <code>color</code> teks di sekitarnya.</p>
-      <h3>Mode warna</h3>
+      <h3 data-en="Inline SVG">SVG langsung</h3>
+      <p data-en='Paste the SVG from the <em>Copy SVG</em> button, or take the file from <code>dist/svg/</code>. The colour follows the surrounding text <code>color</code>.'>Tempel SVG dari tombol <em>Salin SVG</em>, atau ambil berkasnya dari <code>dist/svg/</code>. Warna mengikuti <code>color</code> teks di sekitarnya.</p>
+      <h3 data-en="Colour modes">Mode warna</h3>
       <pre>&lt;link rel="stylesheet" href="ruas.css"&gt;
 
 &lt;span class="ruas-aksen" style="color:#17211A"&gt; …svg… &lt;/span&gt;
@@ -279,7 +290,7 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
       <pre>&lt;svg width="24" height="24" role="img" aria-label="Rumah Gadang"&gt;
   &lt;use href="#ruas-house-gadang"/&gt;
 &lt;/svg&gt;</pre>
-      <p class="catatan">Lisensi MIT: bebas dipakai, diubah, dan dijual tanpa wajib mencantumkan atribusi.</p>
+      <p class="catatan" data-en="MIT licence: free to use, modify, and sell, with no attribution required.">Lisensi MIT: bebas dipakai, diubah, dan dijual tanpa wajib mencantumkan atribusi.</p>
     </div>
   </details>
 </div>
@@ -291,15 +302,55 @@ const DATA = window.RUAS || [];
 const KEPALA = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
 const ATRIBUT = 'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
 const KAT = window.RUAS_KATEGORI || {}, SERI = window.RUAS_SERI || {};
-const KATEGORI = Object.fromEntries(Object.entries(KAT).map(([k, v]) => [k, v.nama]));
 const WILAYAH = ['Sumatera', 'Jawa', 'Bali & Nusa Tenggara', 'Kalimantan', 'Sulawesi', 'Maluku & Papua'];
-const urutKat = Object.keys(KATEGORI);
+const urutKat = Object.keys(KAT);
+
+// Bahasa antarmuka ID/EN. Teks tetap: aslinya Indonesia di HTML, Inggrisnya di data-en / data-en-<atribut>.
+// Provinsi dan wilayah yang belum ada di peta tampil dengan nama Indonesianya.
+const EN_TEMPAT = {
+  'Sumatera': 'Sumatra', 'Jawa': 'Java', 'Aceh': 'Aceh', 'Sumatera Utara': 'North Sumatra', 'Sumatera Barat': 'West Sumatra',
+  'Sumatera Selatan': 'South Sumatra', 'Riau': 'Riau', 'Lampung': 'Lampung', 'DKI Jakarta': 'Jakarta', 'Jawa Barat': 'West Java',
+  'Jawa Tengah': 'Central Java', 'DI Yogyakarta': 'Yogyakarta', 'Jawa Tengah & DI Yogyakarta': 'Central Java & Yogyakarta',
+  'Bali': 'Bali', 'Nusa Tenggara Barat': 'West Nusa Tenggara', 'Nusa Tenggara Timur': 'East Nusa Tenggara',
+  'Kalimantan Barat': 'West Kalimantan', 'Kalimantan Selatan': 'South Kalimantan', 'Kalimantan Barat & Tengah': 'West & Central Kalimantan',
+  'Sulawesi Selatan': 'South Sulawesi', 'Maluku': 'Maluku', 'Papua Pegunungan': 'Highland Papua',
+};
+const T = {
+  id: {
+    loc: 'id-ID', semuaKat: n => `Semua kategori (${n})`, inti: 'Inti', bidang: 'Bidang', semuaSeri: 'Semua seri',
+    kosong: 'Tidak ada ikon yang cocok. Coba kata lain, atau pilih "Semua kategori" dan "Semua seri".', kosongTabel: 'Tidak ada ikon pada saringan ini.',
+    jumlah: (a, b) => `${a} dari ${b} ikon`, rentang: (a, b, n) => `${a}–${b} dari ${n}`, halaman: (a, b) => `Halaman ${a} dari ${b}`,
+    idKode: 'ID kode', kategori: 'Kategori', seri: 'seri', ukuran: 'Ukuran berkas', byte: 'byte', elemen: 'elemen', aksen: 'Aksen', ada: 'Ada', tanpa: 'Tidak ada (benda diam)', gerak: 'gerak',
+    cermin: 'Cermin RTL', dicermin: 'Dicerminkan', takCermin: 'Tidak dicerminkan', kunci: 'Kata kunci', namaLain: 'Nama Inggris', lolos: 'Lolos penjaga falsafah saat dirakit.',
+    salinSvg: 'Salin SVG', salinJsx: 'Salin komponen React', unduh: 'Unduh SVG', salinTautan: 'Salin tautan',
+    disalin: l => `${l} disalin`, komponen: 'Komponen', tautan: 'Tautan', sprite: n => `Sprite ${n} ikon`,
+    judul: 'Ruas · Ikon SVG gratis berbahasa Indonesia', judulIkon: 'Ikon SVG gratis',
+  },
+  en: {
+    loc: 'en-US', semuaKat: n => `All categories (${n})`, inti: 'Core', bidang: 'Fields', semuaSeri: 'All series',
+    kosong: 'No matching icons. Try another word, or choose "All categories" and "All series".', kosongTabel: 'No icons match this filter.',
+    jumlah: (a, b) => `${a} of ${b} icons`, rentang: (a, b, n) => `${a}–${b} of ${n}`, halaman: (a, b) => `Page ${a} of ${b}`,
+    idKode: 'Code ID', kategori: 'Category', seri: 'series', ukuran: 'File size', byte: 'bytes', elemen: 'elements', aksen: 'Accent', ada: 'Yes', tanpa: 'None (static object)', gerak: 'motion',
+    cermin: 'RTL mirroring', dicermin: 'Mirrored', takCermin: 'Not mirrored', kunci: 'Keywords', namaLain: 'Indonesian name', lolos: 'Passed the philosophy guard at build time.',
+    salinSvg: 'Copy SVG', salinJsx: 'Copy React component', unduh: 'Download SVG', salinTautan: 'Copy link',
+    disalin: l => `${l} copied`, komponen: 'Component', tautan: 'Link', sprite: n => `Sprite of ${n} icons`,
+    judul: 'Ruas · Free SVG icons in Indonesian & English', judulIkon: 'Free SVG icon',
+  },
+};
+let bhs = 'id', t = T.id;
+const en = () => bhs === 'en';
+const nama = r => en() ? r.en : r.nama;
+const katNama = k => en() ? KAT[k].en : KAT[k].nama;
+const seriNama = k => en() ? SERI[k].en : SERI[k].nama;
+const tempat = s => en() ? EN_TEMPAT[s] || s : s;
+const ALIH = [...document.querySelectorAll('[data-en]')].map(el => [el, 'innerHTML', el.innerHTML, el.dataset.en]);
+for (const a of ['placeholder', 'aria-label']) document.querySelectorAll(`[data-en-${a}]`).forEach(el => ALIH.push([el, a, el.getAttribute(a), el.getAttribute('data-en-' + a)]));
 
 const svgIkon = (r, gaya = '') => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"${gaya ? ` style="${gaya}"` : ''}>${r.isi}</svg>`;
 const sumber = r => `${KEPALA}${r.isi}</svg>`;
-const sub = r => r.asal ? `${r.asal.provinsi} · ${r.asal.wilayah}` : KATEGORI[r.kategori];
+const sub = r => r.asal ? `${tempat(r.asal.provinsi)} · ${tempat(r.asal.wilayah)}` : katNama(r.kategori);
 const diKat = (r, k) => r.kategori === k || (r.juga || []).includes(k);
-const katLengkap = r => [r.kategori, ...(r.juga || [])].map(k => KATEGORI[k]).join(', ');
+const katLengkap = r => [r.kategori, ...(r.juga || [])].map(katNama).join(', ');
 const pascal = id => id.split('-').map(s => s[0].toUpperCase() + s.slice(1)).join('');
 const jsx = r => `export function ${pascal(r.id)}({ size = 24, label, ...props }) {
   return (
@@ -315,20 +366,29 @@ $('hero-ikon').innerHTML = ['wallet', 'journal', 'store', 'mosque', 'house-gadan
 const st = { q: '', kat: '', seri: '', urut: 'bawaan', per: 48, hal: 1, pilih: '' };
 // Kategori berisi saja; dikelompokkan Inti dan Bidang. Hitungan memasukkan kategori tambahan (juga).
 const opsiKat = kel => urutKat.filter(k => KAT[k].kelompok === kel).map(k => [k, DATA.filter(r => diKat(r, k)).length]).filter(([, n]) => n)
-  .map(([k, n]) => `<option value="${k}">${KATEGORI[k]} (${n})</option>`).join('');
-$('kategori').innerHTML = `<option value="">Semua kategori (${DATA.length})</option><optgroup label="Inti">${opsiKat('inti')}</optgroup><optgroup label="Bidang">${opsiKat('bidang')}</optgroup>`;
-$('seri').innerHTML = `<option value="">Semua seri</option>` + Object.keys(SERI).map(k => `<option value="${k}">${SERI[k].nama} (${DATA.filter(r => r.seri === k).length})</option>`).join('');
+  .map(([k, n]) => `<option value="${k}">${katNama(k)} (${n})</option>`).join('');
+function isiPilihan() {
+  $('kategori').innerHTML = `<option value="">${t.semuaKat(DATA.length)}</option><optgroup label="${t.inti}">${opsiKat('inti')}</optgroup><optgroup label="${t.bidang}">${opsiKat('bidang')}</optgroup>`;
+  $('seri').innerHTML = `<option value="">${t.semuaSeri}</option>` + Object.keys(SERI).map(k => `<option value="${k}">${seriNama(k)} (${DATA.filter(r => r.seri === k).length})</option>`).join('');
+  $('kategori').value = st.kat;
+  $('seri').value = st.seri;
+}
 
 function saring() {
   const kata = st.q.toLowerCase().split(/\s+/).filter(Boolean);
   const h = DATA.filter(r => (!st.kat || diKat(r, st.kat)) && (!st.seri || r.seri === st.seri) &&
-    kata.every(k => `${r.id} ${r.nama} ${katLengkap(r)} ${r.seri ? SERI[r.seri].nama : ''} ${r.tag.join(' ')} ${r.asal ? r.asal.provinsi + ' ' + r.asal.wilayah : ''}`.toLowerCase().includes(k)));
-  if (st.urut === 'az') return h.sort((a, b) => a.nama.localeCompare(b.nama, 'id'));
-  if (st.urut === 'za') return h.sort((a, b) => b.nama.localeCompare(a.nama, 'id'));
+    kata.every(k => cariDi(r).includes(k)));
+  const banding = (a, b) => nama(a).localeCompare(nama(b), bhs);
+  if (st.urut === 'az') return h.sort(banding);
+  if (st.urut === 'za') return h.sort((a, b) => banding(b, a));
   // Bawaan: per kategori; rumah adat dari barat ke timur
   return h.sort((a, b) => urutKat.indexOf(a.kategori) - urutKat.indexOf(b.kategori) ||
-    (a.asal && b.asal ? WILAYAH.indexOf(a.asal.wilayah) - WILAYAH.indexOf(b.asal.wilayah) : 0) || a.nama.localeCompare(b.nama, 'id'));
+    (a.asal && b.asal ? WILAYAH.indexOf(a.asal.wilayah) - WILAYAH.indexOf(b.asal.wilayah) : 0) || banding(a, b));
 }
+// Teks cari memuat kedua bahasa, jadi kata ID dan EN sama-sama ketemu di bahasa mana pun.
+const cariDi = r => (r._cari ??= [r.id, r.nama, r.en, r.ciri, r.ciri_en, ...r.tag,
+  ...[r.kategori, ...(r.juga || [])].flatMap(k => [KAT[k].nama, KAT[k].en]), ...(r.seri ? [SERI[r.seri].nama, SERI[r.seri].en] : []),
+  ...(r.asal ? [r.asal.provinsi, r.asal.wilayah, EN_TEMPAT[r.asal.provinsi], EN_TEMPAT[r.asal.wilayah]] : [])].filter(Boolean).join(' ').toLowerCase());
 
 function tampil() {
   const h = saring();
@@ -337,14 +397,14 @@ function tampil() {
   const awal = (st.hal - 1) * st.per, isi = h.slice(awal, awal + st.per);
   const nr = i => String(awal + i + 1).padStart(2, '0');
 
-  $('galeri').innerHTML = isi.length ? isi.map((r, i) => `<button type="button" class="tile" data-id="${r.id}" aria-pressed="${r.id === st.pilih}" aria-label="${r.nama}, ${sub(r)}"><span class="nr">${nr(i)}</span>${svgIkon(r)}<span class="nm">${r.nama}</span><span class="pv">${r.asal ? r.asal.provinsi : KATEGORI[r.kategori]}</span></button>`).join('')
-    : '<p class="kosong">Tidak ada ikon yang cocok. Coba kata lain, atau pilih "Semua kategori" dan "Semua seri".</p>';
-  $('lembar').innerHTML = isi.length ? isi.map((r, i) => `<tr><td class="nr">${nr(i)}</td><td>${r.nama}</td><td>${svgIkon(r, '--ico-s:16px')}</td><td>${svgIkon(r, '--ico-s:24px')}</td><td>${svgIkon(r, '--ico-s:48px')}</td><td class="ruas-isi">${svgIkon(r, '--ico-s:24px')}</td><td>${r.byte} B</td></tr>`).join('')
-    : '<tr><td colspan="7" class="kosong">Tidak ada ikon pada saringan ini.</td></tr>';
+  $('galeri').innerHTML = isi.length ? isi.map((r, i) => `<button type="button" class="tile" data-id="${r.id}" aria-pressed="${r.id === st.pilih}" aria-label="${nama(r)}, ${sub(r)}"><span class="nr">${nr(i)}</span>${svgIkon(r)}<span class="nm">${nama(r)}</span><span class="pv">${r.asal ? tempat(r.asal.provinsi) : katNama(r.kategori)}</span></button>`).join('')
+    : `<p class="kosong">${t.kosong}</p>`;
+  $('lembar').innerHTML = isi.length ? isi.map((r, i) => `<tr><td class="nr">${nr(i)}</td><td>${nama(r)}</td><td>${svgIkon(r, '--ico-s:16px')}</td><td>${svgIkon(r, '--ico-s:24px')}</td><td>${svgIkon(r, '--ico-s:48px')}</td><td class="ruas-isi">${svgIkon(r, '--ico-s:24px')}</td><td>${r.byte} B</td></tr>`).join('')
+    : `<tr><td colspan="7" class="kosong">${t.kosongTabel}</td></tr>`;
 
-  $('jumlah').textContent = `${total} dari ${DATA.length} ikon`;
-  $('rentang').textContent = total ? `${awal + 1}–${awal + isi.length} dari ${total}` : '0 dari 0';
-  $('halaman').textContent = `Halaman ${st.hal} dari ${halMaks}`;
+  $('jumlah').textContent = t.jumlah(total, DATA.length);
+  $('rentang').textContent = total ? t.rentang(awal + 1, awal + isi.length, total) : t.rentang(0, 0, 0).replace(/^0–/, '');
+  $('halaman').textContent = t.halaman(st.hal, halMaks);
   $('sebelum').disabled = st.hal <= 1;
   $('berikut').disabled = st.hal >= halMaks;
   $('salin-sprite').disabled = !total;
@@ -362,23 +422,24 @@ function rinci() {
   const elemen = (r.isi.match(/<(path|circle)\b/g) || []).length;
   $('rinci').innerHTML = `<div class="kanvas">${GRID}${svgIkon(r)}</div>
     <div>
-      <h3>${r.nama}</h3>
+      <h3>${nama(r)}</h3>
       <p class="pv">${sub(r)}</p>
-      ${r.ciri ? `<p>${r.ciri}</p>` : ''}
+      ${r.ciri ? `<p>${en() ? r.ciri_en : r.ciri}</p>` : ''}
       <dl class="fakta">
-        <dt>ID kode</dt><dd><code>${r.id}</code></dd>
-        <dt>Kategori</dt><dd>${katLengkap(r)}${r.seri ? ` · seri ${SERI[r.seri].nama}` : ''}</dd>
-        <dt>Ukuran berkas</dt><dd>${r.byte} byte · ${elemen} elemen</dd>
-        <dt>Aksen</dt><dd>${r.isi.includes('aksen') ? 'Ada' : 'Tidak ada (benda diam)'}${r.gerak ? ` · gerak ${r.gerak}` : ''}</dd>
-        <dt>Cermin RTL</dt><dd>${r.cermin ? 'Dicerminkan' : 'Tidak dicerminkan'}</dd>
-        <dt>Kata kunci</dt><dd>${r.tag.join(', ')}</dd>
+        ${r.en !== r.nama ? `<dt>${t.namaLain}</dt><dd lang="${en() ? 'id' : 'en'}">${en() ? r.nama : r.en}</dd>` : ''}
+        <dt>${t.idKode}</dt><dd><code>${r.id}</code></dd>
+        <dt>${t.kategori}</dt><dd>${katLengkap(r)}${r.seri ? ` · ${t.seri} ${seriNama(r.seri)}` : ''}</dd>
+        <dt>${t.ukuran}</dt><dd>${r.byte} ${t.byte} · ${elemen} ${t.elemen}</dd>
+        <dt>${t.aksen}</dt><dd>${r.isi.includes('aksen') ? t.ada : t.tanpa}${r.gerak ? ` · ${t.gerak} ${r.gerak}` : ''}</dd>
+        <dt>${t.cermin}</dt><dd>${r.cermin ? t.dicermin : t.takCermin}</dd>
+        <dt>${t.kunci}</dt><dd>${r.tag.join(', ')}</dd>
       </dl>
-      <p class="catatan">Lolos penjaga falsafah saat dirakit.</p>
+      <p class="catatan">${t.lolos}</p>
       <div class="tombol">
-        <button class="btn utama" type="button" data-salin="svg">Salin SVG</button>
-        <button class="btn" type="button" data-salin="jsx">Salin komponen React</button>
-        <a class="btn" href="../dist/svg/${r.id}.svg?v=__VERSI__" download="${r.id}.svg">Unduh SVG</a>
-        <button class="btn" type="button" data-salin="tautan">Salin tautan</button>
+        <button class="btn utama" type="button" data-salin="svg">${t.salinSvg}</button>
+        <button class="btn" type="button" data-salin="jsx">${t.salinJsx}</button>
+        <a class="btn" href="../dist/svg/${r.id}.svg?v=__VERSI__" download="${r.id}.svg">${t.unduh}</a>
+        <button class="btn" type="button" data-salin="tautan">${t.salinTautan}</button>
       </div>
     </div>`;
 }
@@ -395,7 +456,7 @@ function salin(teks, label) {
     $('manual-kode').select();
   };
   try {
-    navigator.clipboard.writeText(teks).then(() => { $('manual').hidden = true; kabar(`${label} disalin`); }, manual);
+    navigator.clipboard.writeText(teks).then(() => { $('manual').hidden = true; kabar(t.disalin(label)); }, manual);
   } catch { manual(); }
 }
 
@@ -413,36 +474,54 @@ $('rinci').addEventListener('click', e => {
   if (!b) return;
   const r = DATA.find(x => x.id === st.pilih);
   catat('salin-' + b.dataset.salin, r.id);
-  if (b.dataset.salin === 'svg') salin(sumber(r), `SVG ${r.nama}`);
-  else if (b.dataset.salin === 'jsx') salin(jsx(r), `Komponen ${pascal(r.id)}`);
-  else salin(`${location.origin}${location.pathname}?ikon=${r.id}`, `Tautan ${r.nama}`);
+  if (b.dataset.salin === 'svg') salin(sumber(r), `SVG ${nama(r)}`);
+  else if (b.dataset.salin === 'jsx') salin(jsx(r), `${t.komponen} ${pascal(r.id)}`);
+  else salin(`${location.origin}${location.pathname}?ikon=${r.id}${en() ? '&lang=en' : ''}`, `${t.tautan} ${nama(r)}`);
 });
 $('salin-sprite').addEventListener('click', () => {
   const h = saring();
   catat('salin-sprite');
-  salin(`<svg xmlns="http://www.w3.org/2000/svg" style="display:none">\n${h.map(r => `  <symbol id="ruas-${r.id}" viewBox="0 0 24 24" ${ATRIBUT}>${r.isi}</symbol>`).join('\n')}\n</svg>`, `Sprite ${h.length} ikon`);
+  salin(`<svg xmlns="http://www.w3.org/2000/svg" style="display:none">\n${h.map(r => `  <symbol id="ruas-${r.id}" viewBox="0 0 24 24" ${ATRIBUT}>${r.isi}</symbol>`).join('\n')}\n</svg>`, t.sprite(h.length));
 });
 
 // Statistik tanpa cookie: penanda salin ke log server, dan angka umum dilihat/diunduh di kepala halaman.
 function catat(e, id = '') { try { navigator.sendBeacon(`../stat/hit?e=${e}&id=${id}`); } catch {} }
-fetch('../stat/umum.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : Promise.reject()).then(s => {
-  const n = new Intl.NumberFormat('id-ID');
-  $('stat-lihat').textContent = n.format(s.dilihat);
-  $('stat-unduh').textContent = n.format(s.diunduh);
+let stat = null;
+function angkaStat() {
+  if (!stat) return;
+  const n = new Intl.NumberFormat(t.loc);
+  $('stat-lihat').textContent = n.format(stat.dilihat);
+  $('stat-unduh').textContent = n.format(stat.diunduh);
   $('stat-umum').hidden = false;
-}).catch(() => {});
+}
+fetch('../stat/umum.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : Promise.reject()).then(s => { stat = s; angkaStat(); }).catch(() => {});
 
-// Alamat bisa dibagikan: ?q=, ?kat=, ?seri=, ?ikon=. Judul tab mengikuti ikon terpilih.
+// Alamat bisa dibagikan: ?q=, ?kat=, ?seri=, ?ikon=, ?lang=en. Judul tab mengikuti ikon terpilih.
 function alamat() {
   const p = new URLSearchParams();
+  if (en()) p.set('lang', 'en');
   if (st.q) p.set('q', st.q);
   if (st.kat) p.set('kat', st.kat);
   if (st.seri) p.set('seri', st.seri);
   if (st.pilih) p.set('ikon', st.pilih);
   history.replaceState(null, '', String(p) ? `?${p}` : location.pathname);
   const r = DATA.find(x => x.id === st.pilih);
-  document.title = r ? `${r.nama} (${r.id}) · Ikon SVG gratis · Ruas` : 'Ruas · Ikon SVG gratis berbahasa Indonesia';
+  document.title = r ? `${nama(r)} (${r.id}) · ${t.judulIkon} · Ruas` : t.judul;
 }
+
+// Ganti bahasa: teks tetap, pilihan saringan, galeri, rincian, angka, dan alamat ikut berganti.
+function pakaiBahasa(b) {
+  bhs = b; t = T[b];
+  document.documentElement.lang = b;
+  for (const [el, a, id, enTeks] of ALIH) { const v = en() ? enTeks : id; a === 'innerHTML' ? el.innerHTML = v : el.setAttribute(a, v); }
+  document.querySelector(`#bahasa input[value="${b}"]`).checked = true;
+  $('tebal-o').textContent = Number($('tebal').value).toLocaleString(t.loc);
+  isiPilihan(); tampil(); rinci(); angkaStat(); alamat();
+}
+$('bahasa').addEventListener('change', e => {
+  try { localStorage.setItem('ruas-bahasa', e.target.value); } catch {}
+  pakaiBahasa(e.target.value);
+});
 
 $('cari').addEventListener('input', e => { st.q = e.target.value.trim(); st.hal = 1; tampil(); alamat(); });
 $('kategori').addEventListener('change', e => { st.kat = e.target.value; st.hal = 1; tampil(); alamat(); });
@@ -460,7 +539,7 @@ $('mode').addEventListener('change', e => {
   app.classList.remove('ruas-lapis', 'ruas-aksen', 'ruas-isi');
   if (e.target.value) app.classList.add(e.target.value);
 });
-$('tebal').addEventListener('input', e => { app.style.setProperty('--ico-w', e.target.value); $('tebal-o').textContent = e.target.value.replace('.', ','); });
+$('tebal').addEventListener('input', e => { app.style.setProperty('--ico-w', e.target.value); $('tebal-o').textContent = Number(e.target.value).toLocaleString(t.loc); });
 $('ukuran').addEventListener('input', e => { app.style.setProperty('--ico-s', e.target.value + 'px'); $('ukuran-o').textContent = e.target.value + ' px'; });
 $('warna').addEventListener('input', e => app.style.setProperty('--ico-c', e.target.value));
 $('warna-aksen').addEventListener('input', e => app.style.setProperty('--ruas-aksen', e.target.value));
@@ -475,20 +554,24 @@ $('total-kat').textContent = new Set(DATA.flatMap(r => [r.kategori, ...(r.juga |
 
 // Keadaan awal dari alamat; nilai yang tidak dikenal diabaikan.
 const mula = new URLSearchParams(location.search);
+// Bahasa: ?lang= → pilihan tersimpan → browser berbahasa Indonesia/Melayu atau zona waktu Indonesia → selain itu Inggris.
+let simpan = null;
+try { simpan = localStorage.getItem('ruas-bahasa'); } catch {}
+const zonaID = /^Asia\/(Jakarta|Pontianak|Makassar|Jayapura)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+const awalBhs = [mula.get('lang'), simpan].find(b => b === 'id' || b === 'en') ||
+  (zonaID || (navigator.languages || [navigator.language]).some(l => /^(id|ms)\b/i.test(l || '')) ? 'id' : 'en');
 st.q = (mula.get('q') || '').trim();
 st.kat = KAT[mula.get('kat')] ? mula.get('kat') : '';
 st.seri = SERI[mula.get('seri')] ? mula.get('seri') : '';
 $('cari').value = st.q;
-$('kategori').value = st.kat;
-$('seri').value = st.seri;
+bhs = awalBhs; t = T[awalBhs];
 const diminta = DATA.find(r => r.id === mula.get('ikon'));
 st.pilih = diminta?.id || saring()[0]?.id;
 // Ikon dari tautan: buka halaman galeri tempat ikon itu berada.
 const posisi = saring().findIndex(r => r.id === st.pilih);
 if (posisi >= 0) st.hal = Math.floor(posisi / st.per) + 1;
-tampil();
-rinci();
-if (diminta) { alamat(); $('rinci-bab').scrollIntoView(); }
+pakaiBahasa(awalBhs);
+if (diminta) $('rinci-bab').scrollIntoView();
 </script>
 </body>
 </html>
