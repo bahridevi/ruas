@@ -1,0 +1,19 @@
+{
+  "nama": "Tidak hadir",
+  "en": "Absent",
+  "kategori": "pengguna",
+  "juga": [
+    "waktu"
+  ],
+  "tag": [
+    "tidak hadir",
+    "alpa",
+    "mangkir",
+    "bolos",
+    "absent",
+    "no show",
+    "kehadiran",
+    "attendance"
+  ],
+  "seri": "absensi"
+}

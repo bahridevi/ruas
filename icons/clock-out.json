@@ -1,0 +1,19 @@
+{
+  "nama": "Absen pulang",
+  "en": "Clock out",
+  "kategori": "waktu",
+  "juga": [
+    "pengguna"
+  ],
+  "tag": [
+    "absen pulang",
+    "pulang kerja",
+    "keluar",
+    "check out",
+    "clock out",
+    "kehadiran",
+    "presensi",
+    "attendance"
+  ],
+  "seri": "absensi"
+}

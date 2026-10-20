@@ -1,0 +1,18 @@
+{
+  "nama": "Shift kerja",
+  "en": "Work shift",
+  "kategori": "waktu",
+  "juga": [
+    "pengguna"
+  ],
+  "tag": [
+    "shift",
+    "giliran kerja",
+    "jadwal shift",
+    "pagi malam",
+    "work shift",
+    "day night",
+    "roster"
+  ],
+  "seri": "absensi"
+}

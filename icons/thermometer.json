@@ -1,0 +1,19 @@
+{
+  "nama": "Sakit",
+  "en": "Sick",
+  "kategori": "kesehatan",
+  "juga": [
+    "waktu"
+  ],
+  "tag": [
+    "sakit",
+    "izin sakit",
+    "demam",
+    "suhu",
+    "sick",
+    "sick leave",
+    "fever",
+    "temperature"
+  ],
+  "seri": "absensi"
+}

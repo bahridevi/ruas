@@ -38,6 +38,7 @@ export const SERI = {
   medsos: { nama: 'Web & Media Sosial', en: 'Web & Social Media' },
   pajak: { nama: 'Perpajakan', en: 'Taxation' },
   tengara: { nama: 'Tengara Nusantara', en: 'Indonesian Landmarks' },
+  absensi: { nama: 'Absensi & Kehadiran', en: 'Attendance' },
 };
 const GERAK = new Set(['denyut', 'tambah', 'turun', 'buka', 'ketik', 'cari']);
 const ATRIBUT = { path: ['class', 'd'], circle: ['class', 'cx', 'cy', 'r'], g: ['transform'] };

@@ -8,6 +8,10 @@
     "hadir",
     "user",
     "verified",
-    "approved"
-  ]
+    "approved",
+    "present",
+    "kehadiran",
+    "attendance"
+  ],
+  "seri": "absensi"
 }

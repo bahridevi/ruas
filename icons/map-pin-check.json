@@ -1,0 +1,18 @@
+{
+  "nama": "Absen lokasi",
+  "en": "Location check-in",
+  "kategori": "transportasi",
+  "juga": [
+    "waktu"
+  ],
+  "tag": [
+    "absen lokasi",
+    "lokasi kerja",
+    "geotag",
+    "radius kantor",
+    "check in location",
+    "geofence",
+    "attendance"
+  ],
+  "seri": "absensi"
+}

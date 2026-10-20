@@ -1,0 +1,19 @@
+{
+  "nama": "Sidik jari",
+  "en": "Fingerprint",
+  "kategori": "keamanan",
+  "juga": [
+    "pengguna"
+  ],
+  "tag": [
+    "sidik jari",
+    "finger print",
+    "mesin absen",
+    "biometrik",
+    "fingerprint",
+    "biometric",
+    "presensi",
+    "attendance"
+  ],
+  "seri": "absensi"
+}

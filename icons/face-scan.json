@@ -1,0 +1,19 @@
+{
+  "nama": "Pindai wajah",
+  "en": "Face scan",
+  "kategori": "keamanan",
+  "juga": [
+    "pengguna"
+  ],
+  "tag": [
+    "pindai wajah",
+    "pengenalan wajah",
+    "selfie absen",
+    "face id",
+    "face recognition",
+    "face scan",
+    "biometric",
+    "attendance"
+  ],
+  "seri": "absensi"
+}

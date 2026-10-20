@@ -1,0 +1,18 @@
+{
+  "nama": "Rekap kehadiran",
+  "en": "Attendance record",
+  "kategori": "waktu",
+  "juga": [
+    "pengguna"
+  ],
+  "tag": [
+    "rekap kehadiran",
+    "rekap absen",
+    "jadwal",
+    "hadir",
+    "attendance record",
+    "timesheet",
+    "present"
+  ],
+  "seri": "absensi"
+}
