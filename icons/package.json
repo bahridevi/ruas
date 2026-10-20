@@ -9,6 +9,8 @@
     "stok",
     "package",
     "box",
-    "parcel"
-  ]
+    "parcel",
+    "inventori"
+  ],
+  "seri": "inventori"
 }

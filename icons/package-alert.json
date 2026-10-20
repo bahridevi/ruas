@@ -1,0 +1,22 @@
+{
+  "nama": "Stok menipis",
+  "en": "Low stock",
+  "kategori": "niaga",
+  "juga": [
+    "status"
+  ],
+  "tag": [
+    "stok menipis",
+    "stok minimum",
+    "hampir habis",
+    "reorder",
+    "low stock",
+    "minimum stock",
+    "stok",
+    "inventori",
+    "gudang",
+    "inventory",
+    "stock"
+  ],
+  "seri": "inventori"
+}

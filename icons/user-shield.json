@@ -1,0 +1,18 @@
+{
+  "nama": "Hak akses",
+  "en": "User permissions",
+  "kategori": "keamanan",
+  "juga": [
+    "pengguna"
+  ],
+  "tag": [
+    "hak akses",
+    "peran",
+    "otorisasi",
+    "izin pengguna",
+    "role",
+    "permission",
+    "access control",
+    "user security"
+  ]
+}

@@ -11,6 +11,8 @@
     "persediaan",
     "warehouse",
     "inventory",
-    "storage"
-  ]
+    "storage",
+    "inventori"
+  ],
+  "seri": "inventori"
 }

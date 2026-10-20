@@ -8,6 +8,8 @@
     "sku",
     "daftar barang",
     "barcode",
-    "scan"
-  ]
+    "scan",
+    "stok"
+  ],
+  "seri": "inventori"
 }

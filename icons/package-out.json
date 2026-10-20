@@ -1,0 +1,19 @@
+{
+  "nama": "Barang keluar",
+  "en": "Goods issued",
+  "kategori": "niaga",
+  "tag": [
+    "barang keluar",
+    "pengeluaran barang",
+    "stok keluar",
+    "goods issue",
+    "dispatch",
+    "stock out",
+    "stok",
+    "inventori",
+    "gudang",
+    "inventory",
+    "stock"
+  ],
+  "seri": "inventori"
+}

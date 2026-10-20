@@ -39,6 +39,8 @@ export const SERI = {
   pajak: { nama: 'Perpajakan', en: 'Taxation' },
   tengara: { nama: 'Tengara Nusantara', en: 'Indonesian Landmarks' },
   absensi: { nama: 'Absensi & Kehadiran', en: 'Attendance' },
+  penggajian: { nama: 'Penggajian', en: 'Payroll' },
+  inventori: { nama: 'Inventori & Gudang', en: 'Inventory' },
 };
 const GERAK = new Set(['denyut', 'tambah', 'turun', 'buka', 'ketik', 'cari']);
 const ATRIBUT = { path: ['class', 'd'], circle: ['class', 'cx', 'cy', 'r'], g: ['transform'] };
