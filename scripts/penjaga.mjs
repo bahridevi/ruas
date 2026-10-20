@@ -31,12 +31,13 @@ export const KATEGORI = {
   transportasi: { nama: 'Transportasi & Peta', en: 'Transport & Maps', kelompok: 'bidang' },
   alam: { nama: 'Alam, Cuaca & Pertanian', en: 'Nature, Weather & Farming', kelompok: 'bidang' },
 };
-// Seri: penanda lintas kategori (mis. Nusantara). Seri rumah-adat wajib asal dan ciri.
+// Seri: penanda lintas kategori (mis. Nusantara). Seri rumah-adat dan tengara wajib asal dan ciri.
 export const SERI = {
   'rumah-adat': { nama: 'Rumah Adat Nusantara', en: 'Indonesian Traditional Houses' },
   psikometri: { nama: 'Model Psikometri', en: 'Psychometric Models' },
   medsos: { nama: 'Web & Media Sosial', en: 'Web & Social Media' },
   pajak: { nama: 'Perpajakan', en: 'Taxation' },
+  tengara: { nama: 'Tengara Nusantara', en: 'Indonesian Landmarks' },
 };
 const GERAK = new Set(['denyut', 'tambah', 'turun', 'buka', 'ketik', 'cari']);
 const ATRIBUT = { path: ['class', 'd'], circle: ['class', 'cx', 'cy', 'r'], g: ['transform'] };
@@ -96,7 +97,7 @@ export function periksa(id, svg, meta) {
   if (!Array.isArray(meta.tag) || !meta.tag.length) salah.push('keterangan: "tag" wajib berisi kata kunci ID dan EN');
   if (meta.gerak && !GERAK.has(meta.gerak)) salah.push(`keterangan: gerak "${meta.gerak}" tidak dikenal`);
   if (meta.gerak && !svg.includes('aksen')) salah.push('Aksen Makna: gerak hanya untuk ikon yang punya bagian aksen');
-  if (meta.seri === 'rumah-adat' && !(meta.asal?.provinsi && meta.asal?.wilayah && meta.ciri)) salah.push('keterangan: seri rumah adat wajib punya asal.provinsi, asal.wilayah, dan ciri');
+  if (['rumah-adat', 'tengara'].includes(meta.seri) && !(meta.asal?.provinsi && meta.asal?.wilayah && meta.ciri)) salah.push(`keterangan: seri ${meta.seri} wajib punya asal.provinsi, asal.wilayah, dan ciri`);
   return salah;
 }
 
