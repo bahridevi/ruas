@@ -8,6 +8,10 @@
     "kuitansi",
     "paid",
     "settled",
-    "receipt"
+    "receipt",
+    "pinjaman lunas",
+    "surat keterangan lunas",
+    "skl",
+    "loan paid off"
   ]
 }

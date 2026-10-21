@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path class="badan" d="M2.5 15H6.5C8 15 9 14 10.5 14H13A1.75 1.75 0 0 1 13 17.5H10"/>
+  <path class="badan" d="M6.5 21H14.5L20.75 16.5A1.75 1.75 0 0 0 18.5 13.75L14.75 16.5"/>
+  <path class="aksen" d="M13 4.25A3.75 3.75 0 1 0 13 8.75"/>
+  <circle class="aksen" cx="16" cy="6.5" r="3.75"/>
+</svg>
