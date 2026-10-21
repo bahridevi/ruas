@@ -42,6 +42,8 @@ export const SERI = {
   penggajian: { nama: 'Penggajian', en: 'Payroll' },
   inventori: { nama: 'Inventori & Gudang', en: 'Inventory' },
   koperasi: { nama: 'Koperasi', en: 'Cooperative' },
+  kebersihan: { nama: 'Kebersihan', en: 'Cleaning' },
+  perawatan: { nama: 'Perawatan & Perbaikan', en: 'Maintenance' },
 };
 const GERAK = new Set(['denyut', 'tambah', 'turun', 'buka', 'ketik', 'cari']);
 const ATRIBUT = { path: ['class', 'd'], circle: ['class', 'cx', 'cy', 'r'], g: ['transform'] };

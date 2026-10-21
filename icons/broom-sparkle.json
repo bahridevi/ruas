@@ -1,0 +1,23 @@
+{
+  "nama": "Sapu lantai",
+  "en": "Sweep the floor",
+  "kategori": "bangunan",
+  "juga": [
+    "aksi"
+  ],
+  "tag": [
+    "sapu lantai",
+    "menyapu",
+    "pel lantai",
+    "lantai",
+    "sweep",
+    "mop",
+    "floor",
+    "kebersihan",
+    "bersih-bersih",
+    "cleaning",
+    "housekeeping",
+    "janitor"
+  ],
+  "seri": "kebersihan"
+}
