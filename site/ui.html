@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ruas UI · Komponen dasbor bergaya Ruas</title>
+<meta name="description" content="Ruas UI: komponen React/Next.js gratis (MIT) bergaya Ruas: tombol, lencana, isian, kotak OTP, radio, kotak centang, tab, bagian bergulung, dan tabel berpaginasi dengan saringan, urut, dan cetak.">
+<meta name="theme-color" content="#2D6843">
+<link rel="icon" type="image/svg+xml" href="../dist/svg/layout-grid.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../dist/ui/ruas-ui.css">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ruas-bg); color: var(--ruas-ink); font: 400 1rem/1.6 "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif; }
+:root:not([data-theme]) { color-scheme: light dark; }
+[data-theme="dark"] { color-scheme: dark; }
+[data-theme="light"] { color-scheme: light; }
+.wrap { max-width: 1060px; margin: 0 auto; padding: 36px 20px 80px; display: grid; gap: 20px; }
+@media (max-width: 600px) { .wrap { padding-inline: 16px; } }
+a { color: var(--ruas-bambu); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 3px; border-radius: 4px; }
+.eyebrow { font: 600 .75rem/1.4 var(--ruas-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ruas-muted); margin: 0; }
+h1 { font: 800 clamp(2.4rem, 7vw, 4rem)/.95 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.035em; margin: 10px 0 14px; }
+h1 span { color: var(--ruas-bambu); }
+.ruas-bab-judul { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
+.lead { font-size: 1.1rem; max-width: 42em; margin: 0; text-wrap: pretty; }
+.kepala { padding-bottom: 20px; border-bottom: 1px solid var(--ruas-line); display: grid; gap: 14px; }
+.atas { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.baris { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.kisi { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: start; }
+.ringkas { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.kartu { background: var(--ruas-bg); border: 1px solid var(--ruas-line); border-radius: 10px 3px 10px 3px; padding: 12px 14px; }
+.kartu b { display: block; font: 700 1.4rem/1.2 "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+.kartu span { font-size: .85rem; color: var(--ruas-muted); }
+pre { margin: 0; overflow-x: auto; padding: 12px 14px; background: var(--ruas-bg); border: 1px solid var(--ruas-line); border-radius: 10px 3px 10px 3px; font: 400 .82rem/1.55 var(--ruas-mono); }
+.catatan { margin: 0; font-size: .9rem; color: var(--ruas-muted); }
+.gagal { padding: 16px; border: 1px solid var(--ruas-bahaya); border-radius: 10px 3px 10px 3px; color: var(--ruas-bahaya); }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.2.4",
+    "react-dom/client": "https://esm.sh/react-dom@19.2.4/client?external=react",
+    "@ruas-icons/react": "../dist/react/index.js",
+    "@ruas-icons/ui": "../dist/ui/index.js"
+  }
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header class="kepala">
+    <div class="atas">
+      <p class="eyebrow">Ruas · Komponen dasbor · lisensi MIT</p>
+      <a href="./">Galeri ikon Ruas</a>
+    </div>
+    <div>
+      <h1>Ruas UI<span>.</span></h1>
+      <p class="lead">Komponen React/Next.js untuk dasbor, dengan bentuk dan warna yang sama seperti ikon Ruas: Sudut Daun, hijau bambu, dan tema gelap. Semua teks bawaan berbahasa Indonesia, dan setiap kontrol bisa dipakai dengan papan ketik serta pembaca layar.</p>
+    </div>
+  </header>
+  <main id="contoh"><p class="catatan">Memuat contoh komponen…</p></main>
+</div>
+<script type="module">
+let React, ReactDOM, UI, Ikon;
+try {
+  [React, ReactDOM, UI, Ikon] = await Promise.all([import('react'), import('react-dom/client'), import('@ruas-icons/ui'), import('@ruas-icons/react')]);
+} catch {
+  document.getElementById('contoh').innerHTML = '<p class="gagal" role="alert">Contoh komponen gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman ini.</p>';
+  throw new Error('modul contoh gagal dimuat');
+}
+const { createElement: h, useState } = React;
+const { Badge, Button, Checkbox, CheckboxGroup, DataTable, Input, Otp, RadioGroup, Section, SectionGroup, Select, Tabs, Textarea } = UI;
+const { Plus, Save, Trash, Download, CircleCheck, Clock, CircleX, Info, Users, Wallet } = Ikon;
+const angka = n => n.toLocaleString('id-ID');
+
+// Data contoh: 137 karyawan, tetap sama setiap dimuat.
+const DEPAN = ['Ahmad', 'Budi', 'Citra', 'Dewi', 'Eka', 'Fajar', 'Gita', 'Hendra', 'Indah', 'Joko', 'Kartika', 'Lukman', 'Maya', 'Nur', 'Oki', 'Putri', 'Rina', 'Sari', 'Taufik', 'Wulan'];
+const BELAKANG = ['Santoso', 'Wijaya', 'Lestari', 'Pratama', 'Siregar', 'Nasution', 'Hidayat', 'Saputra', 'Rahmawati'];
+const UNIT = ['Keuangan', 'Gudang', 'Toko', 'HRD', 'TI'];
+const STATUS = ['Aktif', 'Aktif', 'Aktif', 'Cuti', 'Nonaktif'];
+const KARYAWAN = Array.from({ length: 137 }, (_, i) => ({
+  id: i + 1,
+  nama: `${DEPAN[(i * 7) % DEPAN.length]} ${BELAKANG[(i * 5) % BELAKANG.length]}`,
+  unit: UNIT[(i * 3) % UNIT.length],
+  status: STATUS[(i * 11) % STATUS.length],
+  gaji: 4_200_000 + ((i * 7919) % 41) * 150_000,
+  masuk: new Date(2015 + (i % 11), (i * 5) % 12, 1 + (i * 3) % 28),
+}));
+const NADA = { Aktif: ['success', CircleCheck], Cuti: ['warning', Clock], Nonaktif: ['danger', CircleX] };
+const lencana = s => h(Badge, { tone: NADA[s][0], icon: h(NADA[s][1], { size: 14 }) }, s);
+
+function Tema() {
+  const [tema, setTema] = useState(document.documentElement.dataset.theme || 'sistem');
+  const pilih = t => {
+    setTema(t);
+    if (t === 'sistem') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+  };
+  return h(RadioGroup, { label: 'Tema', variant: 'segmented', value: tema, onChange: pilih, options: [{ value: 'sistem', label: 'Ikut sistem' }, { value: 'light', label: 'Terang' }, { value: 'dark', label: 'Gelap' }] });
+}
+
+function Isian() {
+  const [email, setEmail] = useState('');
+  const [disentuh, setDisentuh] = useState(false);
+  const [kode, setKode] = useState('');
+  const [selesai, setSelesai] = useState('');
+  const galatEmail = !disentuh ? null : !email ? 'Email wajib diisi.' : !/^\S+@\S+\.\S+$/.test(email) ? 'Format email belum benar, contoh: nama@kantor.co.id' : null;
+  return h('div', { className: 'kisi' },
+    h(Input, { label: 'Email', type: 'email', required: true, value: email, placeholder: 'nama@kantor.co.id', hint: 'Dipakai untuk masuk dan menerima slip gaji.', error: galatEmail, onChange: e => setEmail(e.target.value), onBlur: () => setDisentuh(true) }),
+    h(Select, { label: 'Unit kerja', placeholder: 'Pilih unit…', required: true, defaultValue: '', options: UNIT }),
+    h(Textarea, { label: 'Catatan', placeholder: 'Tulis catatan untuk atasan…', hint: 'Opsional, paling banyak 500 karakter.', maxLength: 500 }),
+    h('div', { style: { display: 'grid', gap: '10px' } },
+      h(Otp, { length: 6, value: kode, onChange: v => { setKode(v); setSelesai(''); }, onComplete: setSelesai, hint: 'Kode dikirim lewat SMS ke 0812-****-789. Bisa ditempel sekaligus.', name: 'otp' }),
+      selesai ? h(Badge, { tone: 'success', icon: h(CircleCheck, { size: 14 }) }, `Kode lengkap: ${selesai}`) : h(Badge, { tone: 'neutral' }, `${kode.length} dari 6 digit`)));
+}
+
+function Pilihan() {
+  const [setuju, setSetuju] = useState(false);
+  return h('div', { className: 'kisi' },
+    h(RadioGroup, { label: 'Jenis cuti', required: true, defaultValue: 'tahunan', options: [
+      { value: 'tahunan', label: 'Cuti tahunan', hint: 'Sisa 9 hari' },
+      { value: 'sakit', label: 'Sakit', hint: 'Lampirkan surat dokter' },
+      { value: 'khusus', label: 'Cuti khusus', hint: 'Menikah, duka, ibadah' },
+      { value: 'lain', label: 'Lainnya (belum dibuka)', disabled: true },
+    ] }),
+    h(CheckboxGroup, { label: 'Hak akses', selectAll: true, defaultValue: ['lihat'], hint: 'Centang semua yang boleh dilakukan pengguna ini.', options: [
+      { value: 'lihat', label: 'Melihat laporan' }, { value: 'ubah', label: 'Mengubah data' }, { value: 'hapus', label: 'Menghapus data' }, { value: 'setujui', label: 'Menyetujui transaksi' },
+    ] }),
+    h('div', { style: { display: 'grid', gap: '16px' } },
+      h(RadioGroup, { label: 'Periode', variant: 'segmented', defaultValue: 'bulan', options: [{ value: 'hari', label: 'Hari' }, { value: 'minggu', label: 'Minggu' }, { value: 'bulan', label: 'Bulan' }, { value: 'tahun', label: 'Tahun' }] }),
+      h(Checkbox, { label: 'Saya menyetujui kebijakan privasi', hint: 'Wajib sebelum menyimpan.', checked: setuju, onChange: e => setSetuju(e.target.checked) }),
+      h(Button, { variant: 'primary', icon: h(Save, { size: 16 }), disabled: !setuju }, 'Simpan')));
+}
+
+function Tombol() {
+  const [muat, setMuat] = useState(false);
+  return h('div', { style: { display: 'grid', gap: '14px' } },
+    h('div', { className: 'baris' },
+      h(Button, { variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Tambah data'),
+      h(Button, { icon: h(Download, { size: 16 }) }, 'Unduh'),
+      h(Button, { variant: 'danger', icon: h(Trash, { size: 16 }) }, 'Hapus'),
+      h(Button, { variant: 'ghost' }, 'Batal'),
+      h(Button, { variant: 'primary', loading: muat, onClick: () => { setMuat(true); setTimeout(() => setMuat(false), 1500); } }, muat ? 'Menyimpan…' : 'Simpan (coba)'),
+      h(Button, { disabled: true }, 'Nonaktif'),
+      h(Button, { 'aria-label': 'Tambah', icon: h(Plus, { size: 16 }) })),
+    h('div', { className: 'baris' },
+      h(Button, { size: 'sm' }, 'Kecil'), h(Button, null, 'Sedang'), h(Button, { size: 'lg', variant: 'primary' }, 'Besar')),
+    h('div', { className: 'baris' },
+      h(Badge, null, 'Draf'), lencana('Aktif'), lencana('Cuti'), lencana('Nonaktif'),
+      h(Badge, { tone: 'info', icon: h(Info, { size: 14 }) }, 'Baru')));
+}
+
+const kolom = [
+  { key: 'nama', label: 'Nama', sortable: true, filter: true },
+  { key: 'unit', label: 'Unit', sortable: true, filter: true, options: UNIT },
+  { key: 'status', label: 'Status', sortable: true, filter: true, options: ['Aktif', 'Cuti', 'Nonaktif'], render: r => lencana(r.status) },
+  { key: 'gaji', label: 'Gaji', sortable: true, align: 'right', render: r => `Rp${angka(r.gaji)}` },
+  { key: 'masuk', label: 'Masuk', sortable: true, render: r => r.masuk.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) },
+];
+const hitung = s => KARYAWAN.filter(k => k.status === s).length;
+const ringkasan = h('div', { className: 'ringkas' },
+  [['Karyawan', angka(KARYAWAN.length)], ['Aktif', angka(hitung('Aktif'))], ['Cuti', angka(hitung('Cuti'))], ['Total gaji', `Rp${angka(KARYAWAN.reduce((a, k) => a + k.gaji, 0))}`]]
+    .map(([a, b]) => h('div', { key: a, className: 'kartu' }, h('span', null, a), h('b', null, b))));
+
+const pasang = `npm i @ruas-icons/ui @ruas-icons/react
+
+// app/layout.tsx: sekali saja
+import "@ruas-icons/ui/ruas-ui.css";
+
+// komponen
+import { Button, DataTable, Otp, Section, SectionGroup } from "@ruas-icons/ui";
+import { Plus } from "@ruas-icons/react";
+
+<Button variant="primary" icon={<Plus size={16} />}>Tambah data</Button>
+<Otp onComplete={kirimKode} />`;
+const tema = `/* Ikut warna tema aplikasi Anda (opsional) */
+:root {
+  --ruas-bambu: var(--primary);
+  --ruas-surface: var(--card);
+  --ruas-line: var(--border);
+}`;
+
+function Contoh() {
+  return h(SectionGroup, null,
+    h(Tema),
+    h(Section, { title: 'Tombol & lencana', printable: true }, h(Tombol)),
+    h(Section, { title: 'Isian & OTP', printable: true }, h(Isian)),
+    h(Section, { title: 'Radio & kotak centang', printable: true }, h(Pilihan)),
+    h(Section, { title: 'Tab', printable: true }, h(Tabs, { label: 'Data karyawan', items: [
+      { id: 'profil', label: 'Profil', icon: h(Users, { size: 16 }), content: h('p', { className: 'catatan' }, 'Panel profil. Pindah tab dengan panah kiri/kanan, Home, dan End.') },
+      { id: 'gaji', label: 'Penggajian', icon: h(Wallet, { size: 16 }), badge: 3, content: h('p', { className: 'catatan' }, 'Tiga slip gaji menunggu persetujuan.') },
+      { id: 'dokumen', label: 'Dokumen', content: h('p', { className: 'catatan' }, 'Belum ada dokumen.') },
+      { id: 'arsip', label: 'Arsip', disabled: true, content: null },
+    ] })),
+    h(DataTable, { title: 'Daftar karyawan (contoh)', rows: KARYAWAN, rowKey: 'id', columns: kolom, summary: ringkasan, actions: h(Button, { size: 'sm', variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Tambah') }),
+    h(Section, { title: 'Cara pasang' },
+      h('pre', null, pasang),
+      h('pre', null, tema),
+      h('p', { className: 'catatan' }, 'Tabel dengan data besar: kirim `total` dan tangani `onStateChange` agar penyaringan, urutan, dan halaman dikerjakan di server; browser hanya menerima baris yang tampil.')));
+}
+
+ReactDOM.createRoot(document.getElementById('contoh')).render(h(Contoh));
+</script>
+</body>
+</html>

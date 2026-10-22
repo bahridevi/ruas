@@ -37,9 +37,10 @@
   "scripts": {
     "penjaga": "node scripts/penjaga.mjs",
     "rakit": "node scripts/rakit.mjs",
-    "uji": "node scripts/uji-react.mjs"
+    "uji": "node scripts/uji-react.mjs && node scripts/uji-ui.mjs"
   },
   "devDependencies": {
+    "@ruas-icons/react": "file:packages/react",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "svg-path-bbox": "^2.1.0"

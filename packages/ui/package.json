@@ -1,0 +1,28 @@
+{
+  "name": "@ruas-icons/ui",
+  "version": "0.1.0",
+  "description": "Komponen dasbor bergaya Ruas untuk React/Next.js: tombol, lencana, isian, OTP, radio, centang, tab, bagian bergulung, tabel berpaginasi.",
+  "license": "MIT",
+  "homepage": "https://ruas.metabahri.com/site/ui.html",
+  "repository": { "type": "git", "url": "git+https://github.com/bahridevi/ruas.git", "directory": "packages/ui" },
+  "bugs": "https://github.com/bahridevi/ruas/issues",
+  "keywords": ["react", "nextjs", "ui", "components", "dashboard", "otp", "datatable", "indonesia", "ruas"],
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": { "types": "./index.d.ts", "default": "./index.js" },
+    "./ruas-ui.css": "./ruas-ui.css"
+  },
+  "sideEffects": ["*.css"],
+  "files": ["index.js", "index.d.ts", "ruas-ui.css"],
+  "dependencies": {
+    "@ruas-icons/react": "^0.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

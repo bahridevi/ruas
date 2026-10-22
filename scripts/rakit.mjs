@@ -32,7 +32,7 @@ copyFileSync(new URL('../ruas.css', import.meta.url), new URL('ruas.css', dist))
 copyFileSync(new URL('../LICENSE', import.meta.url), new URL('LICENSE.txt', dist));
 // Peta situs untuk mesin pencari: galeri, falsafah, dan satu alamat per ikon (?ikon=<id>).
 const SITUS = 'https://ruas.metabahri.com';
-const alamat = ['/site/', '/site/?lang=en', '/docs/falsafah_id.html', '/docs/falsafah_en.html', ...data.map(d => `/site/?ikon=${d.id}`)];
+const alamat = ['/site/', '/site/?lang=en', '/site/ui.html', '/docs/falsafah_id.html', '/docs/falsafah_en.html', ...data.map(d => `/site/?ikon=${d.id}`)];
 // Galeri: alamat ruas.js/css/svg diberi ?v=<sidik isi> agar browser dan Cloudflare langsung memakai versi baru.
 const versi = createHash('sha1').update(readFileSync(new URL('ruas.js', dist))).update(readFileSync(new URL('ruas.css', dist))).digest('hex').slice(0, 10);
 writeFileSync(new URL('../site/index.html', import.meta.url), readFileSync(new URL('../site/galeri.html', import.meta.url), 'utf8').replaceAll('__VERSI__', versi));
@@ -63,6 +63,13 @@ export type RuasIcon = ForwardRefExoticComponent<RuasProps & RefAttributes<SVGSV
 ${data.map(d => `/** ${d.nama} · ${d.en} */\nexport declare const ${komponen(d.id)}: RuasIcon;`).join('\n')}
 `);
 copyFileSync(new URL('../LICENSE', import.meta.url), new URL('../packages/react/LICENSE', import.meta.url));
+
+// Paket @ruas-icons/ui ditulis tangan; dist/ui dan dist/react disajikan untuk halaman contoh site/ui.html.
+copyFileSync(new URL('../LICENSE', import.meta.url), new URL('../packages/ui/LICENSE', import.meta.url));
+for (const [asal, ke] of [['../packages/ui/index.js', 'ui/index.js'], ['../packages/ui/ruas-ui.css', 'ui/ruas-ui.css'], ['../packages/react/dist/index.js', 'react/index.js']]) {
+  mkdirSync(new URL('.', new URL(ke, dist)), { recursive: true });
+  copyFileSync(new URL(asal, import.meta.url), new URL(ke, dist));
+}
 
 const rerata = Math.round(data.reduce((a, d) => a + d.byte, 0) / data.length);
 console.log(`✓ ${data.length} ikon dirakit ke dist/ · rata-rata ${rerata} byte per ikon (target ≤ 400)`);

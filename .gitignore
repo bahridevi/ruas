@@ -4,3 +4,4 @@ site/index.html
 .env
 packages/react/dist/
 packages/react/LICENSE
+packages/ui/LICENSE
