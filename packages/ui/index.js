@@ -313,6 +313,23 @@ export function Dialog({ open, onClose, title, description, icon, alert, tone = 
     footer && h('footer', { className: 'ruas-dialog-kaki' }, footer)));
 }
 
+// Kotak pesan (pengumuman/status). tone 'danger' dan 'warning' dibacakan segera (role=alert).
+export function Alert({ tone = 'info', icon, title, aside, children, className, ...p }) {
+  return h('div', { role: tone === 'danger' || tone === 'warning' ? 'alert' : 'status', className: cx('ruas-alert', `ruas-alert-${tone}`, className), ...p },
+    icon && h('span', { className: 'ruas-alert-ikon', 'aria-hidden': true }, icon),
+    h('div', { className: 'ruas-alert-teks' }, title && h('p', { className: 'ruas-alert-judul' }, title), children),
+    aside && h('div', { className: 'ruas-alert-samping' }, aside));
+}
+
+// Kartu angka ringkas (KPI). `action` = tautan/tombol di kaki kartu, mis. <Link> dari Next.js.
+export function Stat({ label, value, hint, icon, tone = 'default', action, className, ...p }) {
+  return h('div', { className: cx('ruas-stat', tone !== 'default' && `ruas-stat-${tone}`, className), ...p },
+    h('div', { className: 'ruas-stat-kepala' }, h('p', { className: 'ruas-stat-label' }, label), icon && h('span', { className: 'ruas-stat-ikon', 'aria-hidden': true }, icon)),
+    h('p', { className: 'ruas-stat-nilai' }, value),
+    hint && h('p', { className: 'ruas-stat-hint' }, hint),
+    action && h('div', { className: 'ruas-stat-aksi' }, action));
+}
+
 const nilai = (c, r) => (c.value ? c.value(r) : r[c.key]);
 // Elemen React/objek lain tidak ikut dicari (bukan "[object Object]"); tanggal dicari dalam format Indonesia.
 const teks = x => (x == null || (typeof x === 'object' && !(x instanceof Date)) ? '' : x instanceof Date ? x.toLocaleDateString('id-ID') : String(x)).toLowerCase();

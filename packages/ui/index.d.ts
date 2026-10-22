@@ -92,6 +92,19 @@ export declare function Dialog(props: Teks & Omit<HTMLAttributes<HTMLDialogEleme
   children?: ReactNode; className?: string;
 }): JSX.Element;
 
+type Nada = 'default' | 'success' | 'warning' | 'danger' | 'info';
+/** Kotak pesan berwarna nada; danger/warning memakai role=alert, lainnya role=status. */
+export declare function Alert(props: Omit<HTMLAttributes<HTMLDivElement>, 'title'> & {
+  tone?: Nada; icon?: ReactNode; title?: ReactNode;
+  /** Isi di kanan (turun ke bawah di HP), mis. lencana status. */ aside?: ReactNode;
+  children?: ReactNode;
+}): JSX.Element;
+/** Kartu angka ringkas (KPI). */
+export declare function Stat(props: HTMLAttributes<HTMLDivElement> & {
+  label: ReactNode; value: ReactNode; hint?: ReactNode; icon?: ReactNode; tone?: Nada;
+  /** Tautan di kaki kartu, mis. <Link href="…">Kelola</Link>. */ action?: ReactNode;
+}): JSX.Element;
+
 export declare function applyTableState<R>(rows: R[], columns: Column<R>[], state?: Partial<TableState>): R[];
 export declare function DataTable<R>(props: Teks & {
   title: ReactNode; columns: Column<R>[]; rows?: R[]; rowKey?: keyof R | ((row: R) => string | number);

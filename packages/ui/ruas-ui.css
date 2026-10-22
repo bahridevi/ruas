@@ -275,6 +275,40 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
 @keyframes ruas-naik { from { transform: translateY(24px); opacity: .6; } }
 @media (prefers-reduced-motion: reduce) { .ruas-dialog[open], .ruas-dialog[open]::backdrop { animation: none; } }
 
+/* Kotak pesan (Alert) & kartu angka (Stat): warna nada lewat --nada, sama seperti lencana. */
+:is(.ruas-alert, .ruas-stat) { --nada: var(--ruas-bambu); }
+:is(.ruas-alert, .ruas-stat):is(.ruas-alert-success, .ruas-stat-success) { --nada: var(--ruas-sukses, var(--ruas-bambu)); }
+:is(.ruas-alert, .ruas-stat):is(.ruas-alert-warning, .ruas-stat-warning) { --nada: var(--ruas-kunyit); }
+:is(.ruas-alert, .ruas-stat):is(.ruas-alert-danger, .ruas-stat-danger) { --nada: var(--ruas-bahaya); }
+:is(.ruas-alert, .ruas-stat):is(.ruas-alert-info, .ruas-stat-info) { --nada: var(--ruas-info); }
+.ruas-alert {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; color: var(--ruas-ink);
+  background: color-mix(in srgb, var(--nada) 8%, var(--ruas-surface)); border: 1px solid color-mix(in srgb, var(--nada) 30%, transparent);
+  border-left: 3px solid var(--nada); border-radius: 10px 3px 10px 3px;
+}
+.ruas-alert-ikon { flex: none; display: grid; place-items: center; width: 34px; height: 34px; color: var(--nada); background: color-mix(in srgb, var(--nada) 14%, transparent); border-radius: 9px 3px 9px 3px; }
+.ruas-alert-teks { flex: 1; min-width: 0; font-size: .85rem; line-height: 1.45; color: var(--ruas-muted); }
+.ruas-alert-teks > :is(p, ul) { margin: 0; }
+.ruas-alert-judul { font-weight: 700; color: var(--ruas-ink); }
+.ruas-alert-samping { flex: none; }
+@media (max-width: 600px) { .ruas-alert { flex-wrap: wrap; } .ruas-alert-samping { flex-basis: 100%; } }
+.ruas-stat {
+  display: flex; flex-direction: column; min-width: 0; background: var(--ruas-surface); border: 1px solid var(--ruas-line);
+  border-top: 3px solid var(--nada); border-radius: 12px 3px 12px 3px; overflow: hidden;
+}
+.ruas-stat-kepala { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 12px 14px 0; }
+.ruas-stat-label { margin: 0; font: 600 .68rem/1.3 var(--ruas-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ruas-muted); }
+.ruas-stat-ikon { flex: none; display: grid; place-items: center; width: 30px; height: 30px; color: var(--nada); background: color-mix(in srgb, var(--nada) 12%, transparent); border-radius: 8px 2px 8px 2px; }
+.ruas-stat-nilai { margin: 2px 14px 0; font-size: 1.35rem; font-weight: 700; line-height: 1.25; color: var(--ruas-ink); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.ruas-stat-hint { margin: 2px 14px 0; font-size: .78rem; color: var(--ruas-muted); }
+.ruas-stat-aksi { margin-top: auto; padding-top: 12px; }
+.ruas-stat-aksi > * {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 7px 14px; font-size: .78rem; font-weight: 600;
+  color: var(--nada); text-decoration: none; border-top: 1px solid color-mix(in srgb, var(--ruas-line) 70%, transparent);
+}
+.ruas-stat-aksi > a:hover { background: color-mix(in srgb, var(--nada) 8%, transparent); }
+.ruas-stat-aksi > a:focus-visible { outline: 2px solid var(--nada); outline-offset: -2px; }
+
 .ruas-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* Cetak satu bagian (printElement): bagian lain disembunyikan, isi yang tergulung ikut tercetak. */

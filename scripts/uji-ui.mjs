@@ -118,4 +118,8 @@ assert.match(r(h(UI.Button, { icon: h('svg'), 'aria-label': 'Ubah' })), /ruas-bt
 assert.doesNotMatch(r(h(UI.Button, { icon: h('svg') }, 'Simpan')), /ruas-btn-ikon/);
 assert.match(r(h(UI.Dialog, { open: true, title: 'X', alert: 'Gagal menyimpan.' }, 'i')), /role="alert".*Gagal menyimpan./, 'galat di dalam dialog');
 assert.match(readFileSync(new URL('../packages/ui/ruas-ui.css', import.meta.url), 'utf8'), /.ruas-dialog {[^}]*margin: auto !important/, 'modal tetap di tengah walau induk memakai space-y-*');
+// Alert: danger/warning dibacakan segera, info sebagai status. Stat: label, nilai, aksi di kaki.
+assert.match(r(h(UI.Alert, { tone: 'danger', title: 'Gagal' }, 'x')), /role="alert" class="ruas-alert ruas-alert-danger"/);
+assert.match(r(h(UI.Alert, { title: 'Info' }, 'x')), /role="status"/);
+assert.match(r(h(UI.Stat, { label: 'Saldo', value: 'Rp 1', tone: 'info', action: h('a', { href: '/x' }, 'Kelola') })), /ruas-stat ruas-stat-info.*Saldo.*Rp 1.*ruas-stat-aksi.*href="\/x"/);
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');
