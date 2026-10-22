@@ -295,7 +295,7 @@ export function applyTableState(rows, columns, { q = '', filters = {}, sort = nu
 // Mode server: beri `total` (jumlah hasil saringan) dan `onStateChange`; `rows` cukup baris halaman yang tampil.
 export function DataTable({
   title, columns, rows = [], rowKey, summary, actions, total, grandTotal, onStateChange, fetchAllRows, loading,
-  detail, footer, filters, filtersActive = 0, onClearFilters, printHeader, printFooter, rowClassName,
+  detail, footer, filters, filtersActive = 0, onClearFilters, printHeader, printFooter, rowClassName, defaultDetailOpen, searchable = true,
   pageSizes = [10, 25, 50, 100], defaultPageSize, defaultOpen = true, emptyText, labels, className,
 }) {
   const L = { ...LABEL, ...labels };
@@ -333,6 +333,12 @@ export function DataTable({
     try { setCetak(server ? await fetchAllRows(st) : olah); } catch { setGalatCetak(L.gagalCetak); }
   };
   const kunci = (r, i) => (typeof rowKey === 'function' ? rowKey(r) : rowKey ? r[rowKey] : i);
+  // Rincian terbuka otomatis setiap data berganti (butuh rowKey), mis. akun yang dipilih lewat saringan.
+  useEffect(() => {
+    if (!detail || !defaultDetailOpen) return;
+    const pilih = typeof defaultDetailOpen === 'function' ? defaultDetailOpen : () => true;
+    setBuka(new Set(rows.filter(pilih).map((r, i) => kunci(r, i))));
+  }, [rows]);
   const arahUrut = k => (st.sort?.key !== k ? 'none' : st.sort.dir === 'asc' ? 'ascending' : 'descending');
   const ikonUrut = k => h(st.sort?.key !== k ? Sort : st.sort.dir === 'asc' ? ChevronUp : ChevronDown, { size: 14 });
   const adaSaring = columns.some(c => c.filter);
@@ -394,7 +400,7 @@ export function DataTable({
       h(Section, { title: L.saringan, meta: nSaring ? L.saringanAktif(nSaring) : null, level: 4, className: 'ruas-noprint' },
         filters && h('div', { className: 'ruas-saringan-lain' }, filters),
         h('div', { className: 'ruas-saringan' },
-          h(Input, { type: 'search', label: L.cari, placeholder: L.cariContoh, value: st.q, onChange: e => ubah({ q: e.target.value }) }),
+          searchable && h(Input, { type: 'search', label: L.cari, placeholder: L.cariContoh, value: st.q, onChange: e => ubah({ q: e.target.value }) }),
           h(Button, { icon: h(Close, { size: 16 }), disabled: !nSaring, onClick: () => { ubah({ q: '', filters: {} }); onClearFilters?.(); } }, L.hapusSaringan))),
       h('div', { ref: daftar },
         printHeader && h('div', { className: 'ruas-cetak-saja' }, printHeader),

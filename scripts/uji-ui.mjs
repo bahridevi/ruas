@@ -100,4 +100,5 @@ assert.equal((kaki2.match(/ruas-noprint/g) || []).length >= 2, true);
 assert.match(r(h(UI.DataTable, { title: 'X', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], rowClassName: x => x.id === 0 ? 'merah' : '' })), /<tr class="merah">/, 'rowClassName');
 assert.equal(olah([{ a: h('b', null, 'x') }, { a: 'object' }], [{ key: 'a' }], { q: 'object' }).length, 1, 'elemen React tidak dicari sebagai [object Object]');
 assert.match(r(h(UI.Badge, { size: 'sm', tone: 'success' }, 'x')), /class="ruas-badge ruas-badge-success ruas-badge-sm"/, 'badge kecil');
+assert.doesNotMatch(r(h(UI.DataTable, { title: 'X', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], searchable: false })), /type="search" [^>]*placeholder="Ketik untuk mencari/, 'kotak cari bisa disembunyikan');
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');
