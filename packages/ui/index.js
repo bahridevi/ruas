@@ -8,7 +8,7 @@ const cx = (...a) => a.filter(Boolean).join(' ');
 const angka = n => Number(n).toLocaleString('id-ID');
 
 export const LABEL = {
-  bukaSemua: 'Buka semua', gulungSemua: 'Gulung semua', cetak: 'Cetak', memuat: 'Memuat…',
+  bukaSemua: 'Buka semua', gulungSemua: 'Gulung semua', cetak: 'Cetak', memuat: 'Memuat…', tutup: 'Tutup', buka: 'Buka', gulung: 'Gulung',
   kodeOtp: 'Kode OTP', digit: (i, n) => `Digit ${i} dari ${n}`, pilihSemua: 'Pilih semua',
   ringkasan: 'Ringkasan', saringan: 'Saringan', daftar: 'Daftar', cari: 'Cari', cariContoh: 'Ketik untuk mencari di semua kolom',
   hapusSaringan: 'Hapus saringan', saringanAktif: n => `${n} saringan aktif`,
@@ -39,7 +39,7 @@ export function printElement(el, selesai) {
 export const Button = forwardRef(function Button({ variant = 'secondary', size = 'md', loading, icon, children, className, disabled, type = 'button', ...p }, ref) {
   return h('button', {
     ref, type, disabled: disabled || loading, 'aria-busy': loading || undefined,
-    className: cx('ruas-btn', `ruas-btn-${variant}`, size !== 'md' && `ruas-btn-${size}`, className), ...p,
+    className: cx('ruas-btn', `ruas-btn-${variant}`, size !== 'md' && `ruas-btn-${size}`, icon && (children == null || children === false || children === '') && 'ruas-btn-ikon', className), ...p,
   }, loading ? h(Loader, { size: 16, className: 'ruas-putar' }) : icon, children);
 });
 
@@ -238,8 +238,8 @@ export function SectionGroup({ children, toolbar = true, labels, className }) {
   useEffect(() => { if (luar) kirim(luar.buka); }, [luar]);
   return h(Perintah.Provider, { value: perintah }, h('div', { className: cx('ruas-kelompok', className) },
     toolbar && h('div', { className: 'ruas-alat ruas-noprint' },
-      h(Button, { size: 'sm', icon: h(ChevronDown, { size: 16 }), onClick: () => kirim(true) }, L.bukaSemua),
-      h(Button, { size: 'sm', icon: h(ChevronUp, { size: 16 }), onClick: () => kirim(false) }, L.gulungSemua)),
+      h(Button, { size: 'sm', variant: 'ghost', icon: h(ChevronDown, { size: 16 }), onClick: () => kirim(true) }, L.bukaSemua),
+      h(Button, { size: 'sm', variant: 'ghost', icon: h(ChevronUp, { size: 16 }), onClick: () => kirim(false) }, L.gulungSemua)),
     children));
 }
 
@@ -261,6 +261,56 @@ export function Section({ title, meta, actions, children, defaultOpen = true, op
       (actions || printable) && h('div', { className: 'ruas-bab-aksi ruas-noprint' }, actions,
         printable && h(Button, { size: 'sm', variant: 'ghost', icon: h(Printer, { size: 16 }), onClick: () => printElement(akar.current) }, L.cetak))),
     h('div', { id: isiId, className: 'ruas-bab-isi', hidden: !buka }, children));
+}
+
+// Sel pohon untuk kolom pertama tabel bertingkat (mis. bagan akun): garis panduan per tingkat, tombol buka/gulung kecil.
+// Tanpa onToggle = daun (titik). Aplikasi tetap memegang data mana yang terbuka.
+export function TreeCell({ depth = 0, expanded, onToggle, label, labels, children, className }) {
+  const L = { ...LABEL, ...labels };
+  const aksi = `${expanded ? L.gulung : L.buka}${label != null ? ` ${label}` : ''}`;
+  return h('span', { className: cx('ruas-pohon', className), style: { '--tingkat': depth } },
+    onToggle
+      ? h('button', { type: 'button', className: 'ruas-pohon-btn', 'aria-expanded': !!expanded, 'aria-label': aksi, title: aksi, onClick: onToggle }, h(ChevronRight, { size: 14 }))
+      : h('span', { className: 'ruas-pohon-daun', 'aria-hidden': true }),
+    children);
+}
+
+// Jendela modal dari <dialog> bawaan: fokus terkurung, Esc & klik latar menutup (dismissible), gulir latar terkunci.
+// Isi dirender hanya saat terbuka; fokus awal ke [data-autofocus], isian pertama, lalu tombol kaki pertama.
+// onSubmit = kotak menjadi <form>, jadi Enter mengirim dan tombol kaki boleh type="submit".
+// alert = pesan galat di atas isi (toast halaman tertutup lapisan modal, jadi galat simpan ditampilkan di sini).
+export function Dialog({ open, onClose, title, description, icon, alert, tone = 'default', size = 'md', footer, onSubmit, dismissible = true, labels, className, children, ...p }) {
+  const L = { ...LABEL, ...labels };
+  const ref = useRef(null);
+  const turun = useRef(false);
+  const judulId = useId(), deskId = useId();
+  useEffect(() => {
+    const d = ref.current;
+    if (!d) return;
+    if (open && !d.open) {
+      d.showModal();
+      d.querySelector('[data-autofocus], .ruas-dialog-isi :is(input, select, textarea):not([disabled], [type="hidden"]), .ruas-dialog-kaki button:not([disabled])')?.focus();
+    } else if (!open && d.open) d.close();
+  }, [open]);
+  return h('dialog', {
+    ref, className: cx('ruas-dialog', `ruas-dialog-${size}`, tone !== 'default' && `ruas-dialog-${tone}`, className),
+    'aria-labelledby': judulId, 'aria-describedby': description ? deskId : undefined,
+    onCancel: e => { e.preventDefault(); if (dismissible) onClose?.(); },
+    onClose: () => { if (open) onClose?.(); }, // Esc kedua di Chrome tidak bisa dicegah: samakan status
+    onMouseDown: e => { turun.current = e.target === e.currentTarget; },
+    onClick: e => { if (dismissible && turun.current && e.target === e.currentTarget) onClose?.(); },
+    ...p,
+  }, open && h(onSubmit ? 'form' : 'div', { className: 'ruas-dialog-kotak', onSubmit },
+    h('header', { className: 'ruas-dialog-kepala' },
+      icon && h('span', { className: 'ruas-dialog-ikon', 'aria-hidden': true }, icon),
+      h('div', { className: 'ruas-dialog-teks' },
+        h('h2', { id: judulId, className: 'ruas-dialog-judul' }, title),
+        description && h('p', { id: deskId, className: 'ruas-dialog-desk' }, description)),
+      dismissible && h(Button, { variant: 'ghost', size: 'sm', icon: h(Close, { size: 18 }), 'aria-label': L.tutup, title: L.tutup, onClick: onClose })),
+    h('div', { className: 'ruas-dialog-isi' },
+      alert && h('p', { className: 'ruas-galat ruas-dialog-galat', role: 'alert' }, h(TriangleAlert, { size: 16 }), alert),
+      children),
+    footer && h('footer', { className: 'ruas-dialog-kaki' }, footer)));
 }
 
 const nilai = (c, r) => (c.value ? c.value(r) : r[c.key]);

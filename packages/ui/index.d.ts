@@ -1,8 +1,8 @@
-import type { JSX, ButtonHTMLAttributes, ForwardRefExoticComponent, HTMLAttributes, InputHTMLAttributes, ReactNode, RefAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import type { FormEvent, JSX, ButtonHTMLAttributes, ForwardRefExoticComponent, HTMLAttributes, InputHTMLAttributes, ReactNode, RefAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
 export declare const LABEL: Labels;
 export interface Labels {
-  bukaSemua: string; gulungSemua: string; cetak: string; memuat: string;
+  bukaSemua: string; gulungSemua: string; cetak: string; memuat: string; tutup: string; buka: string; gulung: string;
   kodeOtp: string; digit: (i: number, n: number) => string; pilihSemua: string;
   ringkasan: string; saringan: string; daftar: string; cari: string; cariContoh: string;
   hapusSaringan: string; saringanAktif: (n: number) => string;
@@ -72,6 +72,26 @@ export interface Column<R> {
   align?: 'left' | 'center' | 'right'; width?: string | number;
 }
 export interface TableState { q: string; filters: Record<string, string>; sort: { key: string; dir: 'asc' | 'desc' } | null; page: number; pageSize: number }
+/** Sel kolom pertama tabel bertingkat: garis panduan per tingkat + tombol buka/gulung. Tanpa onToggle = daun. */
+export declare function TreeCell(props: Teks & {
+  depth?: number; expanded?: boolean; onToggle?: () => void;
+  /** Nama simpul untuk aria-label tombol, mis. kode akun ("Buka 11"). */ label?: string;
+  children?: ReactNode; className?: string;
+}): JSX.Element;
+
+/** Jendela modal dari <dialog> bawaan (fokus terkurung, Esc, klik latar). Isi dirender hanya saat open. */
+export declare function Dialog(props: Teks & Omit<HTMLAttributes<HTMLDialogElement>, 'title' | 'onSubmit'> & {
+  open: boolean; onClose?: () => void; title: ReactNode; description?: ReactNode;
+  /** Ikon di kotak berwarna kiri judul. */ icon?: ReactNode;
+  /** Pesan galat di atas isi (role=alert), mis. gagal menyimpan. */ alert?: ReactNode;
+  /** Warna garis atas & ikon: default = bambu, danger untuk konfirmasi hapus. */ tone?: 'default' | 'danger' | 'warning';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Tombol di kaki (kanan). */ footer?: ReactNode;
+  /** Diisi = kotak menjadi <form>; Enter mengirim, tombol kaki boleh type="submit". */ onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
+  /** false = Esc/klik latar tidak menutup dan tanpa tombol ×. */ dismissible?: boolean;
+  children?: ReactNode; className?: string;
+}): JSX.Element;
+
 export declare function applyTableState<R>(rows: R[], columns: Column<R>[], state?: Partial<TableState>): R[];
 export declare function DataTable<R>(props: Teks & {
   title: ReactNode; columns: Column<R>[]; rows?: R[]; rowKey?: keyof R | ((row: R) => string | number);

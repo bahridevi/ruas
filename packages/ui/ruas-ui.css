@@ -38,6 +38,9 @@
 .ruas-btn-sm { min-height: 30px; padding: 0 10px; font-size: .8rem; }
 .ruas-btn-lg { min-height: 44px; padding: 0 18px; font-size: 1rem; }
 .ruas-btn svg { flex: none; }
+.ruas-btn-ikon { padding: 0; width: 36px; }
+.ruas-btn-sm.ruas-btn-ikon { width: 30px; }
+.ruas-btn-lg.ruas-btn-ikon { width: 44px; }
 .ruas-putar { animation: ruas-putar 1s linear infinite; }
 @keyframes ruas-putar { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .ruas-putar { animation-duration: 3s; } }
@@ -138,47 +141,86 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 /* Bagian yang bisa digulung */
 .ruas-kelompok, .ruas-sub { display: grid; gap: 12px; }
 .ruas-alat { display: flex; flex-wrap: wrap; gap: 8px; }
+.ruas-kelompok > .ruas-alat { gap: 2px; margin-left: -6px; }
 .ruas-bab { color: var(--ruas-ink); background: var(--ruas-surface); border: 1px solid var(--ruas-line); border-radius: 14px 4px 14px 4px; min-width: 0; }
-.ruas-bab .ruas-bab { background: transparent; border-radius: 10px 3px 10px 3px; }
-.ruas-bab-kepala { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; padding: 4px 10px 4px 4px; min-height: 48px; }
+.ruas-bab-kepala { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; padding: 2px 10px 2px 4px; min-height: 44px; }
 .ruas-bab-judul { flex: 1 1 14em; min-width: 0; margin: 0; font-weight: 700; font-size: 1rem; line-height: 1.3; font-family: inherit; }
-.ruas-bab .ruas-bab .ruas-bab-judul { font-size: .92rem; }
 .ruas-bab-judul button {
-  width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 8px; font: inherit; color: inherit; text-align: left;
+  width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px; font: inherit; color: inherit; text-align: left;
   background: none; border: 0; border-radius: 10px 3px 10px 3px; cursor: pointer;
 }
+/* Bagian di dalam bagian = cabang pohon: tanpa kotak, judul kecil, isi menjorok dengan garis panduan. */
+.ruas-bab .ruas-bab { background: none; border: 0; border-radius: 0; }
+.ruas-bab .ruas-bab .ruas-bab-kepala { min-height: 30px; padding: 0; }
+.ruas-bab .ruas-bab .ruas-bab-judul { font: 600 .7rem/1.3 var(--ruas-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ruas-muted); }
+.ruas-bab .ruas-bab .ruas-bab-judul button { gap: 6px; padding: 6px 4px; margin-left: -4px; width: auto; }
+.ruas-bab .ruas-bab .ruas-bab-chev { width: 14px; height: 14px; }
+.ruas-bab .ruas-bab .ruas-bab-isi { padding: 2px 0 6px 14px; margin-left: 2px; border-left: 1px solid var(--ruas-line); gap: 10px; }
 .ruas-bab-judul button:hover { color: var(--ruas-bambu); }
 .ruas-bab-judul button:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: -2px; }
 .ruas-bab-chev { flex: none; color: var(--ruas-muted); transition: transform .2s; }
 .ruas-bab-judul button[aria-expanded="false"] .ruas-bab-chev { transform: rotate(-90deg); }
 .ruas-bab-meta { margin-left: auto; padding-left: 8px; font: 600 .75rem/1.2 var(--ruas-mono); color: var(--ruas-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .ruas-bab-aksi { display: flex; flex-wrap: wrap; gap: 6px; }
-.ruas-bab-isi { display: grid; gap: 12px; padding: 4px 16px 16px; min-width: 0; }
+.ruas-bab-isi { display: grid; gap: 10px; padding: 0 14px 14px; min-width: 0; }
 .ruas-bab-isi > *, .ruas-tabs, .ruas-kelompok > * { min-width: 0; }
-@media (max-width: 600px) { .ruas-bab-isi { padding: 4px 10px 12px; } }
+@media (max-width: 600px) {
+  .ruas-bab-isi { padding: 0 10px 12px; }
+  .ruas-bab .ruas-bab .ruas-bab-isi { padding-left: 8px; }
+}
 
 /* Tabel */
 .ruas-saringan { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
 .ruas-saringan > .ruas-field { flex: 1 1 260px; }
 .ruas-tabel-gulir { overflow-x: auto; background: var(--ruas-surface); border: 1px solid var(--ruas-line); border-radius: 10px 3px 10px 3px; }
-.ruas-tabel { width: 100%; border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums; }
-.ruas-tabel th, .ruas-tabel td { padding: 8px 12px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--ruas-line); }
+/* Padat: sel 4 px atas-bawah, garis baris tipis, zebra lembut (baris rincian tidak dihitung), sorot jelas saat hover. */
+.ruas-tabel { --sel-y: 4px; --sel-x: 10px; width: 100%; border-collapse: collapse; font-size: .85rem; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.ruas-tabel th, .ruas-tabel td { padding: var(--sel-y) var(--sel-x); text-align: left; vertical-align: middle; border-bottom: 1px solid color-mix(in srgb, var(--ruas-line) 60%, transparent); }
 .ruas-tabel tbody tr:last-child td { border-bottom: 0; }
-.ruas-tabel th { font: 600 .7rem/1.3 var(--ruas-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ruas-muted); background: var(--ruas-bg); white-space: nowrap; }
+.ruas-tabel th { padding-block: 7px; font: 600 .68rem/1.3 var(--ruas-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ruas-muted); background: var(--ruas-bg); white-space: nowrap; border-bottom-color: var(--ruas-line); }
+.ruas-tabel tbody tr:where(:nth-child(even of :not(.ruas-rincian))) { background: color-mix(in srgb, var(--ruas-ink) 5%, transparent); }
+.ruas-tabel tbody tr:not(.ruas-rincian):hover { background: color-mix(in srgb, var(--ruas-bambu) 9%, transparent); }
+/* Isi sel ikut padat: tombol 24 px, ikon 15 px, lencana kecil, isian 28 px. */
+.ruas-tabel .ruas-btn { min-height: 24px; padding: 0 8px; font-size: .78rem; gap: .35em; }
+.ruas-tabel .ruas-btn-ikon { width: 24px; padding: 0; }
+.ruas-tabel .ruas-btn-ikon svg { width: 15px; height: 15px; }
+.ruas-tabel .ruas-btn-ghost { color: var(--ruas-muted); }
+.ruas-tabel .ruas-btn-ghost:hover:not(:disabled) { color: var(--ruas-bambu); background: color-mix(in srgb, var(--ruas-bambu) 12%, transparent); }
+.ruas-tabel .ruas-btn-danger.ruas-btn-ikon { border-color: transparent; background: none; }
+.ruas-tabel .ruas-btn-danger.ruas-btn-ikon:hover:not(:disabled) { color: var(--ruas-surface); background: var(--ruas-bahaya); }
+.ruas-tabel td .ruas-badge { padding: 1px 7px; font-size: .7rem; }
+.ruas-tabel td .ruas-input { min-height: 28px; padding: 3px 8px; font-size: .82rem; }
 .ruas-tabel th[aria-sort="ascending"], .ruas-tabel th[aria-sort="descending"] { color: var(--ruas-bambu); }
 .ruas-urut { display: inline-flex; align-items: center; gap: 4px; padding: 2px; margin: -2px; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; background: none; border: 0; border-radius: 4px; cursor: pointer; }
 .ruas-urut:hover { color: var(--ruas-bambu); }
 .ruas-urut:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 2px; }
-.ruas-saring-baris td { padding: 6px 8px; background: var(--ruas-bg); }
-.ruas-tabel tbody tr:hover { background: color-mix(in srgb, var(--ruas-bambu) 6%, transparent); }
-.ruas-tabel .ruas-no { width: 3.5em; font: 600 .78rem/1.2 var(--ruas-mono); color: var(--ruas-muted); }
-.ruas-tabel .ruas-buka { width: 2.5em; padding-inline: 6px; }
-.ruas-buka-btn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; color: var(--ruas-muted); background: none; border: 1px solid var(--ruas-line); border-radius: 6px 2px 6px 2px; cursor: pointer; }
-.ruas-buka-btn:hover, .ruas-buka-btn[aria-expanded="true"] { color: var(--ruas-bambu); border-color: var(--ruas-bambu); }
+.ruas-saring-baris td { padding: 4px 6px; background: var(--ruas-bg); }
+.ruas-saring-baris .ruas-input-kecil { min-height: 28px; padding: 3px 8px; font-size: .8rem; }
+.ruas-tabel .ruas-no { width: 3em; font: 600 .72rem/1.2 var(--ruas-mono); color: var(--ruas-muted); }
+.ruas-tabel .ruas-buka { width: 2em; padding-inline: 6px 0; }
+.ruas-buka-btn { display: inline-grid; place-items: center; width: 22px; height: 22px; padding: 0; color: var(--ruas-muted); background: none; border: 1px solid transparent; border-radius: 6px 2px 6px 2px; cursor: pointer; }
+.ruas-buka-btn svg { width: 15px; height: 15px; }
+.ruas-buka-btn:hover, .ruas-buka-btn[aria-expanded="true"] { color: var(--ruas-bambu); border-color: color-mix(in srgb, var(--ruas-bambu) 45%, transparent); background: var(--ruas-surface); }
 .ruas-buka-btn:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 2px; }
-.ruas-tabel tr.ruas-terbuka td { border-bottom-color: transparent; background: color-mix(in srgb, var(--ruas-bambu) 6%, transparent); }
-.ruas-tabel tr.ruas-rincian > td { padding: 4px 12px 14px calc(2.5em + 12px); background: color-mix(in srgb, var(--ruas-bambu) 3%, transparent); }
-.ruas-tabel tr.ruas-rincian:hover { background: none; }
+.ruas-tabel tbody tr.ruas-terbuka { background: color-mix(in srgb, var(--ruas-bambu) 8%, transparent); }
+.ruas-tabel tr.ruas-terbuka td { border-bottom-color: transparent; }
+.ruas-tabel tr.ruas-rincian > td { padding: 2px 10px 12px calc(2em + 16px); background: color-mix(in srgb, var(--ruas-bambu) 3%, transparent); }
+
+/* Pohon (TreeCell): garis panduan per tingkat menembus padding sel agar bersambung antarbaris. */
+.ruas-pohon {
+  --langkah: 16px; display: inline-flex; align-items: center; gap: 6px; vertical-align: middle;
+  margin-block: calc(-1 * var(--sel-y, 0px)); padding-block: var(--sel-y, 0px); padding-left: calc(var(--tingkat, 0) * var(--langkah));
+  background: repeating-linear-gradient(to right, transparent 0 7px, color-mix(in srgb, var(--ruas-line) 85%, transparent) 7px 8px, transparent 8px var(--langkah))
+    0 0 / calc(var(--tingkat, 0) * var(--langkah)) 100% no-repeat;
+}
+.ruas-pohon-btn, .ruas-pohon-daun { flex: none; display: inline-grid; place-items: center; width: 16px; height: 18px; }
+.ruas-pohon-btn { padding: 0; color: var(--ruas-muted); background: none; border: 0; border-radius: 5px 2px 5px 2px; cursor: pointer; }
+.ruas-pohon-btn svg { transition: transform .15s; }
+.ruas-pohon-btn[aria-expanded="true"] svg { transform: rotate(90deg); }
+.ruas-pohon-btn:hover { color: var(--ruas-bambu); background: color-mix(in srgb, var(--ruas-bambu) 12%, transparent); }
+.ruas-pohon-btn:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 1px; }
+.ruas-pohon-daun::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--ruas-line); }
+@media (prefers-reduced-motion: reduce) { .ruas-pohon-btn svg { transition: none; } }
 .ruas-tabel tfoot td { font-weight: 700; background: var(--ruas-bg); border-top: 2px solid var(--ruas-line); border-bottom: 0; }
 .ruas-saringan-lain { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-bottom: 10px; }
 .ruas-saringan-lain > .ruas-field { flex: 1 1 180px; }
@@ -190,6 +232,48 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 
 .ruas-saring-baris .ruas-input, .ruas-saring-baris .ruas-select { min-width: 7.5em; }
 .ruas-cetak-saja { display: none; }
+
+/* Jendela modal (Dialog): kartu Sudut Daun dengan garis atas berwarna, latar gelap kabur; di HP menjadi lembar bawah.
+   margin !important: utilitas jarak induk (mis. Tailwind space-y-*) tidak boleh menggeser modal dari tengah. */
+.ruas-dialog {
+  --nada: var(--ruas-bambu); --lebar: 560px;
+  width: min(100% - 32px, var(--lebar)); max-width: none; max-height: calc(100dvh - 48px); margin: auto !important; padding: 0; border: 0; background: none; color: var(--ruas-ink); overflow: visible;
+}
+.ruas-dialog-sm { --lebar: 420px; }
+.ruas-dialog-lg { --lebar: 760px; }
+.ruas-dialog-xl { --lebar: 1040px; }
+.ruas-dialog-danger { --nada: var(--ruas-bahaya); }
+.ruas-dialog-warning { --nada: var(--ruas-kunyit); }
+.ruas-dialog::backdrop { background: rgb(10 16 14 / .5); backdrop-filter: blur(2px); }
+.ruas-dialog[open] { animation: ruas-muncul .18s ease-out; }
+.ruas-dialog[open]::backdrop { animation: ruas-pudar .18s ease-out; }
+@keyframes ruas-muncul { from { opacity: 0; transform: translateY(10px) scale(.985); } }
+@keyframes ruas-pudar { from { opacity: 0; } }
+html:has(.ruas-dialog[open]) { overflow: hidden; }
+.ruas-dialog-kotak {
+  display: flex; flex-direction: column; max-height: inherit; margin: 0; overflow: hidden;
+  background: var(--ruas-surface); border: 1px solid var(--ruas-line); border-top: 3px solid var(--nada); border-radius: 16px 4px 16px 4px;
+  box-shadow: 0 24px 64px -16px rgb(0 0 0 / .4), 0 2px 8px rgb(0 0 0 / .08);
+}
+.ruas-dialog-kepala { display: flex; align-items: center; gap: 12px; padding: 14px 12px 12px 20px; border-bottom: 1px solid color-mix(in srgb, var(--ruas-line) 70%, transparent); }
+.ruas-dialog-ikon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; color: var(--nada); background: color-mix(in srgb, var(--nada) 12%, transparent); border-radius: 10px 3px 10px 3px; }
+.ruas-dialog-teks { flex: 1; min-width: 0; }
+.ruas-dialog-judul { margin: 0; font-size: 1.05rem; font-weight: 700; line-height: 1.3; }
+.ruas-dialog-desk { margin: 2px 0 0; font-size: .85rem; line-height: 1.4; color: var(--ruas-muted); }
+.ruas-dialog-kepala > .ruas-btn { align-self: flex-start; color: var(--ruas-muted); }
+.ruas-dialog-isi { display: grid; gap: 14px; padding: 16px 20px 20px; overflow: auto; overscroll-behavior: contain; min-height: 0; }
+.ruas-dialog-galat { padding: 8px 10px; background: color-mix(in srgb, var(--ruas-bahaya) 8%, transparent); border: 1px solid color-mix(in srgb, var(--ruas-bahaya) 30%, transparent); border-radius: 8px 2px 8px 2px; }
+.ruas-dialog-kaki { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 12px 20px; background: var(--ruas-bg); border-top: 1px solid color-mix(in srgb, var(--ruas-line) 70%, transparent); }
+@media (max-width: 600px) {
+  .ruas-dialog { width: 100%; margin: auto 0 0 !important; max-height: 92dvh; }
+  .ruas-dialog[open] { animation-name: ruas-naik; }
+  .ruas-dialog-kotak { border-radius: 16px 4px 0 0; border-inline: 0; border-bottom: 0; }
+  .ruas-dialog-isi { padding: 14px 16px 18px; }
+  .ruas-dialog-kaki { padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); }
+  .ruas-dialog-kaki > * { flex: 1 1 auto; }
+}
+@keyframes ruas-naik { from { transform: translateY(24px); opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .ruas-dialog[open], .ruas-dialog[open]::backdrop { animation: none; } }
 
 .ruas-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
@@ -204,5 +288,6 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
   .ruas-noprint { display: none !important; }
   .ruas-tabel-gulir { overflow: visible; border: 0; }
   .ruas-bab { border: 0; background: none; }
+  .ruas-bab .ruas-bab .ruas-bab-isi { border: 0; padding-left: 0; }
   .ruas-tabel tr { break-inside: avoid; }
 }

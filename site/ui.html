@@ -153,6 +153,43 @@ function Tombol() {
       h(Badge, { tone: 'info', icon: h(Info, { size: 14 }) }, 'Baru')));
 }
 
+const AKUN = [
+  { kode: '1', nama: 'Aset', induk: null }, { kode: '1.1', nama: 'Kas & bank', induk: '1' }, { kode: '1.1.01', nama: 'Kas kecil', induk: '1.1' },
+  { kode: '1.1.02', nama: 'Bank BSI', induk: '1.1' }, { kode: '1.2', nama: 'Piutang anggota', induk: '1' }, { kode: '2', nama: 'Kewajiban', induk: null },
+  { kode: '2.1', nama: 'Simpanan sukarela', induk: '2' },
+];
+function Pohon() {
+  const [buka, setBuka] = useState(new Set(['1', '1.1']));
+  const ganti = k => setBuka(s => { const n = new Set(s); n.has(k) ? n.delete(k) : n.add(k); return n; });
+  const tampil = a => !a.induk || (buka.has(a.induk) && tampil(AKUN.find(b => b.kode === a.induk)));
+  return h('div', { className: 'ruas-tabel-gulir' }, h('table', { className: 'ruas-tabel' },
+    h('thead', null, h('tr', null, h('th', null, 'Kode'), h('th', null, 'Nama akun'))),
+    h('tbody', null, AKUN.filter(tampil).map(a => {
+      const anak = AKUN.some(b => b.induk === a.kode);
+      return h('tr', { key: a.kode },
+        h('td', null, h(UI.TreeCell, { depth: a.kode.split('.').length - 1, label: a.kode, expanded: buka.has(a.kode), onToggle: anak ? () => ganti(a.kode) : undefined }, a.kode)),
+        h('td', null, a.nama));
+    }))));
+}
+
+function Modal() {
+  const [buka, setBuka] = useState('');
+  const [nama, setNama] = useState('');
+  const [galat, setGalat] = useState(null);
+  const tutup = () => { setBuka(''); setGalat(null); };
+  return h('div', { className: 'baris' },
+    h(Button, { variant: 'primary', icon: h(Plus, { size: 16 }), onClick: () => setBuka('form') }, 'Buka formulir'),
+    h(Button, { variant: 'danger', icon: h(Trash, { size: 16 }), onClick: () => setBuka('hapus') }, 'Hapus data'),
+    h(UI.Dialog, { open: buka === 'form', onClose: tutup, title: 'Tambah karyawan', description: 'Data bisa diubah lagi kapan saja.', icon: h(Users, { size: 20 }), alert: galat,
+      onSubmit: e => { e.preventDefault(); if (!nama.trim()) return setGalat('Nama wajib diisi.'); setNama(''); tutup(); },
+      footer: [h(Button, { key: 'b', variant: 'ghost', onClick: tutup }, 'Batal'), h(Button, { key: 's', type: 'submit', variant: 'primary', icon: h(Save, { size: 16 }) }, 'Simpan')] },
+      h(Input, { label: 'Nama lengkap', required: true, value: nama, onChange: e => setNama(e.target.value) }),
+      h(Select, { label: 'Unit kerja', defaultValue: 'Keuangan', options: UNIT })),
+    h(UI.Dialog, { open: buka === 'hapus', onClose: tutup, size: 'sm', tone: 'danger', title: 'Hapus data ini?', description: 'Tindakan ini tidak bisa dibatalkan.', icon: h(Trash, { size: 20 }),
+      footer: [h(Button, { key: 'b', variant: 'ghost', onClick: tutup }, 'Batal'), h(Button, { key: 'h', variant: 'danger', onClick: tutup }, 'Ya, hapus')] },
+      h('p', { className: 'catatan' }, 'Tutup dengan Esc, tombol Tutup, atau klik di luar kotak.')));
+}
+
 const kolom = [
   { key: 'nama', label: 'Nama', sortable: true, filter: true },
   { key: 'unit', label: 'Unit', sortable: true, filter: true, options: UNIT },
@@ -195,7 +232,9 @@ function Contoh() {
       { id: 'dokumen', label: 'Dokumen', content: h('p', { className: 'catatan' }, 'Belum ada dokumen.') },
       { id: 'arsip', label: 'Arsip', disabled: true, content: null },
     ] })),
-    h(DataTable, { title: 'Daftar karyawan (contoh)', rows: KARYAWAN, rowKey: 'id', columns: kolom, summary: ringkasan, detail: r => h('p', { className: 'catatan' }, `${r.nama} · unit ${r.unit} · masuk ${r.masuk.toLocaleDateString('id-ID', { dateStyle: 'long' })}`), footer: rs => ({ nama: `Total ${angka(rs.length)} orang`, gaji: `Rp${angka(rs.reduce((a, k) => a + k.gaji, 0))}` }), actions: h(Button, { size: 'sm', variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Tambah') }),
+    h(Section, { title: 'Modal' }, h(Modal)),
+    h(Section, { title: 'Pohon dalam tabel', printable: true }, h(Pohon)),
+    h(DataTable,{ title: 'Daftar karyawan (contoh)', rows: KARYAWAN, rowKey: 'id', columns: kolom, summary: ringkasan, detail: r => h('p', { className: 'catatan' }, `${r.nama} · unit ${r.unit} · masuk ${r.masuk.toLocaleDateString('id-ID', { dateStyle: 'long' })}`), footer: rs => ({ nama: `Total ${angka(rs.length)} orang`, gaji: `Rp${angka(rs.reduce((a, k) => a + k.gaji, 0))}` }), actions: h(Button, { size: 'sm', variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Tambah') }),
     h(Section, { title: 'Cara pasang' },
       h('pre', null, pasang),
       h('pre', null, tema),

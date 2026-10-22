@@ -1,6 +1,6 @@
 {
   "name": "@ruas-icons/ui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Komponen dasbor bergaya Ruas untuk React/Next.js: tombol, lencana, isian, OTP, radio, centang, tab, bagian bergulung, tabel berpaginasi.",
   "license": "MIT",
   "homepage": "https://ruas.metabahri.com/site/ui.html",

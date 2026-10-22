@@ -32,6 +32,8 @@ import { Plus } from "@ruas-icons/react";
 | `Checkbox`, `Radio`, `CheckboxGroup`, `RadioGroup` | Grup memakai `fieldset`/`legend`. `CheckboxGroup selectAll` menambah "Pilih semua" (setengah tercentang bila sebagian). `RadioGroup variant="segmented"` untuk pilihan ringkas. |
 | `Tabs` | `items` `{ id, label, content, icon?, badge?, disabled? }`; panah kiri/kanan, Home, End. |
 | `Section`, `SectionGroup` | Bagian yang tergulung menjadi satu baris. `SectionGroup` memberi tombol Buka semua / Gulung semua (berlaku juga untuk yang bersarang). `printable` mencetak bagian itu saja. |
+| `Dialog` | Jendela modal dari `<dialog>` bawaan: fokus terkurung, Esc dan klik latar menutup, gulir latar terkunci, fokus awal ke isian pertama. `title`, `description`, `icon`, `tone` default · danger · warning, `size` sm · md · lg · xl, `footer`, `alert` (galat di dalam modal), `onSubmit` (kotak menjadi `<form>`). Di HP tampil sebagai lembar bawah. |
+| `TreeCell` | Sel kolom pertama tabel bertingkat: garis panduan per tingkat, tombol buka/gulung kecil, titik untuk daun. `depth`, `expanded`, `onToggle`, `label`. |
 | `DataTable` | Kontainer Ringkasan / Saringan / Daftar, urut per kolom (klik judul), baris saring di bawah judul, cari semua kolom, nomor urut, "x dari y", paginasi, cetak halaman dan cetak hasil saringan. |
 
 Semua kontrol bisa terkendali (`value` + `onChange`) atau mandiri (`defaultValue`). Teks bawaan diganti lewat prop `labels`, mis. `labels={{ sebelumnya: "Previous" }}` (daftar lengkap: `LABEL`).
@@ -70,6 +72,20 @@ Rincian per baris, baris total, dan saringan milik aplikasi:
 ```
 
 `footer` menerima semua baris hasil saringan (bukan hanya halaman ini), jadi totalnya ikut saringan.
+
+Tabel padat (baris ±33 px) dengan zebra lembut; tombol ikon (`Button` tanpa teks), lencana, dan isian di dalam sel otomatis mengecil.
+
+## Modal
+
+```tsx
+<Dialog open={buka} onClose={() => setBuka(false)} title="Tambah transaksi" description="Jurnal dibuat otomatis."
+  icon={<Plus size={20} />} size="lg" onSubmit={simpan} alert={galat}
+  footer={<><Button onClick={() => setBuka(false)}>Batal</Button><Button type="submit" variant="primary">Simpan</Button></>}>
+  <Input label="Keterangan" required />
+</Dialog>
+```
+
+Toast halaman yang memakai `position: fixed` tertutup lapisan modal; tampilkan galat simpan lewat `alert`.
 
 ## Tema
 

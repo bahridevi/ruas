@@ -104,4 +104,18 @@ assert.match(r(h(UI.Badge, { size: 'sm', tone: 'success' }, 'x')), /class="ruas-
 assert.doesNotMatch(r(h(UI.DataTable, { title: 'X', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], searchable: false })), /type="search" [^>]*placeholder="Ketik untuk mencari/, 'kotak cari bisa disembunyikan');
 // Lightning CSS (Tailwind 4) menggabung `font: ... sans-serif; font-family: inherit` jadi `font: ... inherit` yang tidak sah: pakai longhand.
 assert.doesNotMatch(readFileSync(new URL('../packages/ui/ruas-ui.css', import.meta.url), 'utf8'), /font:[^;]*;s*font-family:s*inherit/, 'shorthand font + inherit dilarang');
+// Pohon: tingkat lewat --tingkat, tombol beraria; daun tanpa tombol. Dialog: tertutup = kosong; terbuka = judul terhubung, tombol Tutup, form bila onSubmit.
+assert.match(r(h(UI.TreeCell, { depth: 2, expanded: true, onToggle: () => {}, label: '11' }, '11')), /style="--tingkat:2".*aria-expanded="true" aria-label="Gulung 11"/);
+assert.doesNotMatch(r(h(UI.TreeCell, { depth: 1 }, '1111')), /<button/);
+assert.doesNotMatch(r(h(UI.Dialog, { open: false, title: 'X' }, 'isi rahasia')), /isi rahasia/, 'dialog tertutup tidak merender isi');
+const dlg = r(h(UI.Dialog, { open: true, title: 'Tambah', description: 'Catat kas', onSubmit: () => {}, footer: h(UI.Button, { type: 'submit' }, 'Simpan') }, 'isi'));
+assert.match(dlg, /<dialog [^>]*class="ruas-dialog ruas-dialog-md"/);
+assert.match(dlg, /aria-labelledby="([^"]+)".*<h2 id="\1"/);
+assert.match(dlg, /<form class="ruas-dialog-kotak">/);
+assert.match(dlg, /aria-label="Tutup"/);
+assert.doesNotMatch(r(h(UI.Dialog, { open: true, title: 'X', dismissible: false }, 'i')), /aria-label="Tutup"/);
+assert.match(r(h(UI.Button, { icon: h('svg'), 'aria-label': 'Ubah' })), /ruas-btn-ikon/, 'tombol ikon saja');
+assert.doesNotMatch(r(h(UI.Button, { icon: h('svg') }, 'Simpan')), /ruas-btn-ikon/);
+assert.match(r(h(UI.Dialog, { open: true, title: 'X', alert: 'Gagal menyimpan.' }, 'i')), /role="alert".*Gagal menyimpan./, 'galat di dalam dialog');
+assert.match(readFileSync(new URL('../packages/ui/ruas-ui.css', import.meta.url), 'utf8'), /.ruas-dialog {[^}]*margin: auto !important/, 'modal tetap di tengah walau induk memakai space-y-*');
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');
