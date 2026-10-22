@@ -1,5 +1,16 @@
 # Menyumbang ikon
 
+*English: suggest an icon via an [issue](https://github.com/bahridevi/ruas/issues/new?template=usul-ikon.yml), or draw it yourself following the steps below and open a pull request. The philosophy is in [docs/falsafah_en.html](docs/falsafah_en.html).*
+
+Ada dua jalur:
+
+- **Usulkan saja, tanpa menggambar.** Buka [Usulkan ikon](https://github.com/bahridevi/ruas/issues/new?template=usul-ikon.yml), tulis nama, kegunaan, dan wujudnya (boleh lampirkan foto atau sketsa).
+- **Gambar sendiri.** *Fork* repo ini, buat cabang baru, ikuti langkah di bawah, lalu kirim *pull request*. Penjaga falsafah berjalan otomatis pada setiap *pull request*; pemelihara memeriksa daftar periksa manusia sebelum menerima.
+
+Setelah diterima, ikon ikut terbit di galeri dan di paket npm `@ruas-icons/svg` dan `@ruas-icons/react` versi berikutnya.
+
+## Langkah menggambar
+
 1. Baca [docs/falsafah_id.html](docs/falsafah_id.html) (English: [docs/falsafah_en.html](docs/falsafah_en.html)). Setiap butirnya wajib.
 2. Buat `icons/<id>.svg`. ID dalam bahasa Inggris, kebab-case, pola `benda-pengubah` (mis. `user-plus`, `house-gadang`).
    Kepala SVG harus persis:

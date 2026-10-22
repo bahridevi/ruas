@@ -1,0 +1,42 @@
+name: Usulkan ikon · Suggest an icon
+description: Minta ikon baru untuk Ruas, tidak perlu bisa menggambar. · Request a new icon, no drawing skills needed.
+title: "Usul ikon: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Terima kasih! Pastikan dulu ikonnya belum ada di [galeri Ruas](https://ruas.metabahri.com/site/) (cari dalam bahasa Indonesia atau Inggris).
+        Thank you! Please check the [Ruas gallery](https://ruas.metabahri.com/site/) first (search in Indonesian or English).
+  - type: input
+    id: nama
+    attributes:
+      label: Nama ikon · Icon name
+      description: Bahasa Indonesia, dan Inggris bila tahu. Contoh · Example "Rumah Lamin / Lamin house".
+    validations:
+      required: true
+  - type: textarea
+    id: guna
+    attributes:
+      label: Untuk apa ikon ini dipakai? · What is it for?
+      description: Tombol, menu, atau aplikasi tempat ikon ini akan tampil. · The button, menu, or app where it will appear.
+    validations:
+      required: true
+  - type: textarea
+    id: rupa
+    attributes:
+      label: Seperti apa wujudnya? · What should it look like?
+      description: Ciri utama yang membuatnya langsung dikenali. Lampirkan foto atau sketsa dengan menyeretnya ke kotak ini. · Key features that make it recognisable. Drag a photo or sketch here.
+  - type: input
+    id: kunci
+    attributes:
+      label: Kata kunci · Keywords
+      description: Dipisah koma, Indonesia dan Inggris. · Comma-separated, Indonesian and English.
+  - type: dropdown
+    id: gambar
+    attributes:
+      label: Mau menggambar sendiri? · Will you draw it yourself?
+      options:
+        - Tidak, mohon dibuatkan · No, please make it
+        - Ya, saya akan mengirim pull request · Yes, I will send a pull request
+    validations:
+      required: true

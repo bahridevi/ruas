@@ -55,6 +55,10 @@ Kelas mode: `ruas-lapis`, `ruas-aksen`, `ruas-isi` (boleh digabung). Variabel: `
 
 Ikon tanpa makna teks diberi `aria-hidden="true"`; ikon yang berdiri sendiri diberi `role="img"` dan `aria-label`.
 
+## Menyumbang
+
+Usulkan ikon lewat [issue](https://github.com/bahridevi/ruas/issues/new?template=usul-ikon.yml) tanpa perlu menggambar, atau gambar sendiri dan kirim *pull request*: lihat [CONTRIBUTING.md](https://github.com/bahridevi/ruas/blob/main/CONTRIBUTING.md). Kode: [github.com/bahridevi/ruas](https://github.com/bahridevi/ruas).
+
 ## Belum ada
 
 - Paket Vue/Svelte dan pendaftaran ke Iconify.
