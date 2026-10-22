@@ -82,6 +82,7 @@ export declare function DataTable<R>(props: Teks & {
   /** Baris rincian yang bisa dibuka per baris (tombol di kolom pertama, plus "Buka semua rincian"). */ detail?: (row: R) => ReactNode;
   /** Baris total di kaki tabel (satu objek, atau larik untuk beberapa baris): isi per kunci kolom, dihitung dari SEMUA hasil saringan (mode server: rows). */ footer?: (rows: R[]) => Partial<Record<string, ReactNode>> | Partial<Record<string, ReactNode>>[];
   /** Hanya tercetak (kop surat, tanda tangan) saat Cetak halaman ini / hasil saringan. */ printHeader?: ReactNode; printFooter?: ReactNode;
+  /** Kelas tambahan per baris, mis. warna kondisi. */ rowClassName?: (row: R) => string | undefined;
   /** Saringan tambahan milik aplikasi (periode, rentang tanggal…) di bagian Saringan. */ filters?: ReactNode;
   /** Jumlah saringan tambahan yang aktif (ikut "x saringan aktif"). */ filtersActive?: number;
   /** Dipanggil oleh "Hapus saringan" agar aplikasi mengosongkan saringan tambahannya. */ onClearFilters?: () => void;

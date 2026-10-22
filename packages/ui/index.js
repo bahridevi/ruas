@@ -294,7 +294,7 @@ export function applyTableState(rows, columns, { q = '', filters = {}, sort = nu
 // Mode server: beri `total` (jumlah hasil saringan) dan `onStateChange`; `rows` cukup baris halaman yang tampil.
 export function DataTable({
   title, columns, rows = [], rowKey, summary, actions, total, grandTotal, onStateChange, fetchAllRows, loading,
-  detail, footer, filters, filtersActive = 0, onClearFilters, printHeader, printFooter,
+  detail, footer, filters, filtersActive = 0, onClearFilters, printHeader, printFooter, rowClassName,
   pageSizes = [10, 25, 50, 100], defaultPageSize, defaultOpen = true, emptyText, labels, className,
 }) {
   const L = { ...LABEL, ...labels };
@@ -361,7 +361,7 @@ export function DataTable({
         : baris.map((r, i) => {
           const k = kunciHal[i], terbuka = detail && buka.has(k);
           return h(Fragment, { key: k },
-            h('tr', { className: terbuka ? 'ruas-terbuka' : undefined },
+            h('tr', { className: cx(terbuka && 'ruas-terbuka', rowClassName?.(r)) || undefined },
               detail && h('td', { className: 'ruas-buka' }, h('button', { type: 'button', className: 'ruas-buka-btn ruas-noprint', 'aria-expanded': !!terbuka, 'aria-label': terbuka ? L.gulungRincian : L.bukaRincian, title: terbuka ? L.gulungRincian : L.bukaRincian, onClick: () => alih(k) }, h(terbuka ? ChevronDown : ChevronRight, { size: 16 }))),
               h('td', { className: 'ruas-no' }, angka(noAwal + i + 1)),
               columns.map(c => h('td', { key: c.key, style: { textAlign: c.align } }, c.render ? c.render(r) : tampilNilai(nilai(c, r))))),

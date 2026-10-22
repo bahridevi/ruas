@@ -1,6 +1,7 @@
 /* @ruas-icons/ui: komponen dasbor bergaya Ruas.
    Sudut Daun: kiri-atas & kanan-bawah besar, kanan-atas & kiri-bawah kecil. Lingkaran tetap bulat.
    Warna lewat token --ruas-*; petakan ke tema aplikasi bila perlu, mis. :root { --ruas-bambu: var(--primary); }.
+   Lencana sukses memakai --ruas-sukses (bawaan = bambu); isi bila warna utama aplikasi bukan hijau.
    Tema gelap: [data-theme="dark"] atau .dark; tanpa data-theme, mengikuti sistem. */
 :root {
   --ruas-bg: #F2F5EE; --ruas-surface: #FBFCF8; --ruas-ink: #17211A; --ruas-muted: #56645A; --ruas-line: #D3DBCD;
@@ -48,7 +49,7 @@
   color: var(--nada); background: color-mix(in srgb, var(--nada) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--nada) 35%, transparent); border-radius: 6px 2px 6px 2px; white-space: nowrap; justify-self: start;
 }
-.ruas-badge-success { --nada: var(--ruas-bambu); }
+.ruas-badge-success { --nada: var(--ruas-sukses, var(--ruas-bambu)); }
 .ruas-badge-warning { --nada: var(--ruas-kunyit); }
 .ruas-badge-danger { --nada: var(--ruas-bahaya); }
 .ruas-badge-info { --nada: var(--ruas-info); }

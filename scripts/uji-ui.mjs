@@ -97,4 +97,5 @@ assert.equal((kaki2.match(/<tfoot>.*<\/tfoot>/)[0].match(/<tr>/g) || []).length,
 assert.match(kaki2, /class="ruas-cetak-saja">KOP</);
 assert.match(kaki2, /class="ruas-cetak-saja">TTD</);
 assert.equal((kaki2.match(/ruas-noprint/g) || []).length >= 2, true);
+assert.match(r(h(UI.DataTable, { title: 'X', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], rowClassName: x => x.id === 0 ? 'merah' : '' })), /<tr class="merah">/, 'rowClassName');
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');
