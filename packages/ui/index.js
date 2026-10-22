@@ -264,7 +264,8 @@ export function Section({ title, meta, actions, children, defaultOpen = true, op
 }
 
 const nilai = (c, r) => (c.value ? c.value(r) : r[c.key]);
-const teks = x => (x == null ? '' : String(x)).toLowerCase();
+// Elemen React/objek lain tidak ikut dicari (bukan "[object Object]"); tanggal dicari dalam format Indonesia.
+const teks = x => (x == null || (typeof x === 'object' && !(x instanceof Date)) ? '' : x instanceof Date ? x.toLocaleDateString('id-ID') : String(x)).toLowerCase();
 const opsi = o => (typeof o === 'object' ? o : { value: o, label: o });
 const banding = (a, b) => (typeof a === 'number' && typeof b === 'number') || (a instanceof Date && b instanceof Date)
   ? a - b : String(a).localeCompare(String(b), 'id', { numeric: true, sensitivity: 'base' });

@@ -98,4 +98,5 @@ assert.match(kaki2, /class="ruas-cetak-saja">KOP</);
 assert.match(kaki2, /class="ruas-cetak-saja">TTD</);
 assert.equal((kaki2.match(/ruas-noprint/g) || []).length >= 2, true);
 assert.match(r(h(UI.DataTable, { title: 'X', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], rowClassName: x => x.id === 0 ? 'merah' : '' })), /<tr class="merah">/, 'rowClassName');
+assert.equal(olah([{ a: h('b', null, 'x') }, { a: 'object' }], [{ key: 'a' }], { q: 'object' }).length, 1, 'elemen React tidak dicari sebagai [object Object]');
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');
