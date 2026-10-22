@@ -294,7 +294,7 @@ export function applyTableState(rows, columns, { q = '', filters = {}, sort = nu
 // Mode server: beri `total` (jumlah hasil saringan) dan `onStateChange`; `rows` cukup baris halaman yang tampil.
 export function DataTable({
   title, columns, rows = [], rowKey, summary, actions, total, grandTotal, onStateChange, fetchAllRows, loading,
-  detail, footer, filters, filtersActive = 0, onClearFilters,
+  detail, footer, filters, filtersActive = 0, onClearFilters, printHeader, printFooter,
   pageSizes = [10, 25, 50, 100], defaultPageSize, defaultOpen = true, emptyText, labels, className,
 }) {
   const L = { ...LABEL, ...labels };
@@ -368,10 +368,10 @@ export function DataTable({
             terbuka && h('tr', { className: 'ruas-rincian' }, h('td', { colSpan: lebar }, detail(r))));
         }));
   const sel = footer && baris.length ? footer(server ? rows : olah) : null;
-  const kaki = sel && h('tfoot', null, h('tr', null,
+  const kaki = sel && h('tfoot', null, [].concat(sel).map((b, i) => h('tr', { key: i },
     detail && h('td', { className: 'ruas-buka' }),
     h('td', { className: 'ruas-no' }),
-    columns.map(c => h('td', { key: c.key, style: { textAlign: c.align } }, sel[c.key] ?? null))));
+    columns.map(c => h('td', { key: c.key, style: { textAlign: c.align } }, b[c.key] ?? null)))));
   const paging = h('div', { className: 'ruas-paging ruas-noprint' },
     h('span', { 'aria-live': 'polite' }, n ? L.rentang(awal + 1, Math.min(awal + st.pageSize, n), n) : L.jumlah(0, 0)),
     h('div', { className: 'ruas-paging-kanan' },
@@ -389,15 +389,17 @@ export function DataTable({
 
   return h(Section, { title, meta: L.jumlah(n, semua), actions, defaultOpen, className: cx('ruas-datatable', className) },
     h(SectionGroup, { labels },
-      summary && h(Section, { title: L.ringkasan, level: 4 }, summary),
-      h(Section, { title: L.saringan, meta: nSaring ? L.saringanAktif(nSaring) : null, level: 4 },
+      summary && h(Section, { title: L.ringkasan, level: 4, className: 'ruas-noprint' }, summary),
+      h(Section, { title: L.saringan, meta: nSaring ? L.saringanAktif(nSaring) : null, level: 4, className: 'ruas-noprint' },
         filters && h('div', { className: 'ruas-saringan-lain' }, filters),
         h('div', { className: 'ruas-saringan' },
           h(Input, { type: 'search', label: L.cari, placeholder: L.cariContoh, value: st.q, onChange: e => ubah({ q: e.target.value }) }),
           h(Button, { icon: h(Close, { size: 16 }), disabled: !nSaring, onClick: () => { ubah({ q: '', filters: {} }); onClearFilters?.(); } }, L.hapusSaringan))),
       h('div', { ref: daftar },
+        printHeader && h('div', { className: 'ruas-cetak-saja' }, printHeader),
         h(Section, { title: L.daftar, meta: n ? L.rentang(awal + 1, Math.min(awal + st.pageSize, n), n) : null, level: 4, actions: tombolCetak },
           galatCetak && h('p', { className: 'ruas-galat', role: 'alert' }, h(TriangleAlert, { size: 16 }), galatCetak),
           h('div', { className: 'ruas-tabel-gulir' }, h('table', { className: 'ruas-tabel', 'aria-busy': loading || undefined }, kepala, badan, kaki)),
-          paging))));
+          paging),
+        printFooter && h('div', { className: 'ruas-cetak-saja' }, printFooter))));
 }

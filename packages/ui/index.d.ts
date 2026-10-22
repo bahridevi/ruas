@@ -80,7 +80,8 @@ export declare function DataTable<R>(props: Teks & {
   onStateChange?: (state: TableState) => void;
   /** Mode server: ambil semua baris hasil saringan untuk "Cetak hasil saringan". */ fetchAllRows?: (state: TableState) => Promise<R[]>;
   /** Baris rincian yang bisa dibuka per baris (tombol di kolom pertama, plus "Buka semua rincian"). */ detail?: (row: R) => ReactNode;
-  /** Baris total di kaki tabel: isi per kunci kolom, dihitung dari SEMUA hasil saringan (mode server: rows). */ footer?: (rows: R[]) => Partial<Record<string, ReactNode>>;
+  /** Baris total di kaki tabel (satu objek, atau larik untuk beberapa baris): isi per kunci kolom, dihitung dari SEMUA hasil saringan (mode server: rows). */ footer?: (rows: R[]) => Partial<Record<string, ReactNode>> | Partial<Record<string, ReactNode>>[];
+  /** Hanya tercetak (kop surat, tanda tangan) saat Cetak halaman ini / hasil saringan. */ printHeader?: ReactNode; printFooter?: ReactNode;
   /** Saringan tambahan milik aplikasi (periode, rentang tanggal…) di bagian Saringan. */ filters?: ReactNode;
   /** Jumlah saringan tambahan yang aktif (ikut "x saringan aktif"). */ filtersActive?: number;
   /** Dipanggil oleh "Hapus saringan" agar aplikasi mengosongkan saringan tambahannya. */ onClearFilters?: () => void;

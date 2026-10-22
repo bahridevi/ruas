@@ -89,4 +89,12 @@ assert.match(rinci, /Buka semua rincian/);
 assert.match(rinci, /<tfoot><tr><td class="ruas-buka"><\/td><td class="ruas-no"><\/td><td[^>]*>Total<\/td><td[^>]*>23<\/td>/, 'total dari semua 23 baris, bukan hanya halaman');
 assert.match(rinci, /ruas-saringan-lain[^>]*><span>Periode/);
 assert.match(rinci, /1 saringan aktif/);
+
+// Kaki beberapa baris, kop/tanda tangan hanya tercetak, ringkasan & saringan tidak tercetak.
+const kaki2 = r(h(UI.DataTable, { title: 'Kas', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], summary: 'ringkas',
+  footer: () => [{ nama: 'Total' }, { nama: 'Arus bersih' }], printHeader: 'KOP', printFooter: 'TTD' }));
+assert.equal((kaki2.match(/<tfoot>.*<\/tfoot>/)[0].match(/<tr>/g) || []).length, 2, 'footer larik = dua baris');
+assert.match(kaki2, /class="ruas-cetak-saja">KOP</);
+assert.match(kaki2, /class="ruas-cetak-saja">TTD</);
+assert.equal((kaki2.match(/ruas-noprint/g) || []).length >= 2, true);
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');

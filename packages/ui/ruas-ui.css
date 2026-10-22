@@ -186,10 +186,14 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 .ruas-paging label { display: inline-flex; align-items: center; gap: 8px; }
 .ruas-paging .ruas-select { width: auto; }
 
+.ruas-saring-baris .ruas-input, .ruas-saring-baris .ruas-select { min-width: 7.5em; }
+.ruas-cetak-saja { display: none; }
+
 .ruas-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* Cetak satu bagian (printElement): bagian lain disembunyikan, isi yang tergulung ikut tercetak. */
 @media print {
+  .ruas-cetak-saja { display: block; }
   .ruas-cetak-aktif body * { visibility: hidden; }
   .ruas-cetak-aktif .ruas-dicetak, .ruas-cetak-aktif .ruas-dicetak * { visibility: visible; }
   .ruas-cetak-aktif .ruas-dicetak { position: absolute; top: 0; left: 0; width: 100%; }
