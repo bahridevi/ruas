@@ -195,7 +195,7 @@ function Contoh() {
       { id: 'dokumen', label: 'Dokumen', content: h('p', { className: 'catatan' }, 'Belum ada dokumen.') },
       { id: 'arsip', label: 'Arsip', disabled: true, content: null },
     ] })),
-    h(DataTable, { title: 'Daftar karyawan (contoh)', rows: KARYAWAN, rowKey: 'id', columns: kolom, summary: ringkasan, actions: h(Button, { size: 'sm', variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Tambah') }),
+    h(DataTable, { title: 'Daftar karyawan (contoh)', rows: KARYAWAN, rowKey: 'id', columns: kolom, summary: ringkasan, detail: r => h('p', { className: 'catatan' }, `${r.nama} · unit ${r.unit} · masuk ${r.masuk.toLocaleDateString('id-ID', { dateStyle: 'long' })}`), footer: rs => ({ nama: `Total ${angka(rs.length)} orang`, gaji: `Rp${angka(rs.reduce((a, k) => a + k.gaji, 0))}` }), actions: h(Button, { size: 'sm', variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Tambah') }),
     h(Section, { title: 'Cara pasang' },
       h('pre', null, pasang),
       h('pre', null, tema),

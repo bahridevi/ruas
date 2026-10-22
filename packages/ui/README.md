@@ -59,6 +59,18 @@ Data besar: kerjakan saring, urut, dan halaman di server. Beri `total` (jumlah h
   loading={memuat} onStateChange={s => muat(s)} fetchAllRows={s => ambilSemua(s)} />
 ```
 
+Rincian per baris, baris total, dan saringan milik aplikasi:
+
+```tsx
+<DataTable title="Kas masuk" rows={trx} rowKey="id" columns={kolom}
+  detail={t => <RincianJurnal trx={t} />}
+  footer={rs => ({ akun: "Total", nominal: rupiah(rs.reduce((a, t) => a + t.nominal, 0)) })}
+  filters={<Input type="date" label="Dari" value={dari} onChange={e => setDari(e.target.value)} />}
+  filtersActive={dari ? 1 : 0} onClearFilters={() => setDari("")} />
+```
+
+`footer` menerima semua baris hasil saringan (bukan hanya halaman ini), jadi totalnya ikut saringan.
+
 ## Tema
 
 Token warna ada di `:root` (`--ruas-bg`, `--ruas-surface`, `--ruas-ink`, `--ruas-muted`, `--ruas-line`, `--ruas-bambu`, `--ruas-on-bambu`, `--ruas-kunyit`, `--ruas-bahaya`, `--ruas-info`). Tema gelap aktif dengan `data-theme="dark"` atau kelas `.dark`; tanpa `data-theme`, mengikuti sistem. Untuk mengikuti tema aplikasi:

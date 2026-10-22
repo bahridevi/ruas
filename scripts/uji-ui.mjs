@@ -79,4 +79,14 @@ assert.match(server, /Halaman 1 dari 50/);
 assert.doesNotMatch(server, /Cetak hasil saringan/, 'mode server tanpa fetchAllRows: tombol disembunyikan');
 assert.match(r(h(UI.DataTable, { title: 'X', rows: [], columns: [{ key: 'nama', label: 'Nama' }] })), /Belum ada data\./);
 
+
+// Tabel: baris rincian (detail), baris total (footer, dari semua hasil saringan), saringan tambahan.
+const rinci = r(h(UI.DataTable, { title: 'Kas', rowKey: 'id', rows: baris, columns: [{ key: 'nama', label: 'Nama' }, { key: 'unit', label: 'Unit' }],
+  detail: x => `rincian ${x.nama}`, footer: rs => ({ nama: 'Total', unit: rs.length }), filters: h('span', null, 'Periode'), filtersActive: 1 }));
+assert.match(rinci, /aria-expanded="false" aria-label="Buka rincian"/);
+assert.doesNotMatch(rinci, /rincian Orang 1</, 'rincian tertutup saat awal');
+assert.match(rinci, /Buka semua rincian/);
+assert.match(rinci, /<tfoot><tr><td class="ruas-buka"><\/td><td class="ruas-no"><\/td><td[^>]*>Total<\/td><td[^>]*>23<\/td>/, 'total dari semua 23 baris, bukan hanya halaman');
+assert.match(rinci, /ruas-saringan-lain[^>]*><span>Periode/);
+assert.match(rinci, /1 saringan aktif/);
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');

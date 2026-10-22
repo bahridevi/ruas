@@ -170,6 +170,16 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 .ruas-saring-baris td { padding: 6px 8px; background: var(--ruas-bg); }
 .ruas-tabel tbody tr:hover { background: color-mix(in srgb, var(--ruas-bambu) 6%, transparent); }
 .ruas-tabel .ruas-no { width: 3.5em; font: 600 .78rem/1.2 var(--ruas-mono); color: var(--ruas-muted); }
+.ruas-tabel .ruas-buka { width: 2.5em; padding-inline: 6px; }
+.ruas-buka-btn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; color: var(--ruas-muted); background: none; border: 1px solid var(--ruas-line); border-radius: 6px 2px 6px 2px; cursor: pointer; }
+.ruas-buka-btn:hover, .ruas-buka-btn[aria-expanded="true"] { color: var(--ruas-bambu); border-color: var(--ruas-bambu); }
+.ruas-buka-btn:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 2px; }
+.ruas-tabel tr.ruas-terbuka td { border-bottom-color: transparent; background: color-mix(in srgb, var(--ruas-bambu) 6%, transparent); }
+.ruas-tabel tr.ruas-rincian > td { padding: 4px 12px 14px calc(2.5em + 12px); background: color-mix(in srgb, var(--ruas-bambu) 3%, transparent); }
+.ruas-tabel tr.ruas-rincian:hover { background: none; }
+.ruas-tabel tfoot td { font-weight: 700; background: var(--ruas-bg); border-top: 2px solid var(--ruas-line); border-bottom: 0; }
+.ruas-saringan-lain { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-bottom: 10px; }
+.ruas-saringan-lain > .ruas-field { flex: 1 1 180px; }
 .ruas-kosong { text-align: center !important; color: var(--ruas-muted); padding: 28px 12px !important; }
 .ruas-paging { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; font-size: .88rem; color: var(--ruas-muted); font-variant-numeric: tabular-nums; }
 .ruas-paging-kanan { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

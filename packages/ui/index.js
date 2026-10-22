@@ -1,7 +1,7 @@
 'use client';
 // @ruas-icons/ui: komponen dasbor bergaya Ruas untuk React/Next.js. Tanpa langkah build; pasangkan ruas-ui.css.
 // Teks bawaan berbahasa Indonesia; ganti lewat prop `labels`. Ikon dari @ruas-icons/react.
-import { createContext, createElement as h, forwardRef, useContext, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { Fragment, createContext, createElement as h, forwardRef, useContext, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Close, Loader, Printer, Sort, TriangleAlert } from '@ruas-icons/react';
 
 const cx = (...a) => a.filter(Boolean).join(' ');
@@ -16,6 +16,7 @@ export const LABEL = {
   halaman: (a, b) => `Halaman ${angka(a)} dari ${angka(b)}`, sebelumnya: 'Sebelumnya', berikutnya: 'Berikutnya',
   barisPerHalaman: 'Baris per halaman', no: 'No', semua: 'Semua', saringKolom: k => `Saring ${k}`, urutkan: k => `Urutkan menurut ${k}`,
   kosong: 'Tidak ada data yang cocok dengan saringan. Coba hapus saringan.', kosongAwal: 'Belum ada data.',
+  bukaRincian: 'Buka rincian', gulungRincian: 'Gulung rincian', bukaSemuaRincian: 'Buka semua rincian', gulungSemuaRincian: 'Gulung semua rincian',
   cetakHalaman: 'Cetak halaman ini', cetakSaringan: 'Cetak hasil saringan', gagalCetak: 'Gagal menyiapkan cetakan. Periksa koneksi, lalu coba lagi.',
 };
 
@@ -293,6 +294,7 @@ export function applyTableState(rows, columns, { q = '', filters = {}, sort = nu
 // Mode server: beri `total` (jumlah hasil saringan) dan `onStateChange`; `rows` cukup baris halaman yang tampil.
 export function DataTable({
   title, columns, rows = [], rowKey, summary, actions, total, grandTotal, onStateChange, fetchAllRows, loading,
+  detail, footer, filters, filtersActive = 0, onClearFilters,
   pageSizes = [10, 25, 50, 100], defaultPageSize, defaultOpen = true, emptyText, labels, className,
 }) {
   const L = { ...LABEL, ...labels };
@@ -302,6 +304,7 @@ export function DataTable({
   const [galatCetak, setGalatCetak] = useState('');
   const daftar = useRef(null);
   const tunda = useRef();
+  const [buka, setBuka] = useState(() => new Set());
 
   const olah = useMemo(() => (server ? rows : applyTableState(rows, columns, st)), [server, rows, columns, st.q, st.filters, st.sort]);
   const n = server ? total : olah.length;
@@ -311,7 +314,7 @@ export function DataTable({
   const awal = (hal - 1) * st.pageSize;
   const baris = cetak ?? (server ? rows : olah.slice(awal, awal + st.pageSize));
   const noAwal = cetak ? 0 : awal;
-  const nSaring = (st.q ? 1 : 0) + Object.values(st.filters).filter(v => v != null && v !== '').length;
+  const nSaring = (st.q ? 1 : 0) + Object.values(st.filters).filter(v => v != null && v !== '').length + filtersActive;
 
   // Dipanggil saat mulai dan setiap perubahan; di mode server ditunda 250 ms agar mengetik tidak membanjiri server.
   useEffect(() => {
@@ -332,14 +335,19 @@ export function DataTable({
   const arahUrut = k => (st.sort?.key !== k ? 'none' : st.sort.dir === 'asc' ? 'ascending' : 'descending');
   const ikonUrut = k => h(st.sort?.key !== k ? Sort : st.sort.dir === 'asc' ? ChevronUp : ChevronDown, { size: 14 });
   const adaSaring = columns.some(c => c.filter);
-  const lebar = columns.length + 1;
+  const lebar = columns.length + (detail ? 2 : 1);
+  const kunciHal = baris.map((r, i) => kunci(r, noAwal + i));
+  const semuaBuka = kunciHal.length > 0 && kunciHal.every(k => buka.has(k));
+  const alih = k => setBuka(b => { const x = new Set(b); x.has(k) ? x.delete(k) : x.add(k); return x; });
 
   const kepala = h('thead', null,
     h('tr', null,
+      detail && h('th', { scope: 'col', className: 'ruas-buka' }, h('span', { className: 'ruas-sr' }, L.bukaRincian)),
       h('th', { scope: 'col', className: 'ruas-no' }, L.no),
       columns.map(c => h('th', { key: c.key, scope: 'col', 'aria-sort': c.sortable ? arahUrut(c.key) : undefined, style: { textAlign: c.align, width: c.width } },
         c.sortable ? h('button', { type: 'button', className: 'ruas-urut', title: L.urutkan(c.label), onClick: () => urut(c.key) }, c.label, ikonUrut(c.key)) : c.label))),
     adaSaring && h('tr', { className: 'ruas-saring-baris ruas-noprint' },
+      detail && h('td', { className: 'ruas-buka' }),
       h('td', { className: 'ruas-no' }),
       columns.map(c => h('td', { key: c.key }, c.filter && (c.options
         ? h('div', { className: 'ruas-select' },
@@ -350,9 +358,20 @@ export function DataTable({
   const badan = h('tbody', null,
     loading && !baris.length ? h('tr', null, h('td', { colSpan: lebar, className: 'ruas-kosong' }, L.memuat))
       : !baris.length ? h('tr', null, h('td', { colSpan: lebar, className: 'ruas-kosong' }, nSaring ? L.kosong : emptyText ?? L.kosongAwal))
-        : baris.map((r, i) => h('tr', { key: kunci(r, noAwal + i) },
-          h('td', { className: 'ruas-no' }, angka(noAwal + i + 1)),
-          columns.map(c => h('td', { key: c.key, style: { textAlign: c.align } }, c.render ? c.render(r) : tampilNilai(nilai(c, r)))))));
+        : baris.map((r, i) => {
+          const k = kunciHal[i], terbuka = detail && buka.has(k);
+          return h(Fragment, { key: k },
+            h('tr', { className: terbuka ? 'ruas-terbuka' : undefined },
+              detail && h('td', { className: 'ruas-buka' }, h('button', { type: 'button', className: 'ruas-buka-btn ruas-noprint', 'aria-expanded': !!terbuka, 'aria-label': terbuka ? L.gulungRincian : L.bukaRincian, title: terbuka ? L.gulungRincian : L.bukaRincian, onClick: () => alih(k) }, h(terbuka ? ChevronDown : ChevronRight, { size: 16 }))),
+              h('td', { className: 'ruas-no' }, angka(noAwal + i + 1)),
+              columns.map(c => h('td', { key: c.key, style: { textAlign: c.align } }, c.render ? c.render(r) : tampilNilai(nilai(c, r))))),
+            terbuka && h('tr', { className: 'ruas-rincian' }, h('td', { colSpan: lebar }, detail(r))));
+        }));
+  const sel = footer && baris.length ? footer(server ? rows : olah) : null;
+  const kaki = sel && h('tfoot', null, h('tr', null,
+    detail && h('td', { className: 'ruas-buka' }),
+    h('td', { className: 'ruas-no' }),
+    columns.map(c => h('td', { key: c.key, style: { textAlign: c.align } }, sel[c.key] ?? null))));
   const paging = h('div', { className: 'ruas-paging ruas-noprint' },
     h('span', { 'aria-live': 'polite' }, n ? L.rentang(awal + 1, Math.min(awal + st.pageSize, n), n) : L.jumlah(0, 0)),
     h('div', { className: 'ruas-paging-kanan' },
@@ -364,6 +383,7 @@ export function DataTable({
       h('span', null, L.halaman(hal, halMaks)),
       h(Button, { size: 'sm', disabled: hal >= halMaks, onClick: () => setSt(s => ({ ...s, page: hal + 1 })) }, L.berikutnya, h(ChevronRight, { size: 16 }))));
   const tombolCetak = h('div', { className: 'ruas-alat' },
+    detail && h(Button, { size: 'sm', variant: 'ghost', icon: h(semuaBuka ? ChevronUp : ChevronDown, { size: 16 }), disabled: !baris.length, 'aria-pressed': semuaBuka, onClick: () => setBuka(semuaBuka ? new Set() : new Set(kunciHal)) }, semuaBuka ? L.gulungSemuaRincian : L.bukaSemuaRincian),
     h(Button, { size: 'sm', variant: 'ghost', icon: h(Printer, { size: 16 }), disabled: !baris.length, onClick: () => printElement(daftar.current) }, L.cetakHalaman),
     (!server || fetchAllRows) && h(Button, { size: 'sm', variant: 'ghost', icon: h(Printer, { size: 16 }), disabled: !n, onClick: cetakSaringan }, L.cetakSaringan));
 
@@ -371,12 +391,13 @@ export function DataTable({
     h(SectionGroup, { labels },
       summary && h(Section, { title: L.ringkasan, level: 4 }, summary),
       h(Section, { title: L.saringan, meta: nSaring ? L.saringanAktif(nSaring) : null, level: 4 },
+        filters && h('div', { className: 'ruas-saringan-lain' }, filters),
         h('div', { className: 'ruas-saringan' },
           h(Input, { type: 'search', label: L.cari, placeholder: L.cariContoh, value: st.q, onChange: e => ubah({ q: e.target.value }) }),
-          h(Button, { icon: h(Close, { size: 16 }), disabled: !nSaring, onClick: () => ubah({ q: '', filters: {} }) }, L.hapusSaringan))),
+          h(Button, { icon: h(Close, { size: 16 }), disabled: !nSaring, onClick: () => { ubah({ q: '', filters: {} }); onClearFilters?.(); } }, L.hapusSaringan))),
       h('div', { ref: daftar },
         h(Section, { title: L.daftar, meta: n ? L.rentang(awal + 1, Math.min(awal + st.pageSize, n), n) : null, level: 4, actions: tombolCetak },
           galatCetak && h('p', { className: 'ruas-galat', role: 'alert' }, h(TriangleAlert, { size: 16 }), galatCetak),
-          h('div', { className: 'ruas-tabel-gulir' }, h('table', { className: 'ruas-tabel', 'aria-busy': loading || undefined }, kepala, badan)),
+          h('div', { className: 'ruas-tabel-gulir' }, h('table', { className: 'ruas-tabel', 'aria-busy': loading || undefined }, kepala, badan, kaki)),
           paging))));
 }

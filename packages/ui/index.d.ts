@@ -9,7 +9,7 @@ export interface Labels {
   jumlah: (a: number, b: number) => string; rentang: (a: number, b: number, n: number) => string;
   halaman: (a: number, b: number) => string; sebelumnya: string; berikutnya: string;
   barisPerHalaman: string; no: string; semua: string; saringKolom: (k: string) => string; urutkan: (k: string) => string;
-  kosong: string; kosongAwal: string; cetakHalaman: string; cetakSaringan: string; gagalCetak: string;
+  kosong: string; kosongAwal: string; bukaRincian: string; gulungRincian: string; bukaSemuaRincian: string; gulungSemuaRincian: string; cetakHalaman: string; cetakSaringan: string; gagalCetak: string;
 }
 type Teks = { labels?: Partial<Labels> };
 
@@ -79,5 +79,10 @@ export declare function DataTable<R>(props: Teks & {
   /** Jumlah seluruh data sebelum disaring (untuk "x dari y"). */ grandTotal?: number;
   onStateChange?: (state: TableState) => void;
   /** Mode server: ambil semua baris hasil saringan untuk "Cetak hasil saringan". */ fetchAllRows?: (state: TableState) => Promise<R[]>;
+  /** Baris rincian yang bisa dibuka per baris (tombol di kolom pertama, plus "Buka semua rincian"). */ detail?: (row: R) => ReactNode;
+  /** Baris total di kaki tabel: isi per kunci kolom, dihitung dari SEMUA hasil saringan (mode server: rows). */ footer?: (rows: R[]) => Partial<Record<string, ReactNode>>;
+  /** Saringan tambahan milik aplikasi (periode, rentang tanggal…) di bagian Saringan. */ filters?: ReactNode;
+  /** Jumlah saringan tambahan yang aktif (ikut "x saringan aktif"). */ filtersActive?: number;
+  /** Dipanggil oleh "Hapus saringan" agar aplikasi mengosongkan saringan tambahannya. */ onClearFilters?: () => void;
   loading?: boolean; pageSizes?: number[]; defaultPageSize?: number; defaultOpen?: boolean; emptyText?: ReactNode; className?: string;
 }): JSX.Element;
