@@ -1,15 +1,42 @@
 {
-  "name": "ruas",
+  "name": "@ruas-icons/svg",
   "version": "0.1.0",
   "description": "Set ikon publik gratis berfalsafah bambu: ringan, beruas, lentur, lurus, berumpun, untuk semua.",
   "license": "MIT",
+  "homepage": "https://ruas.metabahri.com",
+  "keywords": [
+    "icons",
+    "ikon",
+    "svg",
+    "sprite",
+    "indonesia",
+    "masjid",
+    "ruas"
+  ],
   "type": "module",
-  "files": ["dist"],
+  "exports": {
+    "./ruas.css": "./dist/ruas.css",
+    "./ruas.json": "./dist/ruas.json",
+    "./sprite.svg": "./dist/sprite.svg",
+    "./svg/*": "./dist/svg/*"
+  },
+  "files": [
+    "dist/svg",
+    "dist/sprite.svg",
+    "dist/ruas.css",
+    "dist/ruas.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "penjaga": "node scripts/penjaga.mjs",
-    "rakit": "node scripts/rakit.mjs"
+    "rakit": "node scripts/rakit.mjs",
+    "uji": "node scripts/uji-react.mjs"
   },
   "devDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "svg-path-bbox": "^2.1.0"
   }
 }

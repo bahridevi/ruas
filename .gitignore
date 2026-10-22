@@ -2,3 +2,5 @@ node_modules/
 dist/
 site/index.html
 .env
+packages/react/dist/
+packages/react/LICENSE

@@ -21,7 +21,8 @@ Lalu buka `site/index.html` di browser untuk melihat galeri.
 | `icons/<id>.svg` | Sumber tunggal tiap ikon (grid 24, garis 1,5, kelas peran `badan` `detail` `aksen` `padat`) |
 | `icons/<id>.json` | Nama Indonesia, kategori (Inti/Bidang, lihat bab 16 falsafah), `juga`, `seri`, kata kunci, dan `asal`/`ciri` untuk rumah adat |
 | `scripts/penjaga.mjs` | Pemeriksa falsafah: grid, kelipatan 0,25, area 2–22, ≤4 elemen, ≤1 KB, metadata |
-| `scripts/rakit.mjs` | Menghasilkan `dist/` |
+| `scripts/rakit.mjs` | Menghasilkan `dist/` (paket `@ruas-icons/svg`) dan `packages/react/dist/` (paket `@ruas-icons/react`) |
+| `scripts/uji-react.mjs` | Uji paket React (`npm run uji`) |
 | `ruas.css` | Mode warna Garis, Lapis, Aksen, Isi |
 | `site/` | Galeri publik. Sunting `site/galeri.html`; `site/index.html` dibuat oleh `npm run rakit` |
 | `docs/` | Falsafah dan catatan seri |
@@ -29,6 +30,21 @@ Lalu buka `site/index.html` di browser untuk melihat galeri.
 Hasil rakit (`dist/`, tidak masuk git): `svg/<id>.svg`, `sprite.svg` (simbol `ruas-<id>`), `ruas.json`, `ruas.js`, `ruas.css`.
 
 ## Pakai
+
+React / Next.js:
+
+```bash
+npm i @ruas-icons/react
+```
+
+```jsx
+import { MosqueDome } from "@ruas-icons/react";
+<MosqueDome size={20} title="Masjid terdekat" />
+```
+
+SVG, sprite, CSS (semua aplikasi): `npm i @ruas-icons/svg`, lalu pakai `@ruas-icons/svg/svg/<id>.svg`, `@ruas-icons/svg/sprite.svg` (simbol `ruas-<id>`), `@ruas-icons/svg/ruas.css`, `@ruas-icons/svg/ruas.json`.
+
+Tanpa npm, tempel SVG-nya langsung:
 
 ```html
 <link rel="stylesheet" href="ruas.css">
@@ -41,5 +57,5 @@ Ikon tanpa makna teks diberi `aria-hidden="true"`; ikon yang berdiri sendiri dib
 
 ## Belum ada
 
-- Paket `@ruas/react` dan paket npm terbit.
+- Paket Vue/Svelte dan pendaftaran ke Iconify.
 - Gerak (`gerak`) dan pencerminan RTL (`cermin`) baru dicatat di metadata, belum dirakit menjadi CSS.

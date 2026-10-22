@@ -1,0 +1,22 @@
+{
+  "name": "@ruas-icons/react",
+  "version": "0.1.0",
+  "description": "Ikon Ruas sebagai komponen React/Next.js: ringan, satu komponen per ikon, tree-shakeable.",
+  "license": "MIT",
+  "homepage": "https://ruas.metabahri.com",
+  "keywords": ["icons", "ikon", "react", "nextjs", "svg", "indonesia", "masjid", "ruas"],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" }
+  },
+  "sideEffects": false,
+  "files": ["dist"],
+  "peerDependencies": {
+    "react": ">=16.8"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
