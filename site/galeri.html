@@ -12,7 +12,7 @@
 <meta property="og:title" content="Ruas · Ikon SVG gratis berbahasa Indonesia">
 <meta property="og:description" content="Ikon SVG gratis berlisensi MIT, berfalsafah bambu. Cari dalam bahasa Indonesia atau Inggris.">
 <meta property="og:url" content="https://ruas.metabahri.com/site/">
-<link rel="alternate" hreflang="id" href="https://ruas.metabahri.com/site/?lang=id">
+<link rel="alternate" hreflang="id" href="https://ruas.metabahri.com/site/">
 <link rel="alternate" hreflang="en" href="https://ruas.metabahri.com/site/?lang=en">
 <link rel="alternate" hreflang="x-default" href="https://ruas.metabahri.com/site/">
 <link rel="icon" type="image/svg+xml" href="../dist/svg/house-gadang.svg">
@@ -133,7 +133,7 @@ input[type="color"] { width: 44px; height: 34px; border: 1px solid var(--line); 
 .rinci .pv { color: var(--muted); margin: 2px 0 10px; }
 .fakta { display: grid; grid-template-columns: 9em minmax(0, 1fr); gap: 6px 12px; margin: 12px 0; font-size: .92rem; }
 .fakta dt { font: 600 .7rem/1.9 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-.fakta dd { margin: 0; }
+.fakta dd { margin: 0; overflow-wrap: anywhere; }
 .tombol { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
 /* Lembar uji */
@@ -279,7 +279,26 @@ pre { background: var(--surface); border: 1px solid var(--line); border-radius: 
   <details class="bab" id="pakai-bab" open>
     <summary><span class="no">04</span><h2 data-en="How to use">Cara pakai</h2><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
     <div class="isi">
-      <h3 data-en="Inline SVG">SVG langsung</h3>
+      <h3 data-en="Install with npm">Pasang lewat npm</h3>
+      <p data-en="React / Next.js: one component per icon; only the icons you import end up in your bundle.">React / Next.js: satu komponen per ikon; hanya ikon yang diimpor yang masuk ke bundel.</p>
+      <pre>npm i @ruas-icons/react
+
+import { MosqueDome } from "@ruas-icons/react";
+&lt;MosqueDome size={24} title="Masjid terdekat" /&gt;</pre>
+      <p data-en="Any app: SVG files, sprite, CSS, and JSON data.">Semua aplikasi: berkas SVG, sprite, CSS, dan data JSON.</p>
+      <pre>npm i @ruas-icons/svg
+
+@ruas-icons/svg/svg/mosque-dome.svg
+@ruas-icons/svg/sprite.svg   #ruas-&lt;id&gt;
+@ruas-icons/svg/ruas.css
+@ruas-icons/svg/ruas.json</pre>
+      <div class="tombol" id="npm">
+        <button class="btn utama" type="button" data-npm="npm i @ruas-icons/react" data-en="Copy npm i @ruas-icons/react">Salin npm i @ruas-icons/react</button>
+        <button class="btn" type="button" data-npm="npm i @ruas-icons/svg" data-en="Copy npm i @ruas-icons/svg">Salin npm i @ruas-icons/svg</button>
+        <a class="btn" href="https://www.npmjs.com/package/@ruas-icons/react" rel="noopener" data-en="React package on npm">Paket React di npm</a>
+        <a class="btn" href="https://www.npmjs.com/package/@ruas-icons/svg" rel="noopener" data-en="SVG package on npm">Paket SVG di npm</a>
+      </div>
+      <h3 data-en="Inline SVG, without npm">SVG langsung, tanpa npm</h3>
       <p data-en='Paste the SVG from the <em>Copy SVG</em> button, or take the file from <code>dist/svg/</code>. The colour follows the surrounding text <code>color</code>.'>Tempel SVG dari tombol <em>Salin SVG</em>, atau ambil berkasnya dari <code>dist/svg/</code>. Warna mengikuti <code>color</code> teks di sekitarnya.</p>
       <h3 data-en="Colour modes">Mode warna</h3>
       <pre>&lt;link rel="stylesheet" href="ruas.css"&gt;
@@ -325,6 +344,8 @@ const T = {
     salinSvg: 'Salin SVG', salinJsx: 'Salin komponen React', unduh: 'Unduh SVG', salinTautan: 'Salin tautan',
     disalin: l => `${l} disalin`, komponen: 'Komponen', tautan: 'Tautan', sprite: n => `Sprite ${n} ikon`,
     judul: 'Ruas · Ikon SVG gratis berbahasa Indonesia', judulIkon: 'Ikon SVG gratis',
+    desk: document.querySelector('meta[name="description"]').content,
+    deskIkon: r => `${r.nama} (${r.en}): ikon SVG gratis berlisensi MIT dari Ruas.${r.ciri ? ' ' + r.ciri : ''} Kata kunci: ${r.tag.join(', ')}. Salin SVG, komponen React (@ruas-icons/react), atau unduh berkasnya.`,
   },
   en: {
     loc: 'en-US', semuaKat: n => `All categories (${n})`, inti: 'Core', bidang: 'Fields', semuaSeri: 'All series',
@@ -335,6 +356,8 @@ const T = {
     salinSvg: 'Copy SVG', salinJsx: 'Copy React component', unduh: 'Download SVG', salinTautan: 'Copy link',
     disalin: l => `${l} copied`, komponen: 'Component', tautan: 'Link', sprite: n => `Sprite of ${n} icons`,
     judul: 'Ruas · Free SVG icons in Indonesian & English', judulIkon: 'Free SVG icon',
+    desk: 'Ruas: free SVG icons (MIT licence) with Indonesian and English names and keywords. UI, finance & accounting, commerce, religion, traditional Nusantara houses. Copy SVG, React component, or sprite.',
+    deskIkon: r => `${r.en} (${r.nama}): free MIT-licensed SVG icon from Ruas.${r.ciri_en ? ' ' + r.ciri_en : ''} Keywords: ${r.tag.join(', ')}. Copy the SVG, the React component (@ruas-icons/react), or download the file.`,
   },
 };
 let bhs = 'id', t = T.id;
@@ -364,6 +387,7 @@ if (!DATA.length) $('galat').hidden = false;
 $('hero-ikon').innerHTML = ['wallet', 'journal', 'store', 'mosque', 'house-gadang'].map(id => DATA.find(r => r.id === id)).filter(Boolean).map(r => svgIkon(r)).join('');
 
 const st = { q: '', kat: '', seri: '', urut: 'bawaan', per: 48, hal: 1, pilih: '' };
+let dipilih = false;
 // Kategori berisi saja; dikelompokkan Inti dan Bidang. Hitungan memasukkan kategori tambahan (juga).
 const opsiKat = kel => urutKat.filter(k => KAT[k].kelompok === kel).map(k => [k, DATA.filter(r => diKat(r, k)).length]).filter(([, n]) => n)
   .map(([k, n]) => `<option value="${k}">${katNama(k)} (${n})</option>`).join('');
@@ -428,6 +452,7 @@ function rinci() {
       <dl class="fakta">
         ${r.en !== r.nama ? `<dt>${t.namaLain}</dt><dd lang="${en() ? 'id' : 'en'}">${en() ? r.nama : r.en}</dd>` : ''}
         <dt>${t.idKode}</dt><dd><code>${r.id}</code></dd>
+        <dt>React</dt><dd><code>import { ${pascal(r.id)} } from "@ruas-icons/react"</code></dd>
         <dt>${t.kategori}</dt><dd>${katLengkap(r)}${r.seri ? ` · ${t.seri} ${seriNama(r.seri)}` : ''}</dd>
         <dt>${t.ukuran}</dt><dd>${r.byte} ${t.byte} · ${elemen} ${t.elemen}</dd>
         <dt>${t.aksen}</dt><dd>${r.isi.includes('aksen') ? t.ada : t.tanpa}${r.gerak ? ` · ${t.gerak} ${r.gerak}` : ''}</dd>
@@ -464,6 +489,7 @@ $('galeri').addEventListener('click', e => {
   const t = e.target.closest('.tile');
   if (!t) return;
   st.pilih = t.dataset.id;
+  dipilih = true;
   $('galeri').querySelectorAll('.tile').forEach(x => x.setAttribute('aria-pressed', x === t));
   rinci();
   alamat();
@@ -483,6 +509,10 @@ $('salin-sprite').addEventListener('click', () => {
   catat('salin-sprite');
   salin(`<svg xmlns="http://www.w3.org/2000/svg" style="display:none">\n${h.map(r => `  <symbol id="ruas-${r.id}" viewBox="0 0 24 24" ${ATRIBUT}>${r.isi}</symbol>`).join('\n')}\n</svg>`, t.sprite(h.length));
 });
+$('npm').addEventListener('click', e => {
+  const b = e.target.closest('[data-npm]');
+  if (b) salin(b.dataset.npm, b.dataset.npm);
+});
 
 // Statistik tanpa cookie: penanda salin ke log server, dan angka umum dilihat/diunduh di kepala halaman.
 function catat(e, id = '') { try { navigator.sendBeacon(`../stat/hit?e=${e}&id=${id}`); } catch {} }
@@ -497,16 +527,27 @@ function angkaStat() {
 fetch('../stat/umum.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : Promise.reject()).then(s => { stat = s; angkaStat(); }).catch(() => {});
 
 // Alamat bisa dibagikan: ?q=, ?kat=, ?seri=, ?ikon=, ?lang=en. Judul tab mengikuti ikon terpilih.
+// Ikon bawaan (belum diklik, tidak dari tautan) tidak masuk alamat, agar /site/ tetap beranda bagi mesin pencari.
+// Tiap ?ikon= punya judul, deskripsi, kanonis, dan hreflang sendiri; saringan q/kat/seri tidak masuk kanonis.
+const DESK = document.querySelector('meta[name="description"]');
+const ALT = Object.fromEntries([...document.querySelectorAll('link[hreflang]')].map(l => [l.hreflang, l]));
+const KANON = document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'canonical' }));
 function alamat() {
   const p = new URLSearchParams();
   if (en()) p.set('lang', 'en');
   if (st.q) p.set('q', st.q);
   if (st.kat) p.set('kat', st.kat);
   if (st.seri) p.set('seri', st.seri);
-  if (st.pilih) p.set('ikon', st.pilih);
+  if (st.pilih && dipilih) p.set('ikon', st.pilih);
   history.replaceState(null, '', String(p) ? `?${p}` : location.pathname);
-  const r = DATA.find(x => x.id === st.pilih);
+  const r = dipilih && DATA.find(x => x.id === st.pilih);
   document.title = r ? `${nama(r)} (${r.id}) · ${t.judulIkon} · Ruas` : t.judul;
+  DESK.content = r ? t.deskIkon(r) : t.desk;
+  const ke = (...a) => { const s = a.filter(Boolean).join('&'); return `${location.origin}${location.pathname}${s ? '?' + s : ''}`; };
+  const ik = r && `ikon=${r.id}`;
+  KANON.href = ke(ik, en() && 'lang=en');
+  ALT.id.href = ALT['x-default'].href = ke(ik);
+  ALT.en.href = ke(ik, 'lang=en');
 }
 
 // Ganti bahasa: teks tetap, pilihan saringan, galeri, rincian, angka, dan alamat ikut berganti.
@@ -558,8 +599,10 @@ const mula = new URLSearchParams(location.search);
 let simpan = null;
 try { simpan = localStorage.getItem('ruas-bahasa'); } catch {}
 const zonaID = /^Asia\/(Jakarta|Pontianak|Makassar|Jayapura)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+// Mesin pencari: alamat tanpa ?lang= dirender Indonesia, sesuai peta situs dan hreflang.
+const robot = /bot|crawl|spider/i.test(navigator.userAgent);
 const awalBhs = [mula.get('lang'), simpan].find(b => b === 'id' || b === 'en') ||
-  (zonaID || (navigator.languages || [navigator.language]).some(l => /^(id|ms)\b/i.test(l || '')) ? 'id' : 'en');
+  (zonaID || robot || (navigator.languages || [navigator.language]).some(l => /^(id|ms)\b/i.test(l || '')) ? 'id' : 'en');
 st.q = (mula.get('q') || '').trim();
 st.kat = KAT[mula.get('kat')] ? mula.get('kat') : '';
 st.seri = SERI[mula.get('seri')] ? mula.get('seri') : '';
@@ -567,6 +610,7 @@ $('cari').value = st.q;
 bhs = awalBhs; t = T[awalBhs];
 const diminta = DATA.find(r => r.id === mula.get('ikon'));
 st.pilih = diminta?.id || saring()[0]?.id;
+dipilih = !!diminta;
 // Ikon dari tautan: buka halaman galeri tempat ikon itu berada.
 const posisi = saring().findIndex(r => r.id === st.pilih);
 if (posisi >= 0) st.hal = Math.floor(posisi / st.per) + 1;
