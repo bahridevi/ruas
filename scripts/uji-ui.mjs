@@ -1,5 +1,6 @@
 // Uji paket @ruas-icons/ui: logika tabel dan markup aksesibel. Jalankan `npm run rakit && npm run uji`.
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { createElement as h } from 'react';
 import { renderToStaticMarkup as r } from 'react-dom/server';
 import * as UI from '../packages/ui/index.js';
@@ -101,4 +102,6 @@ assert.match(r(h(UI.DataTable, { title: 'X', rows: baris, columns: [{ key: 'nama
 assert.equal(olah([{ a: h('b', null, 'x') }, { a: 'object' }], [{ key: 'a' }], { q: 'object' }).length, 1, 'elemen React tidak dicari sebagai [object Object]');
 assert.match(r(h(UI.Badge, { size: 'sm', tone: 'success' }, 'x')), /class="ruas-badge ruas-badge-success ruas-badge-sm"/, 'badge kecil');
 assert.doesNotMatch(r(h(UI.DataTable, { title: 'X', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], searchable: false })), /type="search" [^>]*placeholder="Ketik untuk mencari/, 'kotak cari bisa disembunyikan');
+// Lightning CSS (Tailwind 4) menggabung `font: ... sans-serif; font-family: inherit` jadi `font: ... inherit` yang tidak sah: pakai longhand.
+assert.doesNotMatch(readFileSync(new URL('../packages/ui/ruas-ui.css', import.meta.url), 'utf8'), /font:[^;]*;s*font-family:s*inherit/, 'shorthand font + inherit dilarang');
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');
