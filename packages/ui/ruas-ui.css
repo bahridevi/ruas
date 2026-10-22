@@ -49,6 +49,7 @@
   color: var(--nada); background: color-mix(in srgb, var(--nada) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--nada) 35%, transparent); border-radius: 6px 2px 6px 2px; white-space: nowrap; justify-self: start;
 }
+.ruas-badge-sm { padding: 1px 6px; font-size: .68rem; gap: 3px; }
 .ruas-badge-success { --nada: var(--ruas-sukses, var(--ruas-bambu)); }
 .ruas-badge-warning { --nada: var(--ruas-kunyit); }
 .ruas-badge-danger { --nada: var(--ruas-bahaya); }
@@ -195,6 +196,7 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 /* Cetak satu bagian (printElement): bagian lain disembunyikan, isi yang tergulung ikut tercetak. */
 @media print {
   .ruas-cetak-saja { display: block; }
+  .ruas-bab-isi[hidden] { display: grid !important; } /* bagian tergulung tetap tercetak */
   .ruas-cetak-aktif body * { visibility: hidden; }
   .ruas-cetak-aktif .ruas-dicetak, .ruas-cetak-aktif .ruas-dicetak * { visibility: visible; }
   .ruas-cetak-aktif .ruas-dicetak { position: absolute; top: 0; left: 0; width: 100%; }

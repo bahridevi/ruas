@@ -26,6 +26,7 @@ export declare const Button: ForwardRefExoticComponent<ButtonProps & RefAttribut
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: 'neutral' | 'success' | 'warning' | 'danger' | 'info';
+  size?: 'sm' | 'md';
   icon?: ReactNode;
 }
 export declare function Badge(props: BadgeProps): JSX.Element;

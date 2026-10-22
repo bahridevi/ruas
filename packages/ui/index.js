@@ -43,8 +43,8 @@ export const Button = forwardRef(function Button({ variant = 'secondary', size =
   }, loading ? h(Loader, { size: 16, className: 'ruas-putar' }) : icon, children);
 });
 
-export function Badge({ tone = 'neutral', icon, children, className, ...p }) {
-  return h('span', { className: cx('ruas-badge', `ruas-badge-${tone}`, className), ...p }, icon, children);
+export function Badge({ tone = 'neutral', size = 'md', icon, children, className, ...p }) {
+  return h('span', { className: cx('ruas-badge', `ruas-badge-${tone}`, size === 'sm' && 'ruas-badge-sm', className), ...p }, icon, children);
 }
 
 const bintang = h('span', { className: 'ruas-wajib', 'aria-hidden': true }, ' *');
