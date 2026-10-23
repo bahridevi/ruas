@@ -97,4 +97,10 @@ Token warna ada di `:root` (`--ruas-bg`, `--ruas-surface`, `--ruas-ink`, `--ruas
 :root { --ruas-bambu: var(--primary); --ruas-surface: var(--card); --ruas-line: var(--border); }
 ```
 
+Penanda terpilih (tab, radio bersegmen, kotak centang, kolom terurut, baris terbuka, tombol `aria-pressed`/`aria-current`) memakai `--ruas-aktif` (isi), `--ruas-on-aktif` (teks di atas isi), dan `--ruas-aktif-teks` (teks di latar biasa). Bawaannya bambu. Contoh penanda kunyit yang tegas:
+
+```css
+:root { --ruas-aktif: #e09b0f; --ruas-on-aktif: #1d1300; --ruas-aktif-teks: var(--ruas-kunyit); }
+```
+
 Huruf mengikuti aplikasi. Komponen memakai `"use client"`, jadi bisa diimpor langsung dari Server Component Next.js.
