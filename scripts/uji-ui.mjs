@@ -122,4 +122,66 @@ assert.match(readFileSync(new URL('../packages/ui/ruas-ui.css', import.meta.url)
 assert.match(r(h(UI.Alert, { tone: 'danger', title: 'Gagal' }, 'x')), /role="alert" class="ruas-alert ruas-alert-danger"/);
 assert.match(r(h(UI.Alert, { title: 'Info' }, 'x')), /role="status"/);
 assert.match(r(h(UI.Stat, { label: 'Saldo', value: 'Rp 1', tone: 'info', action: h('a', { href: '/x' }, 'Kelola') })), /ruas-stat ruas-stat-info.*Saldo.*Rp 1.*ruas-stat-aksi.*href="\/x"/);
+
+// Tabel lanjut: pilih baris, sembunyikan kolom, CSV aman untuk Excel, kerangka memuat.
+const lanjut = r(h(UI.DataTable, { title: 'K', rowKey: 'id', rows: baris, selectable: true, columnToggle: true, exportable: true,
+  columns: [{ key: 'nama', label: 'Nama' }, { key: 'unit', label: 'Unit', hidden: true }] }));
+assert.match(lanjut, /aria-label="Pilih semua baris di halaman ini"/);
+assert.equal((lanjut.match(/aria-label="Pilih baris \d+"/g) || []).length, 10, 'centang per baris di halaman ini');
+assert.doesNotMatch(lanjut, /<th[^>]*>Unit<\/th>/, 'kolom hidden tidak tampil');
+assert.match(lanjut, /popover="auto"[^>]*aria-label="Tampilkan kolom"/);
+assert.match(lanjut, /Unduh CSV/);
+assert.equal(UI.toCsv([{ a: '=1+1', b: 'x;y', c: 'kata "kutip"', d: 5, e: -3 }], ['a', 'b', 'c', 'd', 'e'].map(k => ({ key: k, label: k.toUpperCase() }))),
+  'A;B;C;D;E\r\n\'=1+1;"x;y";"kata ""kutip""";5;-3', 'CSV: rumus dinetralkan, pemisah & kutip di-escape, angka negatif tetap angka');
+assert.equal(UI.toCsv([{ t: new Date(2026, 0, 2) }], [{ key: 't', label: 'T' }]).split('\r\n')[1], '2/1/2026', 'tanggal format Indonesia');
+const muat = r(h(UI.DataTable, { title: 'K', rows: [], loading: true, columns: [{ key: 'nama', label: 'Nama' }] }));
+assert.match(muat, /class="ruas-kerangka"/);
+assert.match(muat, /role="status">Memuat…/);
+
+// Kerangka dasbor, jejak, menu.
+const shell = r(h(UI.AppShell, { brand: h('b', null, 'Kas'), header: 'Judul', nav: [{ title: 'Utama', items: [{ href: '/', label: 'Beranda', active: true }, { href: '/kas', label: 'Kas', badge: 3 }] }] }, 'isi'));
+assert.match(shell, /href="#ruas-isi"[^>]*>Lewati ke isi/);
+assert.match(shell, /<nav aria-label="Navigasi utama"/);
+assert.match(shell, /href="\/" class="ruas-nav-butir" aria-current="page"/);
+assert.match(shell, /<main id="ruas-isi" tabindex="-1"/);
+assert.match(shell, /aria-label="Buka menu"[^>]*aria-expanded="false"/);
+const jejak = r(h(UI.Breadcrumb, { items: [{ label: 'Beranda', href: '/' }, { label: 'Kas' }] }));
+assert.match(jejak, /<a href="\/">Beranda<\/a>.*<span aria-current="page">Kas<\/span>/);
+const menu = r(h(UI.Menu, { items: [{ label: 'Ubah' }, '-', { label: 'Hapus', tone: 'danger' }] }));
+assert.match(menu, /aria-label="Aksi"[^>]*aria-haspopup="menu"/);
+assert.equal((menu.match(/role="menuitem"/g) || []).length, 2);
+assert.match(menu, /role="separator"/);
+
+// Isian lanjut.
+assert.match(r(h(UI.Switch, { label: 'Aktif' })), /type="checkbox"[^>]*role="switch"/);
+const combo = r(h(UI.Combobox, { label: 'Unit', options: ['Gudang', 'Toko'], defaultValue: 'Toko', name: 'unit' }));
+assert.match(combo, /role="combobox" aria-expanded="false"/);
+assert.match(combo, /value="Toko"/);
+assert.match(combo, /type="hidden" name="unit" value="Toko"/);
+assert.deepEqual(UI.dateRangePreset('bulanLalu', new Date(2026, 2, 15)), { from: '2026-02-01', to: '2026-02-28' }, 'bulan lalu, tanggal lokal');
+assert.deepEqual(UI.dateRangePreset('tujuhHari', new Date(2026, 0, 3)), { from: '2025-12-28', to: '2026-01-03' });
+assert.match(r(h(UI.DateRange, { label: 'Periode', defaultValue: { from: '2026-05-02', to: '2026-05-01' } })), /role="alert".*Tanggal awal harus sebelum/, 'rentang terbalik ditolak');
+assert.match(r(h(UI.NumberInput, { label: 'Gaji', prefix: 'Rp', defaultValue: 1250000 })), /inputMode="numeric"[^>]*value="1\.250\.000"|value="1\.250\.000"[^>]*/i);
+const unggah = r(h(UI.FileDrop, { label: 'Foto', accept: 'image/*', maxSize: 5 * 1048576 }));
+assert.match(unggah, /type="file" class="ruas-sr" accept="image\/\*"/);
+assert.match(unggah, /Maksimal 5 MB per berkas\./);
+const langkah = r(h(UI.Stepper, { steps: [{ label: 'Data' }, { label: 'Periksa' }, { label: 'Kirim' }], current: 1 }));
+assert.match(langkah, /aria-current="step"/);
+assert.match(langkah, /Langkah 1 dari 3, selesai/);
+
+// Angka & grafik.
+const stat = r(h(UI.Stat, { label: 'Biaya', value: 'Rp 5', delta: -4.5, invert: true, deltaLabel: 'dari bulan lalu', trend: [3, 2, 1] }));
+assert.match(stat, /ruas-stat-delta ruas-delta-baik/, 'turun = baik untuk biaya');
+assert.match(stat, /turun <\/span><b>−4,5%<\/b>/);
+assert.match(stat, /ruas-garis-mini/);
+assert.match(r(h(UI.Progress, { value: 30, max: 60, label: 'Unggah' })), /role="progressbar"[^>]*aria-valuenow="30".*width:50%/);
+const bar = r(h(UI.BarChart, { label: 'Kas', data: [{ label: 'Jan', value: 10 }, { label: 'Feb', value: 30 }] }));
+assert.match(bar, /role="img" aria-label="Kas: 2 data, terendah 10, tertinggi 30"/);
+assert.equal((bar.match(/class="ruas-grafik-batang"/g) || []).length, 2);
+assert.match(bar, /Lihat tabel/);
+assert.match(r(h(UI.LineChart, { data: [{ label: 'a', value: 1 }, { label: 'b', value: 2 }] })), /class="ruas-grafik-garis"/);
+assert.match(r(h(UI.EmptyState, { title: 'Belum ada kas' })), /ruas-hampa-judul">Belum ada kas/);
+assert.match(r(h(UI.Skeleton, { lines: 3 })), /aria-hidden="true"/);
+assert.match(r(h(UI.ToastProvider, null, 'x')), /popover="manual" role="region" aria-label="Pemberitahuan"/);
+assert.doesNotMatch(r(h(UI.CommandPalette, { items: [{ label: 'Beranda' }] })), /Beranda/, 'palet tertutup tidak merender isi');
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');

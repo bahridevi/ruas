@@ -35,8 +35,21 @@ import { Plus } from "@ruas-icons/react";
 | `Dialog` | Jendela modal dari `<dialog>` bawaan: fokus terkurung, Esc dan klik latar menutup, gulir latar terkunci, fokus awal ke isian pertama. `title`, `description`, `icon`, `tone` default · danger · warning, `size` sm · md · lg · xl, `footer`, `alert` (galat di dalam modal), `onSubmit` (kotak menjadi `<form>`). Di HP tampil sebagai lembar bawah. |
 | `TreeCell` | Sel kolom pertama tabel bertingkat: garis panduan per tingkat, tombol buka/gulung kecil, titik untuk daun. `depth`, `expanded`, `onToggle`, `label`. |
 | `Alert` | Kotak pesan berwarna: `tone` info · success · warning · danger, `icon`, `title`, `aside` (isi kanan, turun ke bawah di HP). danger/warning memakai `role="alert"`, lainnya `role="status"`. |
-| `Stat` | Kartu angka ringkas (KPI): `label`, `value`, `hint`, `icon`, `tone`, `action` (tautan di kaki kartu, mis. `<Link>`). |
-| `DataTable` | Kontainer Ringkasan / Saringan / Daftar, urut per kolom (klik judul), baris saring di bawah judul, cari semua kolom, nomor urut, "x dari y", paginasi, cetak halaman dan cetak hasil saringan. |
+| `Stat` | Kartu angka ringkas (KPI): `label`, `value`, `hint`, `icon`, `tone`, `action` (tautan di kaki kartu, mis. `<Link>`). `delta` (persen, mis. `12.5`) menampilkan panah naik/turun + teks untuk pembaca layar; `invert` bila turun itu baik (biaya, keluhan); `trend` (deret angka) menggambar garis tren mini. |
+| `DataTable` | Kontainer Ringkasan / Saringan / Daftar, urut per kolom (klik judul), baris saring di bawah judul, cari semua kolom, nomor urut, "x dari y", paginasi, cetak halaman dan cetak hasil saringan. Opsional: pilih baris + aksi massal, tombol Kolom, Unduh CSV, judul kolom tetap saat digulir. |
+| `Switch` | Sakelar nyala/mati (`role="switch"`) untuk pengaturan yang langsung berlaku. Prop sama dengan `Checkbox`. |
+| `Menu` | Menu aksi (bawaan tombol "⋯"): `items` `{ label, icon, onSelect, tone: "danger", disabled }`, `'-'` = garis pemisah. Panah, Home/End, Esc; memakai popover bawaan browser. |
+| `Combobox` | Pilihan yang bisa dicari (kota, pelanggan, akun). Cocok per kata tanpa peduli huruf besar/kecil; `limit` (bawaan 50) menjaga daftar tetap ringan; data besar: `onSearch` lalu isi `options` dari server. `name` untuk form. |
+| `DateRange` | Dua `<input type="date">` bawaan + pilihan cepat (Hari ini, 7 hari terakhir, Bulan ini, Bulan lalu, Tahun ini). Nilai `{ from, to }` YYYY-MM-DD menurut tanggal lokal (bukan UTC). `dateRangePreset("bulanLalu")` untuk nilai awal. |
+| `NumberInput` | Angka berpemisah ribuan saat diketik (`1.250.000`); Rupiah: `prefix="Rp"`. Nilai bilangan bulat atau `null`, kursor tidak meloncat. Negatif hanya bila `min < 0`. |
+| `FileDrop` | Seret-lepas atau pilih berkas, pratinjau gambar, hapus per berkas. `accept`, `multiple`, `maxSize` (byte) dengan pesan galat Bahasa Indonesia. Server tetap wajib memeriksa ulang. |
+| `Stepper` | Langkah formulir panjang: `steps` `{ label, hint }`, `current`, `onStepClick` (langkah yang sudah lewat bisa diklik). Tegak di HP. |
+| `AppShell` | Kerangka dasbor: menu samping berkelompok (`nav`), bisa diciutkan jadi ikon saja (diingat browser), laci di HP (Esc/klik luar menutup, isi belakang `inert`), bilah atas (`header`, `actions`), tautan "Lewati ke isi". `linkAs={Link}` untuk Next.js. |
+| `Breadcrumb` | Jejak halaman; di HP satu baris (induk + halaman ini). |
+| `ToastProvider`, `useToast` | Pemberitahuan singkat: `toast({ title, description, tone, action, duration })`. Hilang setelah 5 detik (jeda saat disorot), `danger` tetap sampai ditutup; tampil di atas modal; dibacakan pembaca layar. |
+| `CommandPalette` | Palet perintah Ctrl+K / ⌘K: `items` `{ label, group, icon, keywords, hint, onSelect }`. |
+| `BarChart`, `LineChart`, `Sparkline` | Grafik satu seri tanpa pustaka tambahan: sumbu angka ringkas (`25 jt`), tooltip sorot/sentuh, tombol "Lihat tabel" (papan ketik, pembaca layar, cetak). `data` `[{ label, value }]`, `format`. |
+| `Progress`, `Skeleton`, `EmptyState` | Bilah kemajuan (`role="progressbar"`), kerangka saat memuat, dan keadaan kosong dengan ajakan bertindak. |
 
 Semua kontrol bisa terkendali (`value` + `onChange`) atau mandiri (`defaultValue`). Teks bawaan diganti lewat prop `labels`, mis. `labels={{ sebelumnya: "Previous" }}` (daftar lengkap: `LABEL`).
 
@@ -75,6 +88,21 @@ Rincian per baris, baris total, dan saringan milik aplikasi:
 
 `footer` menerima semua baris hasil saringan (bukan hanya halaman ini), jadi totalnya ikut saringan.
 
+Pilih baris, aksi massal, tombol Kolom, Unduh CSV, dan menu aksi per baris:
+
+```tsx
+<DataTable title="Karyawan" rows={karyawan} rowKey="id" maxHeight="70vh"
+  selectable bulkActions={(ids, bersihkan) => <Button size="sm" onClick={() => { nonaktifkan(ids); bersihkan(); }}>Nonaktifkan</Button>}
+  columnToggle exportable exportName="karyawan"
+  columns={[
+    { key: "nama", label: "Nama", hideable: false },
+    { key: "id", label: "ID", hidden: true },
+    { key: "aksi", label: "Aksi", exportable: false, render: r => <Menu label={`Aksi untuk ${r.nama}`} items={[{ label: "Ubah", onSelect: () => ubah(r) }, "-", { label: "Hapus", tone: "danger", onSelect: () => hapus(r) }]} /> },
+  ]} />
+```
+
+CSV memakai pemisah `;` dan BOM UTF-8 agar langsung rapi di Excel berbahasa Indonesia; isi sel yang diawali `= + - @` diberi `'` supaya tidak dijalankan sebagai rumus. Mode server: Unduh CSV memakai `fetchAllRows`.
+
 Tabel padat (baris ±33 px) dengan zebra lembut; tombol ikon (`Button` tanpa teks), lencana, dan isian di dalam sel otomatis mengecil.
 
 ## Modal
@@ -87,7 +115,45 @@ Tabel padat (baris ±33 px) dengan zebra lembut; tombol ikon (`Button` tanpa tek
 </Dialog>
 ```
 
-Toast halaman yang memakai `position: fixed` tertutup lapisan modal; tampilkan galat simpan lewat `alert`.
+Toast buatan sendiri yang memakai `position: fixed` tertutup lapisan modal; pakai `useToast` (tampil di atas modal) atau tampilkan galat simpan lewat `alert`.
+
+## Kerangka dasbor
+
+```tsx
+// app/(dasbor)/layout.tsx
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AppShell, Breadcrumb, CommandPalette, ToastProvider } from "@ruas-icons/ui";
+import { ChartBar, House, Users } from "@ruas-icons/react";
+
+export default function Layout({ children }) {
+  const p = usePathname();
+  const nav = [{ title: "Utama", items: [
+    { href: "/", label: "Beranda", icon: <House size={20} />, active: p === "/" },
+    { href: "/laporan", label: "Laporan", icon: <ChartBar size={20} />, active: p.startsWith("/laporan") },
+    { href: "/karyawan", label: "Karyawan", icon: <Users size={20} />, badge: 3, active: p.startsWith("/karyawan") },
+  ] }];
+  return (
+    <ToastProvider>
+      <AppShell linkAs={Link} brand="Kas Koperasi" nav={nav} header={<Breadcrumb linkAs={Link} items={[{ label: "Beranda", href: "/" }, { label: "Laporan" }]} />}>
+        {children}
+      </AppShell>
+      <CommandPalette items={nav[0].items.map(x => ({ label: x.label, group: "Halaman", onSelect: () => location.assign(x.href) }))} />
+    </ToastProvider>
+  );
+}
+```
+
+## Angka & grafik
+
+```tsx
+<Stat label="Penjualan" value="Rp70,4 jt" delta={12.4} deltaLabel="dari bulan lalu" trend={[52, 58, 61, 70]} />
+<Stat label="Biaya" value="Rp18,2 jt" delta={-3.1} invert />
+<BarChart label="Penjualan per bulan" data={[{ label: "Jan", value: 42_000_000 }, { label: "Feb", value: 56_500_000 }]} format={v => rupiah(v)} />
+```
+
+Grafik sengaja satu seri (hijau bambu, tanpa legenda); untuk membandingkan beberapa seri buat beberapa grafik berdampingan.
 
 ## Tema
 

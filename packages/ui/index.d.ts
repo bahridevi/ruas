@@ -1,4 +1,4 @@
-import type { FormEvent, JSX, ButtonHTMLAttributes, ForwardRefExoticComponent, HTMLAttributes, InputHTMLAttributes, ReactNode, RefAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import type { FormEvent, ElementType, JSX, ButtonHTMLAttributes, ForwardRefExoticComponent, HTMLAttributes, InputHTMLAttributes, ReactNode, RefAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
 export declare const LABEL: Labels;
 export interface Labels {
@@ -10,6 +10,14 @@ export interface Labels {
   halaman: (a: number, b: number) => string; sebelumnya: string; berikutnya: string;
   barisPerHalaman: string; no: string; semua: string; saringKolom: (k: string) => string; urutkan: (k: string) => string;
   kosong: string; kosongAwal: string; bukaRincian: string; gulungRincian: string; bukaSemuaRincian: string; gulungSemuaRincian: string; cetakHalaman: string; cetakSaringan: string; gagalCetak: string;
+  pilihBaris: (n: number) => string; pilihHalaman: string; dipilih: (n: number) => string; batalPilih: string;
+  kolom: string; tampilkanKolom: string; unduhCsv: string; gagalUnduh: string;
+  aksi: string; navigasi: string; jejak: string; bukaMenu: string; tutupMenu: string; ciutkanMenu: string; lebarkanMenu: string; lewati: string;
+  palet: string; cariPerintah: string; tanpaHasil: string; hasil: (n: number) => string; pemberitahuan: string; pilihOpsi: string; opsiLagi: (n: number) => string;
+  dari: string; sampai: string; rentangSalah: string; hariIni: string; tujuhHari: string; bulanIni: string; bulanLalu: string; tahunIni: string;
+  seretBerkas: string; pilihBerkas: string; hapusBerkas: (nama: string) => string; terlaluBesar: (nama: string, batas: string) => string; jenisSalah: (nama: string) => string; batasBerkas: (batas: string) => string;
+  langkah: (i: number, n: number) => string; selesai: string; naik: string; turun: string; tetap: string;
+  tren: string; lihatTabel: string; sembunyikanTabel: string; nilai: string; label: string;
 }
 type Teks = { labels?: Partial<Labels> };
 
@@ -42,6 +50,8 @@ export declare const Select: ForwardRefExoticComponent<FieldBits & SelectHTMLAtt
 export interface CheckProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> { label: ReactNode; hint?: ReactNode; indeterminate?: boolean }
 export declare const Checkbox: ForwardRefExoticComponent<CheckProps & RefAttributes<HTMLInputElement>>;
 export declare const Radio: ForwardRefExoticComponent<CheckProps & RefAttributes<HTMLInputElement>>;
+/** Sakelar nyala/mati (role="switch"): untuk pengaturan yang langsung berlaku. */
+export declare const Switch: ForwardRefExoticComponent<CheckProps & RefAttributes<HTMLInputElement>>;
 
 export interface ChoiceOption { value: string; label: ReactNode; hint?: ReactNode; disabled?: boolean }
 interface GroupBits { label?: ReactNode; hint?: ReactNode; error?: ReactNode; required?: boolean; inline?: boolean; disabled?: boolean; className?: string; options: ChoiceOption[] }
@@ -70,6 +80,10 @@ export interface Column<R> {
   sortable?: boolean; filter?: boolean;
   /** Saringan pilihan (dropdown) alih-alih teks. */ options?: Option[];
   align?: 'left' | 'center' | 'right'; width?: string | number;
+  /** Tersembunyi saat awal (bisa dimunculkan lewat tombol Kolom). */ hidden?: boolean;
+  /** false = tidak bisa disembunyikan. */ hideable?: boolean;
+  /** false = tidak ikut Unduh CSV maupun cetak (mis. kolom tombol aksi). */ exportable?: boolean;
+  /** Nilai sel untuk CSV bila berbeda dari value/key. */ csv?: (row: R) => unknown;
 }
 export interface TableState { q: string; filters: Record<string, string>; sort: { key: string; dir: 'asc' | 'desc' } | null; page: number; pageSize: number }
 /** Sel kolom pertama tabel bertingkat: garis panduan per tingkat + tombol buka/gulung. Tanpa onToggle = daun. */
@@ -101,7 +115,11 @@ export declare function Alert(props: Omit<HTMLAttributes<HTMLDivElement>, 'title
 }): JSX.Element;
 /** Kartu angka ringkas (KPI). */
 export declare function Stat(props: HTMLAttributes<HTMLDivElement> & {
-  label: ReactNode; value: ReactNode; hint?: ReactNode; icon?: ReactNode; tone?: Nada;
+  label: ReactNode; value: ReactNode; hint?: ReactNode; icon?: ReactNode; tone?: Nada; labels?: Partial<Labels>;
+  /** Perubahan (persen) dibanding periode lalu, mis. 12.5 atau -3. */ delta?: number;
+  /** Teks pembanding, mis. "dari bulan lalu". */ deltaLabel?: ReactNode;
+  /** true = turun itu baik (biaya, keluhan). */ invert?: boolean;
+  /** Deret angka untuk garis tren mini. */ trend?: number[];
   /** Tautan di kaki kartu, mis. <Link href="…">Kelola</Link>. */ action?: ReactNode;
 }): JSX.Element;
 
@@ -122,5 +140,73 @@ export declare function DataTable<R>(props: Teks & {
   /** Saringan tambahan milik aplikasi (periode, rentang tanggal…) di bagian Saringan. */ filters?: ReactNode;
   /** Jumlah saringan tambahan yang aktif (ikut "x saringan aktif"). */ filtersActive?: number;
   /** Dipanggil oleh "Hapus saringan" agar aplikasi mengosongkan saringan tambahannya. */ onClearFilters?: () => void;
+  /** Kotak centang per baris + "Pilih semua di halaman ini". Butuh rowKey. */ selectable?: boolean;
+  /** Tombol aksi massal di bilah "n dipilih". */ bulkActions?: (keys: (string | number)[], clear: () => void) => ReactNode;
+  onSelectionChange?: (keys: (string | number)[]) => void;
+  /** Tombol Kolom: tampil/sembunyikan kolom. */ columnToggle?: boolean;
+  /** Tombol Unduh CSV (hasil saringan; mode server butuh fetchAllRows). */ exportable?: boolean; exportName?: string;
+  /** Tinggi maksimal area tabel, mis. "70vh": tabel bergulir di dalam dan judul kolom tetap terlihat. */ maxHeight?: string | number;
   loading?: boolean; pageSizes?: number[]; defaultPageSize?: number; defaultOpen?: boolean; emptyText?: ReactNode; className?: string;
 }): JSX.Element;
+
+export declare function toCsv<R>(rows: R[], columns: Column<R>[]): string;
+export declare function downloadFile(name: string, content: string, type?: string): void;
+
+export interface MenuItem { label: ReactNode; icon?: ReactNode; onSelect?: () => void; tone?: 'default' | 'danger'; disabled?: boolean; hint?: string }
+/** Menu aksi (bawaan: tombol "⋯"). '-' = garis pemisah. */
+export declare function Menu(props: Teks & { items: (MenuItem | '-' | false | null | undefined)[]; label?: string; icon?: ReactNode | null; align?: 'start' | 'end'; variant?: ButtonProps['variant']; size?: ButtonProps['size']; children?: ReactNode; className?: string }): JSX.Element;
+
+export interface NavItem { href?: string; label: string; icon?: ReactNode; badge?: ReactNode; active?: boolean; onClick?: (e: unknown) => void }
+/** Kerangka dasbor: menu samping (ciut = ikon saja; HP = laci), bilah atas, isi. */
+export declare function AppShell(props: Teks & {
+  brand?: ReactNode; nav?: { title?: ReactNode; items: NavItem[] }[]; header?: ReactNode; actions?: ReactNode; footer?: ReactNode; children?: ReactNode;
+  /** Komponen tautan, mis. Link dari next/link. */ linkAs?: ElementType; defaultCollapsed?: boolean; className?: string;
+}): JSX.Element;
+export declare function Breadcrumb(props: Teks & { items: { label: ReactNode; href?: string }[]; linkAs?: ElementType; className?: string }): JSX.Element;
+
+export interface ToastOptions { title?: ReactNode; description?: ReactNode; tone?: 'info' | 'success' | 'warning' | 'danger'; action?: ReactNode; /** ms; bawaan 5000, danger = sampai ditutup. */ duration?: number }
+export declare function ToastProvider(props: Teks & { children?: ReactNode }): JSX.Element;
+export declare function useToast(): (toast: string | ToastOptions) => string;
+
+export interface CommandItem { id?: string; label: string; group?: string; icon?: ReactNode; keywords?: string[]; hint?: string; disabled?: boolean; onSelect?: () => void }
+/** Palet perintah (Ctrl+K / ⌘K). */
+export declare function CommandPalette(props: Teks & { items: CommandItem[]; open?: boolean; onOpenChange?: (open: boolean) => void; shortcut?: boolean; placeholder?: string; limit?: number }): JSX.Element;
+
+/** Pilihan yang bisa dicari. Data besar: beri onSearch dan isi options dari server. */
+export declare const Combobox: ForwardRefExoticComponent<Teks & {
+  label?: ReactNode; hint?: ReactNode; error?: ReactNode; required?: boolean; options: (string | { value: string; label: string; disabled?: boolean })[];
+  value?: string; defaultValue?: string; onChange?: (value: string) => void; onSearch?: (q: string) => void; placeholder?: string; emptyText?: ReactNode;
+  disabled?: boolean; name?: string; id?: string; limit?: number; className?: string; fieldClassName?: string;
+} & RefAttributes<HTMLInputElement>>;
+
+export interface DateRangeValue { from: string; to: string }
+export type DateRangePresetKey = 'hariIni' | 'tujuhHari' | 'bulanIni' | 'bulanLalu' | 'tahunIni';
+export declare function dateRangePreset(key: DateRangePresetKey, now?: Date): DateRangeValue;
+/** Rentang tanggal (YYYY-MM-DD) + pilihan cepat. */
+export declare function DateRange(props: Teks & {
+  label?: ReactNode; hint?: ReactNode; error?: ReactNode; value?: DateRangeValue; defaultValue?: DateRangeValue; onChange?: (value: DateRangeValue) => void;
+  presets?: DateRangePresetKey[] | false; min?: string; max?: string; required?: boolean; disabled?: boolean; className?: string;
+}): JSX.Element;
+
+/** Isian angka berpemisah ribuan; Rupiah = prefix="Rp". Nilai bilangan bulat atau null. */
+export declare const NumberInput: ForwardRefExoticComponent<FieldBits & Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'defaultValue' | 'onChange' | 'prefix' | 'min'> & {
+  value?: number | null; defaultValue?: number | null; onChange?: (value: number | null) => void; prefix?: ReactNode; suffix?: ReactNode; /** < 0 = boleh negatif. */ min?: number;
+} & RefAttributes<HTMLInputElement>>;
+
+/** Unggah berkas seret-lepas + pratinjau. maxSize dalam byte. Server tetap wajib memeriksa ulang. */
+export declare function FileDrop(props: Teks & {
+  label?: ReactNode; hint?: ReactNode; error?: ReactNode; accept?: string; multiple?: boolean; maxSize?: number;
+  value?: File[]; defaultValue?: File[]; onChange?: (files: File[]) => void; disabled?: boolean; required?: boolean; className?: string;
+}): JSX.Element;
+
+export declare function Stepper(props: Teks & { steps: { label: ReactNode; hint?: ReactNode }[]; current?: number; onStepClick?: (index: number) => void; className?: string }): JSX.Element;
+
+export declare function Skeleton(props: { width?: string | number; height?: string | number; lines?: number; className?: string }): JSX.Element;
+export declare function EmptyState(props: { icon?: ReactNode; title: ReactNode; description?: ReactNode; action?: ReactNode; className?: string }): JSX.Element;
+export declare function Progress(props: { value?: number; max?: number; label?: ReactNode; hint?: ReactNode; tone?: Nada; showValue?: boolean; className?: string }): JSX.Element;
+export declare function Sparkline(props: Teks & { data: number[]; height?: number; label?: string; className?: string }): JSX.Element | null;
+
+export interface ChartDatum { label: string; value: number }
+interface ChartProps extends Teks { data: ChartDatum[]; /** Nama grafik (aria-label & judul tabel). */ label?: string; format?: (value: number) => string; height?: number; className?: string }
+/** Grafik batang satu seri, tooltip + tombol "Lihat tabel". */ export declare function BarChart(props: ChartProps): JSX.Element;
+/** Grafik garis satu seri, tooltip + tombol "Lihat tabel". */ export declare function LineChart(props: ChartProps): JSX.Element;
