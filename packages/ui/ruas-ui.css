@@ -621,6 +621,9 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
   .ruas-cetak-aktif .ruas-dicetak, .ruas-cetak-aktif .ruas-dicetak * { visibility: visible; }
   .ruas-cetak-aktif .ruas-dicetak { position: absolute; top: 0; left: 0; width: 100%; }
   .ruas-dicetak .ruas-bab-isi[hidden] { display: grid !important; }
+  /* Isi Dialog yang dicetak (mis. kuitansi): kotak modal menempel di atas halaman, bukan di tengah layar */
+  .ruas-cetak-aktif dialog:has(.ruas-dicetak) { position: absolute; inset: 0 auto auto 0; margin: 0 !important; width: 100%; max-width: none; max-height: none; border: 0; box-shadow: none; background: none; }
+  .ruas-cetak-aktif dialog:has(.ruas-dicetak)::backdrop { display: none; }
   .ruas-noprint { display: none !important; }
   .ruas-tabel-gulir { overflow: visible; border: 0; }
   .ruas-bab { border: 0; background: none; }
