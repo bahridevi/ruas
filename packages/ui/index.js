@@ -37,6 +37,7 @@ export const LABEL = {
   terlaluBesar: (nama, batas) => `${nama} lebih dari ${batas}.`, jenisSalah: nama => `${nama} bukan jenis berkas yang diterima.`, batasBerkas: batas => `Maksimal ${batas} per berkas.`,
   langkah: (i, n) => `Langkah ${i} dari ${n}`, selesai: 'selesai', naik: 'naik', turun: 'turun', tetap: 'tetap',
   tren: 'Tren', lihatTabel: 'Lihat tabel', sembunyikanTabel: 'Sembunyikan tabel', nilai: 'Nilai', label: 'Label',
+  diputar: 'Sedang diputar', dijeda: 'Dijeda', level: 'Level',
 };
 
 // Cetak satu elemen saja; ruas-ui.css menyembunyikan sisanya dan membuka isi yang tergulung.
@@ -116,7 +117,34 @@ const Pilih = forwardRef(function Pilih({ type, label, hint, indeterminate, clas
 export const Checkbox = forwardRef((p, ref) => h(Pilih, { ...p, type: 'checkbox', ref }));
 export const Radio = forwardRef((p, ref) => h(Pilih, { ...p, type: 'radio', ref }));
 // Sakelar nyala/mati: kotak centang dengan role="switch" (langsung berlaku, tanpa tombol Simpan).
-export const Switch = forwardRef(({ className, ...p }, ref) => h(Pilih, { ...p, type: 'checkbox', role: 'switch', className: cx('ruas-saklar', className), ref }));
+// Sakelar: kenop persegi Sudut Daun yang bisa diklik atau digeser; rongga di belakang kenop terisi warna.
+// Geseran ke kanan = nyala, ke kiri = mati (geser ke arah keadaan sekarang tidak mengubah apa pun).
+export const Switch = forwardRef(function Switch({ className, onClick, onPointerDown, onPointerMove, onPointerUp, onPointerCancel, ...p }, ref) {
+  const seret = useRef(null);
+  const lepas = e => { e.currentTarget.style.removeProperty('--seret'); delete e.currentTarget.dataset.seret; };
+  return h(Pilih, {
+    ...p, type: 'checkbox', role: 'switch', className: cx('ruas-saklar', className), ref,
+    onPointerDown: e => { onPointerDown?.(e); if (p.disabled || e.button) return; seret.current = { x: e.clientX, dx: 0 }; e.currentTarget.setPointerCapture?.(e.pointerId); },
+    onPointerMove: e => {
+      onPointerMove?.(e);
+      const s = seret.current;
+      if (!s) return;
+      s.dx = e.clientX - s.x;
+      if (Math.abs(s.dx) < 3) return;
+      e.currentTarget.dataset.seret = '';
+      e.currentTarget.style.setProperty('--seret', `${s.dx}px`);
+    },
+    onPointerUp: e => { onPointerUp?.(e); lepas(e); },
+    onPointerCancel: e => { onPointerCancel?.(e); lepas(e); seret.current = null; },
+    onClick: e => {
+      const s = seret.current;
+      seret.current = null;
+      // Saat onClick, centang sudah berbalik; batalkan bila hasilnya berlawanan dengan arah geseran.
+      if (s && Math.abs(s.dx) > 4 && e.currentTarget.checked !== s.dx > 0) { e.preventDefault(); return; }
+      onClick?.(e);
+    },
+  });
+});
 
 function Grup({ id, label, hint, error, required, className, children }) {
   return h('fieldset', { className: cx('ruas-grup', className), 'aria-describedby': deskripsi(id, hint, error), 'aria-invalid': error ? true : undefined },
@@ -1005,16 +1033,34 @@ export function EmptyState({ icon, title, description, action, className }) {
     action && h('div', { className: 'ruas-alat' }, action));
 }
 
-export function Progress({ value = 0, max = 100, label, hint, tone = 'default', showValue = true, className }) {
+// Bilah kemajuan: batang Sudut Daun berisi deretan daun kecil. value null = tak tentu (sekumpulan daun bergerak kiri-kanan);
+// active = daun mengalir ke kanan selama proses berjalan (mis. unggah).
+export function Progress({ value = 0, max = 100, label, hint, tone = 'default', showValue = true, active, className }) {
   const id = useId();
-  const persen = max > 0 ? Math.max(0, Math.min(100, (value / max) * 100)) : 0;
-  return h('div', { className: cx('ruas-progres', tone !== 'default' && `ruas-progres-${tone}`, className) },
-    (label != null || showValue) && h('div', { className: 'ruas-progres-kepala' },
+  const tentu = value != null;
+  const persen = tentu && max > 0 ? Math.max(0, Math.min(100, (value / max) * 100)) : 0;
+  return h('div', { className: cx('ruas-progres', tone !== 'default' && `ruas-progres-${tone}`, !tentu && 'ruas-progres-taktentu', active && tentu && persen < 100 && 'ruas-progres-jalan', className) },
+    (label != null || (showValue && tentu)) && h('div', { className: 'ruas-progres-kepala' },
       label != null && h('span', { id, className: 'ruas-label' }, label),
-      showValue && h('span', { className: 'ruas-progres-nilai' }, `${angka(Math.round(persen))}%`)),
-    h('div', { role: 'progressbar', 'aria-labelledby': label != null ? id : undefined, 'aria-valuemin': 0, 'aria-valuemax': max, 'aria-valuenow': value, className: 'ruas-progres-jalur' },
-      h('span', { style: { width: `${persen}%` } })),
+      showValue && tentu && h('span', { className: 'ruas-progres-nilai' }, `${angka(Math.round(persen))}%`)),
+    h('div', { role: 'progressbar', 'aria-labelledby': label != null ? id : undefined, 'aria-valuemin': 0, 'aria-valuemax': max, 'aria-valuenow': tentu ? value : undefined, className: 'ruas-progres-jalur' },
+      h('span', { style: tentu ? { width: `${persen}%` } : undefined })),
     hint && h('p', { className: 'ruas-hint' }, hint));
+}
+
+// Equalizer: daun-daun berdiri berisi daun kecil mendatar yang menyala dari bawah. values (0–1 per batang) = level nyata;
+// tanpa values = hiasan "sedang diputar" yang bergerak naik-turun (diam bila playing=false atau pengguna memilih kurangi gerak).
+export function Equalizer({ values, bars = 5, segments = 8, playing = true, label, height = 48, tone = 'default', labels, className }) {
+  const L = { ...LABEL, ...labels };
+  const n = Math.max(2, Math.round(segments));
+  const nyata = Array.isArray(values);
+  const daftar = nyata ? values.map(v => Math.max(0, Math.min(1, Number(v) || 0))) : Array.from({ length: bars }, () => null);
+  const tanda = label ?? (nyata ? `${L.level}: ${daftar.map(v => `${Math.round(v * 100)}%`).join(', ')}` : playing ? L.diputar : L.dijeda);
+  return h('div', {
+    role: 'img', 'aria-label': tanda, className: cx('ruas-eq', tone !== 'default' && `ruas-progres-${tone}`, !nyata && playing && 'ruas-eq-main', className),
+    style: { height, '--ruas-eq-n': n },
+  }, daftar.map((v, i) => h('span', { key: i, className: 'ruas-eq-batang', style: nyata ? { '--isi': Math.round(v * n) / n } : { '--i': i } },
+    h('span', { className: 'ruas-eq-daun' }), h('span', { className: 'ruas-eq-daun ruas-eq-nyala', style: nyata ? undefined : { animationTimingFunction: `steps(${n - 1}, jump-none)` } }))));
 }
 
 // Garis tren mini (mis. di kartu Stat). Dekoratif bila di dalam Stat; ringkasan awal → akhir untuk pembaca layar.

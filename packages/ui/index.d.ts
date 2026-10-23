@@ -18,6 +18,7 @@ export interface Labels {
   seretBerkas: string; pilihBerkas: string; hapusBerkas: (nama: string) => string; terlaluBesar: (nama: string, batas: string) => string; jenisSalah: (nama: string) => string; batasBerkas: (batas: string) => string;
   langkah: (i: number, n: number) => string; selesai: string; naik: string; turun: string; tetap: string;
   tren: string; lihatTabel: string; sembunyikanTabel: string; nilai: string; label: string;
+  diputar: string; dijeda: string; level: string;
 }
 type Teks = { labels?: Partial<Labels> };
 
@@ -203,7 +204,10 @@ export declare function Stepper(props: Teks & { steps: { label: ReactNode; hint?
 
 export declare function Skeleton(props: { width?: string | number; height?: string | number; lines?: number; className?: string }): JSX.Element;
 export declare function EmptyState(props: { icon?: ReactNode; title: ReactNode; description?: ReactNode; action?: ReactNode; className?: string }): JSX.Element;
-export declare function Progress(props: { value?: number; max?: number; label?: ReactNode; hint?: ReactNode; tone?: Nada; showValue?: boolean; className?: string }): JSX.Element;
+/** value null = tak tentu (daun bergerak kiri-kanan); active = daun mengalir selama proses berjalan. */
+export declare function Progress(props: { value?: number | null; active?: boolean; max?: number; label?: ReactNode; hint?: ReactNode; tone?: Nada; showValue?: boolean; className?: string }): JSX.Element;
+/** Equalizer daun: values (0–1 per batang) = level nyata; tanpa values = hiasan "sedang diputar". */
+export declare function Equalizer(props: Teks & { values?: number[]; bars?: number; segments?: number; playing?: boolean; label?: string; height?: number; tone?: Nada; className?: string }): JSX.Element;
 export declare function Sparkline(props: Teks & { data: number[]; height?: number; label?: string; className?: string }): JSX.Element | null;
 
 export interface ChartDatum { label: string; value: number }

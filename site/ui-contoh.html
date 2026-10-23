@@ -84,7 +84,7 @@ try {
 const { createElement: h, useState } = React;
 const { Badge, Button, Checkbox, CheckboxGroup, DataTable, Input, Otp, RadioGroup, Section, SectionGroup, Select, Tabs, Textarea,
   AppShell, BarChart, Breadcrumb, Combobox, CommandPalette, DateRange, EmptyState, FileDrop, LineChart, Menu, NumberInput, Progress, Skeleton,
-  Stat, Stepper, Switch, ToastProvider, useToast } = UI;
+  Stat, Stepper, Switch, ToastProvider, useToast, Equalizer } = UI;
 const { Plus, Save, Trash, Download, CircleCheck, Clock, CircleX, Info, Users, Wallet, House, ChartBar, Settings, Bell, Pencil, Copy, Search, Money, Receipt, Store, Archive } = Ikon;
 const angka = n => n.toLocaleString('id-ID');
 
@@ -265,6 +265,17 @@ const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'O
 const PENJUALAN = BULAN.map((b, i) => ({ label: b, value: 42_000_000 + ((i * 7919) % 23) * 1_900_000 + i * 1_200_000 }));
 const PENGUNJUNG = Array.from({ length: 30 }, (_, i) => ({ label: `${i + 1}`, value: 180 + Math.round(60 * Math.sin(i / 3)) + ((i * 37) % 41) }));
 const rupiahRingkas = v => `Rp${new Intl.NumberFormat('id-ID', { notation: 'compact', maximumFractionDigits: 1 }).format(v)}`;
+function Suara() {
+  const [main, setMain] = useState(true);
+  return h('div', { style: { display: 'grid', gap: '10px', alignContent: 'start' } },
+    h('span', { className: 'ruas-label' }, 'Equalizer'),
+    h('div', { className: 'baris', style: { alignItems: 'center' } },
+      h(Equalizer, { playing: main }),
+      h(Equalizer, { values: [.2, .55, .9, .7, .4, .25, .6], segments: 6, label: 'Level suara 7 pita frekuensi' }),
+      h(Button, { size: 'sm', 'aria-pressed': main, onClick: () => setMain(!main) }, main ? 'Jeda' : 'Putar')),
+    h('p', { className: 'catatan' }, 'Kiri: hiasan "sedang diputar". Kanan: level nyata per pita (values 0–1).'));
+}
+
 function AngkaGrafik() {
   const [muat, setMuat] = useState(false);
   return h('div', { style: { display: 'grid', gap: '20px' } },
@@ -279,6 +290,9 @@ function AngkaGrafik() {
     h('div', { className: 'kisi' },
       h(Progress, { label: 'Target penjualan', value: 78, hint: 'Rp546 jt dari Rp700 jt' }),
       h(Progress, { label: 'Kuota penyimpanan', value: 92, tone: 'danger', hint: 'Hampir penuh; hapus arsip lama.' }),
+      h(Progress, { label: 'Mengunggah foto', value: 45, active: true, hint: 'active: daun mengalir selama proses berjalan.' }),
+      h(Progress, { label: 'Menyiapkan laporan', value: null, hint: 'value={null}: lama proses belum diketahui.' }),
+      h(Suara),
       h('div', { style: { display: 'grid', gap: '10px' } },
         h(Button, { size: 'sm', onClick: () => { setMuat(true); setTimeout(() => setMuat(false), 2000); } }, 'Coba kerangka memuat'),
         muat ? h(Skeleton, { lines: 3 }) : h('p', { className: 'catatan' }, 'Kerangka tampil selama data dimuat, agar tata letak tidak meloncat.'))),

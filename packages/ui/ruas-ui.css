@@ -1,5 +1,6 @@
 /* @ruas-icons/ui: komponen dasbor bergaya Ruas.
-   Sudut Daun: kiri-atas & kanan-bawah besar, kanan-atas & kiri-bawah kecil. Lingkaran tetap bulat.
+   Sudut Daun: kiri-atas & kanan-bawah besar, kanan-atas & kiri-bawah kecil. Radio = daun bertitik; sakelar, bilah kemajuan,
+   dan equalizer = batang Sudut Daun berisi daun kecil.
    Warna lewat token --ruas-*; petakan ke tema aplikasi bila perlu, mis. :root { --ruas-bambu: var(--primary); }.
    Lencana sukses memakai --ruas-sukses (bawaan = bambu); isi bila warna utama aplikasi bukan hijau.
    Tema gelap: [data-theme="dark"] atau .dark; tanpa data-theme, mengikuti sistem.
@@ -106,13 +107,13 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
   background: var(--ruas-surface); border: 1.5px solid var(--ruas-muted); cursor: pointer; transition: background-color .15s, border-color .15s;
 }
 .ruas-pilih input[type="checkbox"] { border-radius: 6px 2px 6px 2px; }
-.ruas-pilih input[type="radio"] { border-radius: 50%; }
+.ruas-pilih input[type="radio"] { border-radius: 50% 2px 50% 2px; } /* daun */
 .ruas-pilih input:hover:not(:disabled) { border-color: var(--ruas-bambu); }
 .ruas-pilih input:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 2px; }
 .ruas-pilih input:checked, .ruas-pilih input[type="checkbox"]:indeterminate { background: var(--ruas-aktif, var(--ruas-bambu)); border-color: var(--ruas-aktif, var(--ruas-bambu)); }
 .ruas-pilih input[type="checkbox"]:checked::before { content: ""; width: 10px; height: 5px; border: solid var(--ruas-on-aktif, var(--ruas-on-bambu)); border-width: 0 0 2px 2px; transform: translateY(-1px) rotate(-45deg); }
 .ruas-pilih input[type="checkbox"]:indeterminate::before { content: ""; width: 10px; height: 2px; border-radius: 1px; background: var(--ruas-on-bambu); }
-.ruas-pilih input[type="radio"]:checked::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ruas-on-aktif, var(--ruas-on-bambu)); }
+.ruas-pilih input[type="radio"]:checked::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ruas-on-aktif, var(--ruas-on-bambu)); }
 .ruas-pilih input:disabled, .ruas-pilih input:disabled ~ div label { opacity: .5; cursor: not-allowed; }
 .ruas-pilih-semua { padding-bottom: 8px; border-bottom: 1px dashed var(--ruas-line); }
 .ruas-grup[aria-invalid="true"] .ruas-pilih input { border-color: var(--ruas-bahaya); }
@@ -488,11 +489,22 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
   .ruas-jejak li:nth-last-child(2):not(:first-child)::before { content: "…/"; }
 }
 
-/* Sakelar (Switch): jalur membulat, kenop bulat. */
-.ruas-pilih.ruas-saklar input { width: 38px; height: 22px; padding: 2px; place-content: center start; border-radius: 999px; }
-.ruas-pilih.ruas-saklar input::before { content: ""; width: 14px; height: 14px; border: 0; border-radius: 50%; background: var(--ruas-muted); transform: none; transition: transform .15s, background-color .15s; }
-.ruas-pilih.ruas-saklar input:checked::before { width: 14px; height: 14px; border: 0; border-radius: 50%; background: var(--ruas-on-aktif, var(--ruas-on-bambu)); transform: translateX(16px); }
-@media (prefers-reduced-motion: reduce) { .ruas-pilih.ruas-saklar input::before { transition: none; } }
+/* Sakelar (Switch): jalur persegi Sudut Daun, kenop persegi Sudut Daun. Rongga di kiri kenop terisi warna; saat digeser,
+   kenop mengikuti --seret (px) dan isian ikut memanjang/memendek. Jarak tempuh kenop = 19px. */
+.ruas-pilih.ruas-saklar input {
+  --pos: clamp(0px, calc(var(--dasar, 0px) + var(--seret, 0px)), 19px);
+  width: 44px; height: 24px; padding: 3px; place-content: center start; border-radius: 8px 2px 8px 2px; touch-action: pan-y;
+  background: linear-gradient(var(--ruas-aktif, var(--ruas-bambu)) 0 0) no-repeat 3px 50% / calc(var(--pos) + 3px) 15px, var(--ruas-surface);
+  transition: background-size .18s ease-out, border-color .15s;
+}
+.ruas-pilih.ruas-saklar input:checked { --dasar: 19px; background-color: var(--ruas-surface); border-color: var(--ruas-aktif, var(--ruas-bambu)); }
+.ruas-pilih.ruas-saklar input::before {
+  content: ""; width: 16px; height: 15px; border: 0; border-radius: 6px 1.5px 6px 1.5px; background: var(--ruas-muted);
+  transform: translateX(var(--pos)); transition: transform .18s ease-out, background-color .15s;
+}
+.ruas-pilih.ruas-saklar input:checked::before { width: 16px; height: 15px; border: 0; border-radius: 6px 1.5px 6px 1.5px; background: var(--ruas-aktif, var(--ruas-bambu)); box-shadow: inset 0 0 0 2px var(--ruas-surface); transform: translateX(var(--pos)); }
+.ruas-pilih.ruas-saklar input[data-seret], .ruas-pilih.ruas-saklar input[data-seret]::before { transition: none; cursor: grabbing; }
+@media (prefers-reduced-motion: reduce) { .ruas-pilih.ruas-saklar input, .ruas-pilih.ruas-saklar input::before { transition: none; } }
 
 /* Combobox */
 .ruas-combo { position: relative; }
@@ -575,8 +587,27 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
 .ruas-progres-info { --nada: var(--ruas-info); }
 .ruas-progres-kepala { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .ruas-progres-nilai { font-weight: 600; font-size: .78rem; line-height: 1; font-family: var(--ruas-mono); font-variant-numeric: tabular-nums; }
-.ruas-progres-jalur { height: 8px; overflow: hidden; background: color-mix(in srgb, var(--ruas-ink) 9%, transparent); border-radius: 5px 1px 5px 1px; }
-.ruas-progres-jalur > span { display: block; height: 100%; background: var(--nada); border-radius: inherit; transition: width .3s; }
+/* Batang Sudut Daun berisi deretan daun kecil: daun pudar = rongga, daun berwarna = kemajuan. */
+.ruas-progres-jalur { --daun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8' preserveAspectRatio='none'%3E%3Cpath d='M1 7.5C1 3.5 4 .5 12 .5C12 4.5 9 7.5 1 7.5Z'/%3E%3C/svg%3E"); position: relative; height: 16px; padding: 3px; overflow: hidden; border: 1px solid var(--ruas-line); border-radius: 8px 2px 8px 2px; background: var(--ruas-surface); }
+.ruas-progres-jalur::before, .ruas-progres-jalur > span { -webkit-mask: var(--daun) repeat-x 0 50% / 17px 100%; mask: var(--daun) repeat-x 0 50% / 17px 100%; }
+.ruas-progres-jalur::before { content: ""; position: absolute; inset: 3px; background: color-mix(in srgb, var(--ruas-ink) 12%, transparent); }
+.ruas-progres-jalur > span { position: relative; display: block; height: 100%; background: var(--nada); transition: width .3s; }
+.ruas-progres-jalan .ruas-progres-jalur > span { animation: ruas-daun-alir .9s linear infinite; }
+.ruas-progres-taktentu .ruas-progres-jalur > span { width: 30%; animation: ruas-daun-ayun 1.6s ease-in-out infinite alternate; }
+@keyframes ruas-daun-alir { to { -webkit-mask-position: 17px 50%; mask-position: 17px 50%; } }
+@keyframes ruas-daun-ayun { from { transform: translateX(0); } to { transform: translateX(calc(100% / .3 - 100%)); } }
+
+/* Equalizer: daun berdiri (batang Sudut Daun) berisi daun kecil mendatar; yang menyala naik dari bawah sebanyak --isi (0–1). */
+.ruas-eq { --daun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8' preserveAspectRatio='none'%3E%3Cpath d='M1 6.6C3 2.6 6.5 1.4 13 1.4C11 5.4 7.5 6.6 1 6.6Z'/%3E%3C/svg%3E"); display: inline-flex; align-items: stretch; gap: 4px; }
+.ruas-eq-batang { position: relative; width: 20px; padding: 3px; border: 1px solid var(--ruas-line); border-radius: 8px 2px 8px 2px; background: var(--ruas-surface); }
+.ruas-eq-daun { position: absolute; inset: 3px; -webkit-mask: var(--daun) repeat-y 50% 100% / 100% calc(100% / var(--ruas-eq-n)); mask: var(--daun) repeat-y 50% 100% / 100% calc(100% / var(--ruas-eq-n)); background: color-mix(in srgb, var(--ruas-ink) 12%, transparent); }
+.ruas-eq-nyala { background: var(--nada, var(--ruas-bambu)); clip-path: inset(calc((1 - var(--isi, .5)) * 100%) 0 0 0); transition: clip-path .12s; }
+.ruas-eq-main .ruas-eq-nyala { animation: ruas-eq calc(.7s + var(--i) * .17s) linear calc(var(--i) * -.23s) infinite alternate; }
+@keyframes ruas-eq { from { clip-path: inset(calc(100% - 100% / var(--ruas-eq-n)) 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .ruas-progres-jalur > span, .ruas-eq-nyala { animation: none !important; transition: none; }
+  .ruas-progres-taktentu .ruas-progres-jalur > span { width: 100%; opacity: .55; }
+}
 
 /* Kartu angka: perubahan & tren */
 .ruas-stat-delta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 4px 14px 0; font-size: .78rem; color: var(--ruas-muted); }

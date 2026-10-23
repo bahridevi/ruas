@@ -175,6 +175,14 @@ assert.match(stat, /ruas-stat-delta ruas-delta-baik/, 'turun = baik untuk biaya'
 assert.match(stat, /turun <\/span><b>−4,5%<\/b>/);
 assert.match(stat, /ruas-garis-mini/);
 assert.match(r(h(UI.Progress, { value: 30, max: 60, label: 'Unggah' })), /role="progressbar"[^>]*aria-valuenow="30".*width:50%/);
+const taktentu = r(h(UI.Progress, { value: null, label: 'Memuat' }));
+assert.ok(taktentu.includes('ruas-progres-taktentu') && !taktentu.includes('aria-valuenow') && !taktentu.includes('%<'), 'Progress tak tentu: tanpa aria-valuenow dan tanpa angka persen');
+assert.match(r(h(UI.Progress, { value: 40, active: true })), /ruas-progres-jalan/);
+assert.doesNotMatch(r(h(UI.Progress, { value: 100, active: true })), /ruas-progres-jalan/, 'Progress selesai tidak bergerak lagi');
+const eq = r(h(UI.Equalizer, { values: [0, .5, 1.4, 'x'], segments: 4 }));
+assert.match(eq, /role="img" aria-label="Level: 0%, 50%, 100%, 0%"/);
+assert.ok(eq.includes('--isi:0.5') && eq.includes('--isi:1') && !eq.includes('ruas-eq-main'), 'Equalizer: level dibulatkan per daun, tanpa animasi');
+assert.match(r(h(UI.Equalizer, {})), /aria-label="Sedang diputar".*ruas-eq-main.*steps\(7, jump-none\)/);
 const bar = r(h(UI.BarChart, { label: 'Kas', data: [{ label: 'Jan', value: 10 }, { label: 'Feb', value: 30 }] }));
 assert.match(bar, /role="img" aria-label="Kas: 2 data, terendah 10, tertinggi 30"/);
 assert.equal((bar.match(/class="ruas-grafik-batang"/g) || []).length, 2);
