@@ -1,6 +1,7 @@
 /* @ruas-icons/ui: komponen dasbor bergaya Ruas.
    Sudut Daun: kiri-atas & kanan-bawah besar, kanan-atas & kiri-bawah kecil. Radio = daun bertitik; sakelar, bilah kemajuan,
-   dan equalizer = batang Sudut Daun berisi daun kecil.
+   dan equalizer = batang Sudut Daun berisi daun kecil bergradasi: --ruas-daun-awal (lembut) → --ruas-daun-akhir (penuh);
+   bawaan = warna nada dicampur latar, jadi ikut tema terang/gelap dan tone.
    Warna lewat token --ruas-*; petakan ke tema aplikasi bila perlu, mis. :root { --ruas-bambu: var(--primary); }.
    Lencana sukses memakai --ruas-sukses (bawaan = bambu); isi bila warna utama aplikasi bukan hijau.
    Tema gelap: [data-theme="dark"] atau .dark; tanpa data-theme, mengikuti sistem.
@@ -591,7 +592,7 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
 .ruas-progres-jalur { --daun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8' preserveAspectRatio='none'%3E%3Cpath d='M1 7.5C1 3.5 4 .5 12 .5C12 4.5 9 7.5 1 7.5Z'/%3E%3C/svg%3E"); position: relative; height: 16px; padding: 3px; overflow: hidden; border: 1px solid var(--ruas-line); border-radius: 8px 2px 8px 2px; background: var(--ruas-surface); }
 .ruas-progres-jalur::before, .ruas-progres-jalur > span { -webkit-mask: var(--daun) repeat-x 0 50% / 17px 100%; mask: var(--daun) repeat-x 0 50% / 17px 100%; }
 .ruas-progres-jalur::before { content: ""; position: absolute; inset: 3px; background: color-mix(in srgb, var(--ruas-ink) 12%, transparent); }
-.ruas-progres-jalur > span { position: relative; display: block; height: 100%; background: var(--nada); transition: width .3s; }
+.ruas-progres-jalur > span { position: relative; display: block; height: 100%; background: linear-gradient(90deg, var(--ruas-daun-awal, color-mix(in srgb, var(--nada) 50%, var(--ruas-surface))), var(--ruas-daun-akhir, var(--nada))); transition: width .3s; }
 .ruas-progres-jalan .ruas-progres-jalur > span { animation: ruas-daun-alir .9s linear infinite; }
 .ruas-progres-taktentu .ruas-progres-jalur > span { width: 30%; animation: ruas-daun-ayun 1.6s ease-in-out infinite alternate; }
 @keyframes ruas-daun-alir { to { -webkit-mask-position: 17px 50%; mask-position: 17px 50%; } }
@@ -601,7 +602,7 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
 .ruas-eq { --daun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 8' preserveAspectRatio='none'%3E%3Cpath d='M1 6.6C3 2.6 6.5 1.4 13 1.4C11 5.4 7.5 6.6 1 6.6Z'/%3E%3C/svg%3E"); display: inline-flex; align-items: stretch; gap: 4px; }
 .ruas-eq-batang { position: relative; width: 20px; padding: 3px; border: 1px solid var(--ruas-line); border-radius: 8px 2px 8px 2px; background: var(--ruas-surface); }
 .ruas-eq-daun { position: absolute; inset: 3px; -webkit-mask: var(--daun) repeat-y 50% 100% / 100% calc(100% / var(--ruas-eq-n)); mask: var(--daun) repeat-y 50% 100% / 100% calc(100% / var(--ruas-eq-n)); background: color-mix(in srgb, var(--ruas-ink) 12%, transparent); }
-.ruas-eq-nyala { background: var(--nada, var(--ruas-bambu)); clip-path: inset(calc((1 - var(--isi, .5)) * 100%) 0 0 0); transition: clip-path .12s; }
+.ruas-eq-nyala { --nada-eq: var(--nada, var(--ruas-bambu)); background: linear-gradient(to top, var(--ruas-daun-awal, color-mix(in srgb, var(--nada-eq) 50%, var(--ruas-surface))), var(--ruas-daun-akhir, var(--nada-eq))); clip-path: inset(calc((1 - var(--isi, .5)) * 100%) 0 0 0); transition: clip-path .12s; }
 .ruas-eq-main .ruas-eq-nyala { animation: ruas-eq calc(.7s + var(--i) * .17s) linear calc(var(--i) * -.23s) infinite alternate; }
 @keyframes ruas-eq { from { clip-path: inset(calc(100% - 100% / var(--ruas-eq-n)) 0 0 0); } to { clip-path: inset(0 0 0 0); } }
 @media (prefers-reduced-motion: reduce) {

@@ -49,8 +49,8 @@ import { Plus } from "@ruas-icons/react";
 | `ToastProvider`, `useToast` | Pemberitahuan singkat: `toast({ title, description, tone, action, duration })`. Hilang setelah 5 detik (jeda saat disorot), `danger` tetap sampai ditutup; tampil di atas modal; dibacakan pembaca layar. |
 | `CommandPalette` | Palet perintah Ctrl+K / ⌘K: `items` `{ label, group, icon, keywords, hint, onSelect }`. |
 | `BarChart`, `LineChart`, `Sparkline` | Grafik satu seri tanpa pustaka tambahan: sumbu angka ringkas (`25 jt`), tooltip sorot/sentuh, tombol "Lihat tabel" (papan ketik, pembaca layar, cetak). `data` `[{ label, value }]`, `format`. |
-| `Progress`, `Skeleton`, `EmptyState` | Bilah kemajuan (`role="progressbar"`) berupa batang berisi daun kecil: `value={null}` = tak tentu (daun bergerak kiri-kanan), `active` = daun mengalir selama proses berjalan. Kerangka saat memuat, dan keadaan kosong dengan ajakan bertindak. |
-| `Equalizer` | Daun berdiri berisi daun kecil mendatar yang menyala dari bawah: `values` (0–1 per batang) untuk level nyata, tanpa `values` = hiasan "sedang diputar" (`playing`). `segments`, `height`, `tone`. Gerak berhenti bila pengguna memilih kurangi gerak. |
+| `Progress`, `Skeleton`, `EmptyState` | Bilah kemajuan (`role="progressbar"`) berupa batang berisi daun kecil: `value={null}` = tak tentu (daun bergerak kiri-kanan), `active` = daun mengalir selama proses berjalan. Daun bergradasi dari lembut ke pekat mengikuti `tone` dan tema; ganti lewat `--ruas-daun-awal` / `--ruas-daun-akhir`. Kerangka saat memuat, dan keadaan kosong dengan ajakan bertindak. |
+| `Equalizer` | Daun berdiri berisi daun kecil mendatar yang menyala dari bawah, bergradasi makin pekat ke atas: `values` (0–1 per batang) untuk level nyata, tanpa `values` = hiasan "sedang diputar" (`playing`). `segments`, `height`, `tone`. Gerak berhenti bila pengguna memilih kurangi gerak. |
 
 Semua kontrol bisa terkendali (`value` + `onChange`) atau mandiri (`defaultValue`). Teks bawaan diganti lewat prop `labels`, mis. `labels={{ sebelumnya: "Previous" }}` (daftar lengkap: `LABEL`).
 

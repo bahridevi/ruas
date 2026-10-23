@@ -1,6 +1,6 @@
 {
   "name": "@ruas-icons/ui",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Komponen dasbor bergaya Ruas untuk React/Next.js: kerangka dasbor, tabel berpaginasi (pilih baris, CSV), isian (OTP, Rupiah, cari pilihan, rentang tanggal, unggah), toast, palet perintah, KPI dan grafik.",
   "license": "MIT",
   "homepage": "https://ruas.metabahri.com/site/ui.html",
