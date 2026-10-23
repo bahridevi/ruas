@@ -64,12 +64,15 @@ ${data.map(d => `/** ${d.nama} · ${d.en} */\nexport declare const ${komponen(d.
 `);
 copyFileSync(new URL('../LICENSE', import.meta.url), new URL('../packages/react/LICENSE', import.meta.url));
 
-// Paket @ruas-icons/ui ditulis tangan; dist/ui dan dist/react disajikan untuk halaman contoh site/ui.html.
+// Paket @ruas-icons/ui ditulis tangan; dist/ui dan dist/react disajikan untuk halaman contoh site/ui.html (dirakit dari site/ui-contoh.html).
 copyFileSync(new URL('../LICENSE', import.meta.url), new URL('../packages/ui/LICENSE', import.meta.url));
 for (const [asal, ke] of [['../packages/ui/index.js', 'ui/index.js'], ['../packages/ui/ruas-ui.css', 'ui/ruas-ui.css'], ['../packages/react/dist/index.js', 'react/index.js']]) {
   mkdirSync(new URL('.', new URL(ke, dist)), { recursive: true });
   copyFileSync(new URL(asal, import.meta.url), new URL(ke, dist));
 }
+// Halaman contoh: seperti galeri, alamat CSS/JS diberi ?v=<sidik isi> agar cache lama (4 jam) tidak memuat paket versi sebelumnya.
+const versiUi = createHash('sha1').update(readFileSync(new URL('ui/index.js', dist))).update(readFileSync(new URL('ui/ruas-ui.css', dist))).update(readFileSync(new URL('react/index.js', dist))).digest('hex').slice(0, 10);
+writeFileSync(new URL('../site/ui.html', import.meta.url), readFileSync(new URL('../site/ui-contoh.html', import.meta.url), 'utf8').replaceAll('__VERSI__', versiUi));
 
 const rerata = Math.round(data.reduce((a, d) => a + d.byte, 0) / data.length);
 console.log(`✓ ${data.length} ikon dirakit ke dist/ · rata-rata ${rerata} byte per ikon (target ≤ 400)`);
