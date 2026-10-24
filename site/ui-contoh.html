@@ -113,6 +113,15 @@ function Tema() {
   return h(RadioGroup, { label: 'Tema', variant: 'segmented', value: tema, onChange: pilih, options: [{ value: 'sistem', label: 'Ikut sistem' }, { value: 'light', label: 'Terang' }, { value: 'dark', label: 'Gelap' }] });
 }
 
+function Bingkai() {
+  const [gaya, setGaya] = useState(document.documentElement.dataset.ruasBingkai || 'garis');
+  const pilih = g => {
+    setGaya(g);
+    if (g === 'garis') delete document.documentElement.dataset.ruasBingkai; else document.documentElement.dataset.ruasBingkai = g;
+  };
+  return h(RadioGroup, { label: 'Bingkai', variant: 'segmented', value: gaya, onChange: pilih, options: [{ value: 'garis', label: 'Garis' }, { value: 'tipis', label: 'Tipis' }, { value: 'tegas', label: 'Tegas' }, { value: 'lapis', label: 'Lapis' }] });
+}
+
 function Isian() {
   const [email, setEmail] = useState('');
   const [disentuh, setDisentuh] = useState(false);
@@ -357,7 +366,7 @@ const tema = `/* Ikut warna tema aplikasi Anda (opsional) */
 
 function Contoh() {
   return h(ToastProvider, null, h(Palet), h(SectionGroup, null,
-    h('div', { className: 'atas' }, h(Tema), h('p', { className: 'catatan' }, 'Tekan ', h('kbd', { className: 'kbd' }, 'Ctrl K'), ' untuk palet perintah.')),
+    h('div', { className: 'atas' }, h('div', { className: 'baris', style: { gap: '16px 28px' } }, h(Tema), h(Bingkai)), h('p', { className: 'catatan' }, 'Tekan ', h('kbd', { className: 'kbd' }, 'Ctrl K'), ' untuk palet perintah.')),
     h(Section, { id: 'b-tombol', title: 'Tombol & lencana', printable: true }, h(Tombol)),
     h(Section, { id: 'b-isian', title: 'Isian & OTP', printable: true }, h(Isian)),
     h(Section, { id: 'b-lanjut', title: 'Isian lanjut: cari pilihan, Rupiah, sakelar, rentang tanggal, unggah, langkah' }, h(IsianLanjut)),

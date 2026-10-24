@@ -170,4 +170,15 @@ Penanda terpilih (tab, radio bersegmen, kotak centang, kolom terurut, baris terb
 :root { --ruas-aktif: #e09b0f; --ruas-on-aktif: #1d1300; --ruas-aktif-teks: var(--ruas-kunyit); }
 ```
 
+Bingkai kartu (`Section`, tabel, `Stat`, `Dialog`, toast) dan lencana mengikuti model ikon Ruas. Pasang `data-ruas-bingkai` di `<html>` atau pembungkus mana pun: `tipis` (garis & lencana lebih lembut), `tegas` (garis 2 px berwarna nada kartu, misalnya `Stat` hijau berbingkai hijau), atau `lapis` (garis bernada dan badan berisi nada tipis). Atau atur sendiri lewat token:
+
+```css
+:root {
+  --ruas-bingkai: #3b82f6;     /* warna garis tepi kartu */
+  --ruas-bingkai-lebar: 2px;   /* tebal garis tepi; Chromium membulatkan ke piksel utuh */
+  --ruas-chip-pekat: 20%;      /* kepekatan garis lencana, % dari warna nadanya */
+  --ruas-chip-lebar: 1px;
+}
+```
+
 Huruf mengikuti aplikasi. Komponen memakai `"use client"`, jadi bisa diimpor langsung dari Server Component Next.js.
