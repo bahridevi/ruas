@@ -193,3 +193,22 @@ assert.match(r(h(UI.Skeleton, { lines: 3 })), /aria-hidden="true"/);
 assert.match(r(h(UI.ToastProvider, null, 'x')), /popover="manual" role="region" aria-label="Pemberitahuan"/);
 assert.doesNotMatch(r(h(UI.CommandPalette, { items: [{ label: 'Beranda' }] })), /Beranda/, 'palet tertutup tidak merender isi');
 console.log('✓ @ruas-icons/ui: logika tabel dan markup aksesibel lolos uji');
+
+// Falsafah (Berumpun): setiap Sudut Daun di CSS berbanding R:r = 4:1, kiri-atas & kanan-bawah melengkung.
+const css = readFileSync(new URL('../packages/ui/ruas-ui.css', import.meta.url), 'utf8');
+const daun = [...css.matchAll(/border-radius:\s*([\d.]+)px ([\d.]+)px ([\d.]+)px ([\d.]+)px/g)];
+assert.ok(daun.length > 30, 'Sudut Daun ditemukan di CSS');
+for (const [s, R, r, R2, r2] of daun) assert.ok(R === R2 && r === r2 && +R === 4 * r, `Sudut Daun harus R:r = 4:1, lengkung di kiri-atas: ${s}`);
+console.log(`✓ ${daun.length} Sudut Daun di ruas-ui.css berbanding 4:1`);
+
+// Bahasa lain: kunci sama persis dengan LABEL, jenis sama, dan fungsi menghasilkan teks utuh.
+const B = await import('../packages/ui/bahasa.js');
+for (const [nama, L] of Object.entries(B)) {
+  assert.deepEqual(Object.keys(L).sort(), Object.keys(UI.LABEL).sort(), `${nama}: kunci sama dengan LABEL`);
+  for (const [k, v] of Object.entries(L)) {
+    assert.equal(typeof v, typeof UI.LABEL[k], `${nama}.${k}: jenis sama`);
+    const teks = typeof v === 'function' ? v(3, 12, 40) : v;
+    assert.ok(typeof teks === 'string' && teks.trim() && !/undefined|NaN/.test(teks), `${nama}.${k}: teks utuh`);
+  }
+}
+console.log(`✓ ${Object.keys(B).length} bahasa lengkap: ${Object.keys(B).join(', ')}`);

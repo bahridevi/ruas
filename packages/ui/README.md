@@ -52,7 +52,16 @@ import { Plus } from "@ruas-icons/react";
 | `Progress`, `Skeleton`, `EmptyState` | Bilah kemajuan (`role="progressbar"`) berupa batang berisi daun kecil: `value={null}` = tak tentu (daun bergerak kiri-kanan), `active` = daun mengalir selama proses berjalan. Daun bergradasi dari lembut ke pekat mengikuti `tone` dan tema; ganti lewat `--ruas-daun-awal` / `--ruas-daun-akhir`. Kerangka saat memuat, dan keadaan kosong dengan ajakan bertindak. |
 | `Equalizer` | Daun berdiri berisi daun kecil mendatar yang menyala dari bawah, bergradasi makin pekat ke atas: `values` (0–1 per batang) untuk level nyata, tanpa `values` = hiasan "sedang diputar" (`playing`). `segments`, `height`, `tone`. Gerak berhenti bila pengguna memilih kurangi gerak. |
 
-Semua kontrol bisa terkendali (`value` + `onChange`) atau mandiri (`defaultValue`). Teks bawaan diganti lewat prop `labels`, mis. `labels={{ sebelumnya: "Previous" }}` (daftar lengkap: `LABEL`).
+Semua kontrol bisa terkendali (`value` + `onChange`) atau mandiri (`defaultValue`). Teks bawaan diganti lewat prop `labels`, mis. `labels={{ sebelumnya: "Previous" }}` (daftar lengkap: `LABEL`). Teks siap pakai tersedia untuk Inggris, Tionghoa, Jepang, Rusia, Arab, dan Urdu (`LABEL_EN`, `LABEL_ZH`, `LABEL_JA`, `LABEL_RU`, `LABEL_AR`, `LABEL_UR`) dari `@ruas-icons/ui/bahasa`: `labels={LABEL_JA}` per komponen, atau sekali untuk seluruh aplikasi:
+
+```js
+import { LABEL } from "@ruas-icons/ui";
+import { LABEL_AR } from "@ruas-icons/ui/bahasa";
+Object.assign(LABEL, LABEL_AR); // sebelum render pertama
+// Arab & Urdu ditulis kanan-ke-kiri: <html lang="ar" dir="rtl">
+```
+
+Dengan `dir="rtl"`, tata letak bercermin (menu samping, laci, sakelar, panah halaman, aliran progres), sedangkan Sudut Daun tetap di arah baku sesuai falsafah. Isian Rupiah dan OTP tetap kiri-ke-kanan. Format angka tetap Indonesia (titik ribuan), sesuai penulisan Rupiah.
 
 ## Tabel
 

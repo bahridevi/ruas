@@ -1,6 +1,6 @@
 'use client';
 // @ruas-icons/ui: komponen dasbor bergaya Ruas untuk React/Next.js. Tanpa langkah build; pasangkan ruas-ui.css.
-// Teks bawaan berbahasa Indonesia; ganti lewat prop `labels`. Ikon dari @ruas-icons/react.
+// Teks bawaan berbahasa Indonesia; ganti lewat prop `labels` (bahasa lain siap pakai di bahasa.js). Ikon dari @ruas-icons/react.
 import { Fragment, createContext, createElement as h, forwardRef, useCallback, useContext, useEffect, useId, useLayoutEffect as useLayoutEffectAsli, useMemo, useRef, useState } from 'react';
 import {
   Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CircleCheck, CircleX, Close, CloudUpload, DotsHorizontal, Download, Eye, File as IkonBerkas,
@@ -116,20 +116,24 @@ const Pilih = forwardRef(function Pilih({ type, label, hint, indeterminate, clas
 });
 export const Checkbox = forwardRef((p, ref) => h(Pilih, { ...p, type: 'checkbox', ref }));
 export const Radio = forwardRef((p, ref) => h(Pilih, { ...p, type: 'radio', ref }));
+const rtl = el => !!el && getComputedStyle(el).direction === 'rtl';
+// Rata kolom: 'left'/'right' dibaca sebagai awal/akhir baris, jadi ikut terbalik pada tulisan kanan-ke-kiri.
+const rata = a => ({ left: 'start', right: 'end' })[a] || a;
+
 // Sakelar nyala/mati: kotak centang dengan role="switch" (langsung berlaku, tanpa tombol Simpan).
 // Sakelar: kenop persegi Sudut Daun yang bisa diklik atau digeser; rongga di belakang kenop terisi warna.
-// Geseran ke kanan = nyala, ke kiri = mati (geser ke arah keadaan sekarang tidak mengubah apa pun).
+// Geseran ke akhir baris = nyala (ke kanan; ke kiri pada tulisan kanan-ke-kiri), ke awal = mati.
 export const Switch = forwardRef(function Switch({ className, onClick, onPointerDown, onPointerMove, onPointerUp, onPointerCancel, ...p }, ref) {
   const seret = useRef(null);
   const lepas = e => { e.currentTarget.style.removeProperty('--seret'); delete e.currentTarget.dataset.seret; };
   return h(Pilih, {
     ...p, type: 'checkbox', role: 'switch', className: cx('ruas-saklar', className), ref,
-    onPointerDown: e => { onPointerDown?.(e); if (p.disabled || e.button) return; seret.current = { x: e.clientX, dx: 0 }; e.currentTarget.setPointerCapture?.(e.pointerId); },
+    onPointerDown: e => { onPointerDown?.(e); if (p.disabled || e.button) return; seret.current = { x: e.clientX, dx: 0, arah: rtl(e.currentTarget) ? -1 : 1 }; e.currentTarget.setPointerCapture?.(e.pointerId); },
     onPointerMove: e => {
       onPointerMove?.(e);
       const s = seret.current;
       if (!s) return;
-      s.dx = e.clientX - s.x;
+      s.dx = (e.clientX - s.x) * s.arah;
       if (Math.abs(s.dx) < 3) return;
       e.currentTarget.dataset.seret = '';
       e.currentTarget.style.setProperty('--seret', `${s.dx}px`);
@@ -259,7 +263,8 @@ export function Tabs({ items, value, defaultValue, onChange, label, className })
   const geser = e => {
     const bisa = items.filter(t => !t.disabled);
     const i = bisa.findIndex(t => t.id === aktif);
-    const ke = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: bisa.length - 1 }[e.key];
+    const r = rtl(e.currentTarget) ? -1 : 1;
+    const ke = { ArrowRight: i + r, ArrowLeft: i - r, Home: 0, End: bisa.length - 1 }[e.key];
     if (ke === undefined || !bisa.length) return;
     e.preventDefault();
     const t = bisa[(ke + bisa.length) % bisa.length];
@@ -432,7 +437,8 @@ function useLayang({ akhir = false, selebar = false } = {}) {
       if (!t) return;
       if (selebar) el.style.width = `${t.width}px`;
       const w = el.offsetWidth, tg = el.offsetHeight;
-      el.style.left = `${Math.max(8, Math.min(akhir ? t.right - w : t.left, innerWidth - w - 8))}px`;
+      const kanan = akhir !== rtl(pemicu.current);
+      el.style.left = `${Math.max(8, Math.min(kanan ? t.right - w : t.left, innerWidth - w - 8))}px`;
       el.style.top = `${t.bottom + 4 + tg > innerHeight && t.top - 4 - tg > 0 ? t.top - 4 - tg : t.bottom + 4}px`;
       el.dataset.letak = '';
     };
@@ -594,7 +600,7 @@ export function DataTable({
         onChange: () => { const s = new Set(pilih); kunciHal.forEach(k => (halPenuh ? s.delete(k) : s.add(k))); ubahPilih(s); },
       }, 'th'),
       h('th', { scope: 'col', className: 'ruas-no' }, L.no),
-      tampil.map(c => h('th', { key: c.key, scope: 'col', className: takCetak(c), 'aria-sort': c.sortable ? arahUrut(c.key) : undefined, style: { textAlign: c.align, width: c.width } },
+      tampil.map(c => h('th', { key: c.key, scope: 'col', className: takCetak(c), 'aria-sort': c.sortable ? arahUrut(c.key) : undefined, style: { textAlign: rata(c.align), width: c.width } },
         c.sortable ? h('button', { type: 'button', className: 'ruas-urut', title: L.urutkan(c.label), onClick: () => urut(c.key) }, c.label, ikonUrut(c.key)) : c.label))),
     adaSaring && h('tr', { className: 'ruas-saring-baris ruas-noprint' },
       kosongSel(),
@@ -617,13 +623,13 @@ export function DataTable({
               detail && h('td', { className: 'ruas-buka' }, h('button', { type: 'button', className: 'ruas-buka-btn ruas-noprint', 'aria-expanded': !!terbuka, 'aria-label': terbuka ? L.gulungRincian : L.bukaRincian, title: terbuka ? L.gulungRincian : L.bukaRincian, onClick: () => alih(k) }, h(terbuka ? ChevronDown : ChevronRight, { size: 16 }))),
               centang({ 'aria-label': L.pilihBaris(noAwal + i + 1), checked: !!dipilih, onChange: () => { const s = new Set(pilih); s.has(k) ? s.delete(k) : s.add(k); ubahPilih(s); } }),
               h('td', { className: 'ruas-no' }, angka(noAwal + i + 1)),
-              tampil.map(c => h('td', { key: c.key, className: takCetak(c), style: { textAlign: c.align } }, c.render ? c.render(r) : tampilNilai(nilai(c, r))))),
+              tampil.map(c => h('td', { key: c.key, className: takCetak(c), style: { textAlign: rata(c.align) } }, c.render ? c.render(r) : tampilNilai(nilai(c, r))))),
             terbuka && h('tr', { className: 'ruas-rincian' }, h('td', { colSpan: lebar }, detail(r))));
         }));
   const sel = footer && baris.length ? footer(server ? rows : olah) : null;
   const kaki = sel && h('tfoot', null, [].concat(sel).map((b, i) => h('tr', { key: i },
     kosongSel(),
-    tampil.map(c => h('td', { key: c.key, className: takCetak(c), style: { textAlign: c.align } }, b[c.key] ?? null)))));
+    tampil.map(c => h('td', { key: c.key, className: takCetak(c), style: { textAlign: rata(c.align) } }, b[c.key] ?? null)))));
   const bilahPilih = selectable && pilih.size > 0 && h('div', { className: 'ruas-bilah-pilih ruas-noprint' },
     h('span', { className: 'ruas-bilah-jumlah' }, h(Check, { size: 16 }), L.dipilih(pilih.size)),
     h('div', { className: 'ruas-alat' }, bulkActions?.([...pilih], () => ubahPilih(new Set())),
@@ -1137,8 +1143,8 @@ function Grafik({ jenis, data = [], label, format = angka, height = 220, labels,
       h(Button, { size: 'sm', variant: 'ghost', icon: h(Table, { size: 16 }), 'aria-expanded': tabel, onClick: () => setTabel(!tabel) }, tabel ? L.sembunyikanTabel : L.lihatTabel)),
     tabel && h('div', { className: 'ruas-tabel-gulir' }, h('table', { className: 'ruas-tabel' },
       label && h('caption', { className: 'ruas-sr' }, label),
-      h('thead', null, h('tr', null, h('th', { scope: 'col' }, L.label), h('th', { scope: 'col', style: { textAlign: 'right' } }, L.nilai))),
-      h('tbody', null, data.map((d, i) => h('tr', { key: i }, h('td', null, d.label), h('td', { style: { textAlign: 'right' } }, format(d.value))))))));
+      h('thead', null, h('tr', null, h('th', { scope: 'col' }, L.label), h('th', { scope: 'col', style: { textAlign: 'end' } }, L.nilai))),
+      h('tbody', null, data.map((d, i) => h('tr', { key: i }, h('td', null, d.label), h('td', { style: { textAlign: 'end' } }, format(d.value))))))));
 }
 export const BarChart = p => h(Grafik, { ...p, jenis: 'bar' });
 export const LineChart = p => h(Grafik, { ...p, jenis: 'line' });

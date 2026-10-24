@@ -6,7 +6,15 @@
 <title>Ruas UI · Komponen dasbor bergaya Ruas</title>
 <meta name="description" content="Ruas UI: komponen React/Next.js gratis (MIT) bergaya Ruas: kerangka dasbor dengan menu samping, tabel berpaginasi (pilih baris, aksi massal, unduh CSV, cetak), isian OTP, Rupiah, cari pilihan, rentang tanggal, unggah berkas, toast, palet perintah Ctrl+K, kartu KPI, dan grafik.">
 <meta name="theme-color" content="#2D6843">
-<link rel="icon" type="image/svg+xml" href="../dist/svg/layout-grid.svg">
+<link rel="alternate" hreflang="id" href="https://ruas.metabahri.com/site/ui.html">
+<link rel="alternate" hreflang="en" href="https://ruas.metabahri.com/site/ui.html?lang=en">
+<link rel="alternate" hreflang="zh" href="https://ruas.metabahri.com/site/ui.html?lang=zh">
+<link rel="alternate" hreflang="ja" href="https://ruas.metabahri.com/site/ui.html?lang=ja">
+<link rel="alternate" hreflang="ru" href="https://ruas.metabahri.com/site/ui.html?lang=ru">
+<link rel="alternate" hreflang="ar" href="https://ruas.metabahri.com/site/ui.html?lang=ar">
+<link rel="alternate" hreflang="ur" href="https://ruas.metabahri.com/site/ui.html?lang=ur">
+<link rel="alternate" hreflang="x-default" href="https://ruas.metabahri.com/site/ui.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -23,6 +31,7 @@ a { color: var(--ruas-bambu); text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
 a:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 3px; border-radius: 4px; }
 .eyebrow { font: 600 .75rem/1.4 var(--ruas-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ruas-muted); margin: 0; }
+:is(:lang(ar), :lang(ur)) .eyebrow { font-family: inherit; letter-spacing: 0; }
 h1 { font: 800 clamp(2.4rem, 7vw, 4rem)/.95 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -.035em; margin: 10px 0 14px; }
 h1 span { color: var(--ruas-bambu); }
 .ruas-bab-judul { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
@@ -30,12 +39,19 @@ h1 span { color: var(--ruas-bambu); }
 .kepala { padding-bottom: 20px; border-bottom: 1px solid var(--ruas-line); display: grid; gap: 14px; }
 .atas { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .baris { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.warna { display: inline-flex; gap: 6px; align-items: center; font-size: .9rem; cursor: pointer; }
+.warna input { width: 38px; height: 30px; padding: 3px; cursor: pointer; background: var(--ruas-surface); border: 1px solid var(--ruas-line); border-radius: 8px 2px 8px 2px; }
+.warna input:hover { border-color: var(--ruas-bambu); }
+.warna input:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 2px; }
+.warna input::-webkit-color-swatch-wrapper { padding: 0; }
+.warna input::-webkit-color-swatch { border: 0; border-radius: 6px 1.5px 6px 1.5px; }
+.warna input::-moz-color-swatch { border: 0; border-radius: 6px 1.5px 6px 1.5px; }
 .kisi { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: start; }
 .ringkas { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
 .kartu { background: var(--ruas-bg); border: 1px solid var(--ruas-line); border-radius: 10px 3px 10px 3px; padding: 12px 14px; }
 .kartu b { display: block; font: 700 1.4rem/1.2 "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; }
 .kartu span { font-size: .85rem; color: var(--ruas-muted); }
-pre { margin: 0; overflow-x: auto; padding: 12px 14px; background: var(--ruas-bg); border: 1px solid var(--ruas-line); border-radius: 10px 3px 10px 3px; font: 400 .82rem/1.55 var(--ruas-mono); }
+pre { direction: ltr; text-align: left; margin: 0; overflow-x: auto; padding: 12px 14px; background: var(--ruas-bg); border: 1px solid var(--ruas-line); border-radius: 10px 3px 10px 3px; font: 400 .82rem/1.55 var(--ruas-mono); }
 .catatan { margin: 0; font-size: .9rem; color: var(--ruas-muted); }
 .kisi-lebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 16px; }
 .kartu-grafik { display: grid; gap: 8px; align-content: start; min-width: 0; padding: 14px; background: var(--ruas-bg); border: 1px solid var(--ruas-line); border-radius: 12px 3px 12px 3px; }
@@ -54,7 +70,8 @@ pre { margin: 0; overflow-x: auto; padding: 12px 14px; background: var(--ruas-bg
     "react": "https://esm.sh/react@19.2.4",
     "react-dom/client": "https://esm.sh/react-dom@19.2.4/client?external=react",
     "@ruas-icons/react": "../dist/react/index.js?v=__VERSI__",
-    "@ruas-icons/ui": "../dist/ui/index.js?v=__VERSI__"
+    "@ruas-icons/ui": "../dist/ui/index.js?v=__VERSI__",
+    "@ruas-icons/ui/bahasa": "../dist/ui/bahasa.js?v=__VERSI__"
   }
 }
 </script>
@@ -63,36 +80,81 @@ pre { margin: 0; overflow-x: auto; padding: 12px 14px; background: var(--ruas-bg
 <div class="wrap">
   <header class="kepala">
     <div class="atas">
-      <p class="eyebrow">Ruas · Komponen dasbor · lisensi MIT</p>
-      <a href="./">Galeri ikon Ruas</a>
+      <p class="eyebrow" data-en="Ruas · Dashboard components · MIT licence">Ruas · Komponen dasbor · lisensi MIT</p>
+      <div class="baris">
+        <a href="./" data-en="Ruas icon gallery">Galeri ikon Ruas</a>
+        <label class="ruas-select"><span class="ruas-sr">Bahasa · Language</span>
+          <select id="bahasa" class="ruas-input ruas-input-kecil">
+            <option value="id" lang="id">Bahasa Indonesia</option>
+            <option value="en" lang="en">English</option>
+            <option value="zh" lang="zh">中文（简体）</option>
+            <option value="ja" lang="ja">日本語</option>
+            <option value="ru" lang="ru">Русский</option>
+            <option value="ar" lang="ar" dir="rtl">العربية</option>
+            <option value="ur" lang="ur" dir="rtl">اردو</option>
+          </select><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9L12 16L19 9"/></svg></label>
+      </div>
     </div>
     <div>
       <h1>Ruas UI<span>.</span></h1>
-      <p class="lead">Komponen React/Next.js untuk dasbor, dengan bentuk dan warna yang sama seperti ikon Ruas: Sudut Daun, hijau bambu, dan tema gelap. Semua teks bawaan berbahasa Indonesia, dan setiap kontrol bisa dipakai dengan papan ketik serta pembaca layar.</p>
+      <p class="lead" data-en='React/Next.js dashboard components that follow the <a href="../docs/falsafah_en.html">Ruas Philosophy</a>, like the icons: Leaf Corner, bamboo green, and a dark theme. Default text is in Indonesian, with English, Chinese, Japanese, Russian, Arabic, and Urdu included (right-to-left too), and every control works with a keyboard and a screen reader.'>Komponen React/Next.js untuk dasbor yang mengikuti <a href="../docs/falsafah_id.html">Falsafah Ruas</a>, sama seperti ikonnya: Sudut Daun, hijau bambu, dan tema gelap. Teks bawaan berbahasa Indonesia, tersedia juga Inggris, Tionghoa, Jepang, Rusia, Arab, dan Urdu (termasuk kanan-ke-kiri), dan setiap kontrol bisa dipakai dengan papan ketik serta pembaca layar.</p>
     </div>
   </header>
-  <main id="contoh"><p class="catatan">Memuat contoh komponen…</p></main>
+  <main id="contoh"><p class="catatan" data-en="Loading component examples…">Memuat contoh komponen…</p></main>
 </div>
 <script type="module">
-let React, ReactDOM, UI, Ikon;
+// Bahasa: ?lang= → pilihan tersimpan → browser/zona waktu Indonesia → bahasa browser yang tersedia → Inggris.
+// Ganti bahasa = muat ulang dengan ?lang=, karena data contoh dibentuk sekali saat dimuat.
+// Selain id/en, teks contoh diambil dari ui-bahasa/<kode>.json (berkunci teks Inggris); yang belum ada tampil dalam Inggris.
+const BAHASA = ['id', 'en', 'zh', 'ja', 'ru', 'ar', 'ur'];
+let simpan = null;
+try { simpan = localStorage.getItem('ruas-bahasa'); } catch {}
+const zonaID = /^Asia\/(Jakarta|Pontianak|Makassar|Jayapura)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+const robot = /bot|crawl|spider/i.test(navigator.userAgent);
+const browser = (navigator.languages || [navigator.language]).map(l => (l || '').slice(0, 2).toLowerCase());
+const BHS = [new URLSearchParams(location.search).get('lang'), simpan].find(b => BAHASA.includes(b)) ||
+  (zonaID || robot || browser.some(l => l === 'id' || l === 'ms') ? 'id' : browser.find(l => BAHASA.includes(l)) || 'en');
+let KAMUS = {};
+if (!['id', 'en'].includes(BHS)) try { KAMUS = await (await fetch(`ui-bahasa/${BHS}.json?v=__VERSI__`)).json(); } catch {}
+const t = (id, en, ...v) => {
+  const s = BHS === 'id' ? id : BHS === 'en' ? en : Array.isArray(en) ? en.map(x => KAMUS[x] ?? x) : KAMUS[en] ?? en;
+  return v.length ? s.replace(/\{(\d)\}/g, (_, i) => v[i]) : s;
+};
+document.documentElement.lang = BHS;
+if (BHS === 'ar' || BHS === 'ur') document.documentElement.dir = 'rtl';
+document.getElementById('bahasa').value = BHS;
+if (BHS !== 'id') {
+  document.querySelectorAll('[data-en]').forEach(el => { el.innerHTML = t('', el.dataset.en); });
+  document.title = t('', 'Ruas UI · Ruas-style dashboard components');
+}
+document.getElementById('bahasa').addEventListener('change', e => {
+  try { localStorage.setItem('ruas-bahasa', e.target.value); } catch {}
+  const u = new URL(location.href); u.searchParams.set('lang', e.target.value); location.href = u;
+});
+
+let React, ReactDOM, UI, Ikon, Bahasa;
 try {
-  [React, ReactDOM, UI, Ikon] = await Promise.all([import('react'), import('react-dom/client'), import('@ruas-icons/ui'), import('@ruas-icons/react')]);
+  [React, ReactDOM, UI, Ikon, Bahasa] = await Promise.all([import('react'), import('react-dom/client'), import('@ruas-icons/ui'), import('@ruas-icons/react'), BHS === 'id' ? {} : import('@ruas-icons/ui/bahasa')]);
 } catch {
-  document.getElementById('contoh').innerHTML = '<p class="gagal" role="alert">Contoh komponen gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman ini.</p>';
+  document.getElementById('contoh').innerHTML = `<p class="gagal" role="alert">${t('Contoh komponen gagal dimuat. Periksa koneksi internet, lalu muat ulang halaman ini.', 'The component examples failed to load. Check your internet connection, then reload this page.')}</p>`;
   throw new Error('modul contoh gagal dimuat');
 }
-const { createElement: h, useState } = React;
+const KODE_LABEL = `LABEL_${BHS.toUpperCase()}`;
+if (BHS !== 'id') Object.assign(UI.LABEL, Bahasa[KODE_LABEL]);
+const { createElement: h, useState, useEffect } = React;
 const { Badge, Button, Checkbox, CheckboxGroup, DataTable, Input, Otp, RadioGroup, Section, SectionGroup, Select, Tabs, Textarea,
   AppShell, BarChart, Breadcrumb, Combobox, CommandPalette, DateRange, EmptyState, FileDrop, LineChart, Menu, NumberInput, Progress, Skeleton,
   Stat, Stepper, Switch, ToastProvider, useToast, Equalizer } = UI;
 const { Plus, Save, Trash, Download, CircleCheck, Clock, CircleX, Info, Users, Wallet, House, ChartBar, Settings, Bell, Pencil, Copy, Search, Money, Receipt, Store, Archive } = Ikon;
 const angka = n => n.toLocaleString('id-ID');
+const LOK = { id: 'id-ID', en: 'en-GB', zh: 'zh-CN', ja: 'ja-JP', ru: 'ru-RU', ar: 'ar-u-nu-latn', ur: 'ur-PK-u-nu-latn' }[BHS];
 
 // Data contoh: 137 karyawan, tetap sama setiap dimuat.
 const DEPAN = ['Ahmad', 'Budi', 'Citra', 'Dewi', 'Eka', 'Fajar', 'Gita', 'Hendra', 'Indah', 'Joko', 'Kartika', 'Lukman', 'Maya', 'Nur', 'Oki', 'Putri', 'Rina', 'Sari', 'Taufik', 'Wulan'];
 const BELAKANG = ['Santoso', 'Wijaya', 'Lestari', 'Pratama', 'Siregar', 'Nasution', 'Hidayat', 'Saputra', 'Rahmawati'];
-const UNIT = ['Keuangan', 'Gudang', 'Toko', 'HRD', 'TI'];
-const STATUS = ['Aktif', 'Aktif', 'Aktif', 'Cuti', 'Nonaktif'];
+const UNIT = t(['Keuangan', 'Gudang', 'Toko', 'HRD', 'TI'], ['Finance', 'Warehouse', 'Store', 'HR', 'IT']);
+const [AKTIF, CUTI, NONAKTIF] = t(['Aktif', 'Cuti', 'Nonaktif'], ['Active', 'On leave', 'Inactive']);
+const STATUS = [AKTIF, AKTIF, AKTIF, CUTI, NONAKTIF];
 const KARYAWAN = Array.from({ length: 137 }, (_, i) => ({
   id: i + 1,
   nama: `${DEPAN[(i * 7) % DEPAN.length]} ${BELAKANG[(i * 5) % BELAKANG.length]}`,
@@ -101,16 +163,16 @@ const KARYAWAN = Array.from({ length: 137 }, (_, i) => ({
   gaji: 4_200_000 + ((i * 7919) % 41) * 150_000,
   masuk: new Date(2015 + (i % 11), (i * 5) % 12, 1 + (i * 3) % 28),
 }));
-const NADA = { Aktif: ['success', CircleCheck], Cuti: ['warning', Clock], Nonaktif: ['danger', CircleX] };
+const NADA = { [AKTIF]: ['success', CircleCheck], [CUTI]: ['warning', Clock], [NONAKTIF]: ['danger', CircleX] };
 const lencana = s => h(Badge, { tone: NADA[s][0], icon: h(NADA[s][1], { size: 14 }) }, s);
 
 function Tema() {
   const [tema, setTema] = useState(document.documentElement.dataset.theme || 'sistem');
-  const pilih = t => {
-    setTema(t);
-    if (t === 'sistem') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+  const pilih = v => {
+    setTema(v);
+    if (v === 'sistem') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = v;
   };
-  return h(RadioGroup, { label: 'Tema', variant: 'segmented', value: tema, onChange: pilih, options: [{ value: 'sistem', label: 'Ikut sistem' }, { value: 'light', label: 'Terang' }, { value: 'dark', label: 'Gelap' }] });
+  return h(RadioGroup, { label: t('Tema', 'Theme'), variant: 'segmented', value: tema, onChange: pilih, options: [{ value: 'sistem', label: t('Ikut sistem', 'System') }, { value: 'light', label: t('Terang', 'Light') }, { value: 'dark', label: t('Gelap', 'Dark') }] });
 }
 
 function Bingkai() {
@@ -119,7 +181,37 @@ function Bingkai() {
     setGaya(g);
     if (g === 'garis') delete document.documentElement.dataset.ruasBingkai; else document.documentElement.dataset.ruasBingkai = g;
   };
-  return h(RadioGroup, { label: 'Bingkai', variant: 'segmented', value: gaya, onChange: pilih, options: [{ value: 'garis', label: 'Garis' }, { value: 'tipis', label: 'Tipis' }, { value: 'tegas', label: 'Tegas' }, { value: 'lapis', label: 'Lapis' }] });
+  return h(RadioGroup, { label: t('Bingkai', 'Frame'), variant: 'segmented', value: gaya, onChange: pilih, options: [{ value: 'garis', label: t('Garis', 'Line') }, { value: 'tipis', label: t('Tipis', 'Thin') }, { value: 'tegas', label: t('Tegas', 'Bold') }, { value: 'lapis', label: t('Lapis', 'Layer') }] });
+}
+
+// Simulasi warna: timpa token di <html>. Teks di atas warna utama = gelap/terang, mana yang kontrasnya lebih tinggi.
+const kecerahan = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+  .map(c => c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4).reduce((a, c, i) => a + c * [.2126, .7152, .0722][i], 0);
+const TOKEN_WARNA = [['--ruas-bambu', t('Utama', 'Main')], ['--ruas-kunyit', t('Aksen', 'Accent')], ['--ruas-bahaya', t('Bahaya', 'Danger')], ['--ruas-info', 'Info']];
+function Warna() {
+  const akar = document.documentElement;
+  const baca = () => Object.fromEntries(TOKEN_WARNA.map(([k]) => [k, getComputedStyle(akar).getPropertyValue(k).trim().toLowerCase()]));
+  const [w, setW] = useState(baca);
+  // Kotak warna ikut tema saat Terang/Gelap/sistem berganti (nilai yang sudah ditimpa tetap).
+  useEffect(() => {
+    const segar = () => setW(baca());
+    const mo = new MutationObserver(segar);
+    mo.observe(akar, { attributes: true, attributeFilter: ['data-theme'] });
+    const mq = matchMedia('(prefers-color-scheme: dark)');
+    mq.addEventListener('change', segar);
+    return () => { mo.disconnect(); mq.removeEventListener('change', segar); };
+  }, []);
+  const ubah = (k, v) => {
+    setW(x => ({ ...x, [k]: v }));
+    akar.style.setProperty(k, v);
+    if (k === '--ruas-bambu') akar.style.setProperty('--ruas-on-bambu', kecerahan(v) > .19 ? '#0E1410' : '#FBFCF8');
+  };
+  const ikutTema = () => { [...TOKEN_WARNA.map(([k]) => k), '--ruas-on-bambu'].forEach(k => akar.style.removeProperty(k)); setW(baca()); };
+  return h('fieldset', { className: 'ruas-grup' }, h('legend', { className: 'ruas-label' }, t('Simulasi warna', 'Colour simulation')),
+    h('div', { className: 'baris' },
+      TOKEN_WARNA.map(([k, nama]) => h('label', { key: k, className: 'warna', title: k },
+        h('input', { type: 'color', value: w[k], onChange: e => ubah(k, e.target.value) }), nama)),
+      h(Button, { size: 'sm', variant: 'ghost', onClick: ikutTema }, t('Ikut tema', 'Reset to theme'))));
 }
 
 function Isian() {
@@ -127,63 +219,63 @@ function Isian() {
   const [disentuh, setDisentuh] = useState(false);
   const [kode, setKode] = useState('');
   const [selesai, setSelesai] = useState('');
-  const galatEmail = !disentuh ? null : !email ? 'Email wajib diisi.' : !/^\S+@\S+\.\S+$/.test(email) ? 'Format email belum benar, contoh: nama@kantor.co.id' : null;
+  const galatEmail = !disentuh ? null : !email ? t('Email wajib diisi.', 'Email is required.') : !/^\S+@\S+\.\S+$/.test(email) ? t('Format email belum benar, contoh: nama@kantor.co.id', 'Email format is not valid, e.g. name@office.com') : null;
   return h('div', { className: 'kisi' },
-    h(Input, { label: 'Email', type: 'email', required: true, value: email, placeholder: 'nama@kantor.co.id', hint: 'Dipakai untuk masuk dan menerima slip gaji.', error: galatEmail, onChange: e => setEmail(e.target.value), onBlur: () => setDisentuh(true) }),
-    h(Select, { label: 'Unit kerja', placeholder: 'Pilih unit…', required: true, defaultValue: '', options: UNIT }),
-    h(Textarea, { label: 'Catatan', placeholder: 'Tulis catatan untuk atasan…', hint: 'Opsional, paling banyak 500 karakter.', maxLength: 500 }),
+    h(Input, { label: 'Email', type: 'email', required: true, value: email, placeholder: t('nama@kantor.co.id', 'name@office.com'), hint: t('Dipakai untuk masuk dan menerima slip gaji.', 'Used to sign in and receive payslips.'), error: galatEmail, onChange: e => setEmail(e.target.value), onBlur: () => setDisentuh(true) }),
+    h(Select, { label: t('Unit kerja', 'Work unit'), placeholder: t('Pilih unit…', 'Choose a unit…'), required: true, defaultValue: '', options: UNIT }),
+    h(Textarea, { label: t('Catatan', 'Notes'), placeholder: t('Tulis catatan untuk atasan…', 'Write a note for your manager…'), hint: t('Opsional, paling banyak 500 karakter.', 'Optional, up to 500 characters.'), maxLength: 500 }),
     h('div', { style: { display: 'grid', gap: '10px' } },
-      h(Otp, { length: 6, value: kode, onChange: v => { setKode(v); setSelesai(''); }, onComplete: setSelesai, hint: 'Kode dikirim lewat SMS ke 0812-****-789. Bisa ditempel sekaligus.', name: 'otp' }),
-      selesai ? h(Badge, { tone: 'success', icon: h(CircleCheck, { size: 14 }) }, `Kode lengkap: ${selesai}`) : h(Badge, { tone: 'neutral' }, `${kode.length} dari 6 digit`)));
+      h(Otp, { length: 6, value: kode, onChange: v => { setKode(v); setSelesai(''); }, onComplete: setSelesai, hint: t('Kode dikirim lewat SMS ke 0812-****-789. Bisa ditempel sekaligus.', 'The code was sent by SMS to 0812-****-789. You can paste it all at once.'), name: 'otp' }),
+      selesai ? h(Badge, { tone: 'success', icon: h(CircleCheck, { size: 14 }) }, t('Kode lengkap: {0}', 'Code complete: {0}', selesai)) : h(Badge, { tone: 'neutral' }, t('{0} dari 6 digit', '{0} of 6 digits', kode.length))));
 }
 
 function Pilihan() {
   const [setuju, setSetuju] = useState(false);
   return h('div', { className: 'kisi' },
-    h(RadioGroup, { label: 'Jenis cuti', required: true, defaultValue: 'tahunan', options: [
-      { value: 'tahunan', label: 'Cuti tahunan', hint: 'Sisa 9 hari' },
-      { value: 'sakit', label: 'Sakit', hint: 'Lampirkan surat dokter' },
-      { value: 'khusus', label: 'Cuti khusus', hint: 'Menikah, duka, ibadah' },
-      { value: 'lain', label: 'Lainnya (belum dibuka)', disabled: true },
+    h(RadioGroup, { label: t('Jenis cuti', 'Leave type'), required: true, defaultValue: 'tahunan', options: [
+      { value: 'tahunan', label: t('Cuti tahunan', 'Annual leave'), hint: t('Sisa 9 hari', '9 days left') },
+      { value: 'sakit', label: t('Sakit', 'Sick'), hint: t('Lampirkan surat dokter', "Attach a doctor's note") },
+      { value: 'khusus', label: t('Cuti khusus', 'Special leave'), hint: t('Menikah, duka, ibadah', 'Wedding, bereavement, worship') },
+      { value: 'lain', label: t('Lainnya (belum dibuka)', 'Other (not open yet)'), disabled: true },
     ] }),
-    h(CheckboxGroup, { label: 'Hak akses', selectAll: true, defaultValue: ['lihat'], hint: 'Centang semua yang boleh dilakukan pengguna ini.', options: [
-      { value: 'lihat', label: 'Melihat laporan' }, { value: 'ubah', label: 'Mengubah data' }, { value: 'hapus', label: 'Menghapus data' }, { value: 'setujui', label: 'Menyetujui transaksi' },
+    h(CheckboxGroup, { label: t('Hak akses', 'Permissions'), selectAll: true, defaultValue: ['lihat'], hint: t('Centang semua yang boleh dilakukan pengguna ini.', 'Tick everything this user may do.'), options: [
+      { value: 'lihat', label: t('Melihat laporan', 'View reports') }, { value: 'ubah', label: t('Mengubah data', 'Edit data') }, { value: 'hapus', label: t('Menghapus data', 'Delete data') }, { value: 'setujui', label: t('Menyetujui transaksi', 'Approve transactions') },
     ] }),
     h('div', { style: { display: 'grid', gap: '16px' } },
-      h(RadioGroup, { label: 'Periode', variant: 'segmented', defaultValue: 'bulan', options: [{ value: 'hari', label: 'Hari' }, { value: 'minggu', label: 'Minggu' }, { value: 'bulan', label: 'Bulan' }, { value: 'tahun', label: 'Tahun' }] }),
-      h(Checkbox, { label: 'Saya menyetujui kebijakan privasi', hint: 'Wajib sebelum menyimpan.', checked: setuju, onChange: e => setSetuju(e.target.checked) }),
-      h(Button, { variant: 'primary', icon: h(Save, { size: 16 }), disabled: !setuju }, 'Simpan')));
+      h(RadioGroup, { label: t('Periode', 'Period'), variant: 'segmented', defaultValue: 'bulan', options: [{ value: 'hari', label: t('Hari', 'Day') }, { value: 'minggu', label: t('Minggu', 'Week') }, { value: 'bulan', label: t('Bulan', 'Month') }, { value: 'tahun', label: t('Tahun', 'Year') }] }),
+      h(Checkbox, { label: t('Saya menyetujui kebijakan privasi', 'I agree to the privacy policy'), hint: t('Wajib sebelum menyimpan.', 'Required before saving.'), checked: setuju, onChange: e => setSetuju(e.target.checked) }),
+      h(Button, { variant: 'primary', icon: h(Save, { size: 16 }), disabled: !setuju }, t('Simpan', 'Save'))));
 }
 
 function Tombol() {
   const [muat, setMuat] = useState(false);
   return h('div', { style: { display: 'grid', gap: '14px' } },
     h('div', { className: 'baris' },
-      h(Button, { variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Tambah data'),
-      h(Button, { icon: h(Download, { size: 16 }) }, 'Unduh'),
-      h(Button, { variant: 'danger', icon: h(Trash, { size: 16 }) }, 'Hapus'),
-      h(Button, { variant: 'ghost' }, 'Batal'),
-      h(Button, { variant: 'primary', loading: muat, onClick: () => { setMuat(true); setTimeout(() => setMuat(false), 1500); } }, muat ? 'Menyimpan…' : 'Simpan (coba)'),
-      h(Button, { disabled: true }, 'Nonaktif'),
-      h(Button, { 'aria-label': 'Tambah', icon: h(Plus, { size: 16 }) })),
+      h(Button, { variant: 'primary', icon: h(Plus, { size: 16 }) }, t('Tambah data', 'Add data')),
+      h(Button, { icon: h(Download, { size: 16 }) }, t('Unduh', 'Download')),
+      h(Button, { variant: 'danger', icon: h(Trash, { size: 16 }) }, t('Hapus', 'Delete')),
+      h(Button, { variant: 'ghost' }, t('Batal', 'Cancel')),
+      h(Button, { variant: 'primary', loading: muat, onClick: () => { setMuat(true); setTimeout(() => setMuat(false), 1500); } }, muat ? t('Menyimpan…', 'Saving…') : t('Simpan (coba)', 'Save (try it)')),
+      h(Button, { disabled: true }, t('Nonaktif', 'Disabled')),
+      h(Button, { 'aria-label': t('Tambah', 'Add'), icon: h(Plus, { size: 16 }) })),
     h('div', { className: 'baris' },
-      h(Button, { size: 'sm' }, 'Kecil'), h(Button, null, 'Sedang'), h(Button, { size: 'lg', variant: 'primary' }, 'Besar')),
+      h(Button, { size: 'sm' }, t('Kecil', 'Small')), h(Button, null, t('Sedang', 'Medium')), h(Button, { size: 'lg', variant: 'primary' }, t('Besar', 'Large'))),
     h('div', { className: 'baris' },
-      h(Badge, null, 'Draf'), lencana('Aktif'), lencana('Cuti'), lencana('Nonaktif'),
-      h(Badge, { tone: 'info', icon: h(Info, { size: 14 }) }, 'Baru')));
+      h(Badge, null, t('Draf', 'Draft')), lencana(AKTIF), lencana(CUTI), lencana(NONAKTIF),
+      h(Badge, { tone: 'info', icon: h(Info, { size: 14 }) }, t('Baru', 'New'))));
 }
 
 const AKUN = [
-  { kode: '1', nama: 'Aset', induk: null }, { kode: '1.1', nama: 'Kas & bank', induk: '1' }, { kode: '1.1.01', nama: 'Kas kecil', induk: '1.1' },
-  { kode: '1.1.02', nama: 'Bank BSI', induk: '1.1' }, { kode: '1.2', nama: 'Piutang anggota', induk: '1' }, { kode: '2', nama: 'Kewajiban', induk: null },
-  { kode: '2.1', nama: 'Simpanan sukarela', induk: '2' },
+  { kode: '1', nama: t('Aset', 'Assets'), induk: null }, { kode: '1.1', nama: t('Kas & bank', 'Cash & bank'), induk: '1' }, { kode: '1.1.01', nama: t('Kas kecil', 'Petty cash'), induk: '1.1' },
+  { kode: '1.1.02', nama: 'Bank BSI', induk: '1.1' }, { kode: '1.2', nama: t('Piutang anggota', 'Member receivables'), induk: '1' }, { kode: '2', nama: t('Kewajiban', 'Liabilities'), induk: null },
+  { kode: '2.1', nama: t('Simpanan sukarela', 'Voluntary savings'), induk: '2' },
 ];
 function Pohon() {
   const [buka, setBuka] = useState(new Set(['1', '1.1']));
   const ganti = k => setBuka(s => { const n = new Set(s); n.has(k) ? n.delete(k) : n.add(k); return n; });
   const tampil = a => !a.induk || (buka.has(a.induk) && tampil(AKUN.find(b => b.kode === a.induk)));
   return h('div', { className: 'ruas-tabel-gulir' }, h('table', { className: 'ruas-tabel' },
-    h('thead', null, h('tr', null, h('th', null, 'Kode'), h('th', null, 'Nama akun'))),
+    h('thead', null, h('tr', null, h('th', null, t('Kode', 'Code')), h('th', null, t('Nama akun', 'Account name')))),
     h('tbody', null, AKUN.filter(tampil).map(a => {
       const anak = AKUN.some(b => b.induk === a.kode);
       return h('tr', { key: a.kode },
@@ -198,50 +290,50 @@ function Modal() {
   const [galat, setGalat] = useState(null);
   const tutup = () => { setBuka(''); setGalat(null); };
   return h('div', { className: 'baris' },
-    h(Button, { variant: 'primary', icon: h(Plus, { size: 16 }), onClick: () => setBuka('form') }, 'Buka formulir'),
-    h(Button, { variant: 'danger', icon: h(Trash, { size: 16 }), onClick: () => setBuka('hapus') }, 'Hapus data'),
-    h(UI.Dialog, { open: buka === 'form', onClose: tutup, title: 'Tambah karyawan', description: 'Data bisa diubah lagi kapan saja.', icon: h(Users, { size: 20 }), alert: galat,
-      onSubmit: e => { e.preventDefault(); if (!nama.trim()) return setGalat('Nama wajib diisi.'); setNama(''); tutup(); },
-      footer: [h(Button, { key: 'b', variant: 'ghost', onClick: tutup }, 'Batal'), h(Button, { key: 's', type: 'submit', variant: 'primary', icon: h(Save, { size: 16 }) }, 'Simpan')] },
-      h(Input, { label: 'Nama lengkap', required: true, value: nama, onChange: e => setNama(e.target.value) }),
-      h(Select, { label: 'Unit kerja', defaultValue: 'Keuangan', options: UNIT })),
-    h(UI.Dialog, { open: buka === 'hapus', onClose: tutup, size: 'sm', tone: 'danger', title: 'Hapus data ini?', description: 'Tindakan ini tidak bisa dibatalkan.', icon: h(Trash, { size: 20 }),
-      footer: [h(Button, { key: 'b', variant: 'ghost', onClick: tutup }, 'Batal'), h(Button, { key: 'h', variant: 'danger', onClick: tutup }, 'Ya, hapus')] },
-      h('p', { className: 'catatan' }, 'Tutup dengan Esc, tombol Tutup, atau klik di luar kotak.')));
+    h(Button, { variant: 'primary', icon: h(Plus, { size: 16 }), onClick: () => setBuka('form') }, t('Buka formulir', 'Open form')),
+    h(Button, { variant: 'danger', icon: h(Trash, { size: 16 }), onClick: () => setBuka('hapus') }, t('Hapus data', 'Delete data')),
+    h(UI.Dialog, { open: buka === 'form', onClose: tutup, title: t('Tambah karyawan', 'Add employee'), description: t('Data bisa diubah lagi kapan saja.', 'You can change this data at any time.'), icon: h(Users, { size: 20 }), alert: galat,
+      onSubmit: e => { e.preventDefault(); if (!nama.trim()) return setGalat(t('Nama wajib diisi.', 'Name is required.')); setNama(''); tutup(); },
+      footer: [h(Button, { key: 'b', variant: 'ghost', onClick: tutup }, t('Batal', 'Cancel')), h(Button, { key: 's', type: 'submit', variant: 'primary', icon: h(Save, { size: 16 }) }, t('Simpan', 'Save'))] },
+      h(Input, { label: t('Nama lengkap', 'Full name'), required: true, value: nama, onChange: e => setNama(e.target.value) }),
+      h(Select, { label: t('Unit kerja', 'Work unit'), defaultValue: UNIT[0], options: UNIT })),
+    h(UI.Dialog, { open: buka === 'hapus', onClose: tutup, size: 'sm', tone: 'danger', title: t('Hapus data ini?', 'Delete this data?'), description: t('Tindakan ini tidak bisa dibatalkan.', 'This cannot be undone.'), icon: h(Trash, { size: 20 }),
+      footer: [h(Button, { key: 'b', variant: 'ghost', onClick: tutup }, t('Batal', 'Cancel')), h(Button, { key: 'h', variant: 'danger', onClick: tutup }, t('Ya, hapus', 'Yes, delete'))] },
+      h('p', { className: 'catatan' }, t('Tutup dengan Esc, tombol Tutup, atau klik di luar kotak.', 'Close with Esc, the Close button, or a click outside the box.'))));
 }
 
 const hitung = s => KARYAWAN.filter(k => k.status === s).length;
 const ringkasan = h('div', { className: 'ringkas' },
-  h(Stat, { label: 'Karyawan', value: angka(KARYAWAN.length), icon: h(Users, { size: 16 }), delta: 4.2, deltaLabel: 'dari bulan lalu' }),
-  h(Stat, { label: 'Aktif', value: angka(hitung('Aktif')), tone: 'success', icon: h(CircleCheck, { size: 16 }) }),
-  h(Stat, { label: 'Cuti', value: angka(hitung('Cuti')), tone: 'warning', icon: h(Clock, { size: 16 }) }),
-  h(Stat, { label: 'Total gaji', value: `Rp${angka(KARYAWAN.reduce((a, k) => a + k.gaji, 0))}`, icon: h(Wallet, { size: 16 }) }));
+  h(Stat, { label: t('Karyawan', 'Employees'), value: angka(KARYAWAN.length), icon: h(Users, { size: 16 }), delta: 4.2, deltaLabel: t('dari bulan lalu', 'from last month') }),
+  h(Stat, { label: AKTIF, value: angka(hitung(AKTIF)), tone: 'success', icon: h(CircleCheck, { size: 16 }) }),
+  h(Stat, { label: CUTI, value: angka(hitung(CUTI)), tone: 'warning', icon: h(Clock, { size: 16 }) }),
+  h(Stat, { label: t('Total gaji', 'Total salaries'), value: `Rp${angka(KARYAWAN.reduce((a, k) => a + k.gaji, 0))}`, icon: h(Wallet, { size: 16 }) }));
 
 function TabelKaryawan() {
   const toast = useToast();
   const kolom = [
-    { key: 'nama', label: 'Nama', sortable: true, filter: true, hideable: false },
-    { key: 'unit', label: 'Unit', sortable: true, filter: true, options: UNIT },
-    { key: 'status', label: 'Status', sortable: true, filter: true, options: ['Aktif', 'Cuti', 'Nonaktif'], render: r => lencana(r.status) },
-    { key: 'gaji', label: 'Gaji', sortable: true, align: 'right', render: r => `Rp${angka(r.gaji)}` },
-    { key: 'masuk', label: 'Masuk', sortable: true, render: r => r.masuk.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) },
+    { key: 'nama', label: t('Nama', 'Name'), sortable: true, filter: true, hideable: false },
+    { key: 'unit', label: t('Unit', 'Unit'), sortable: true, filter: true, options: UNIT },
+    { key: 'status', label: t('Status', 'Status'), sortable: true, filter: true, options: [AKTIF, CUTI, NONAKTIF], render: r => lencana(r.status) },
+    { key: 'gaji', label: t('Gaji', 'Salary'), sortable: true, align: 'right', render: r => `Rp${angka(r.gaji)}` },
+    { key: 'masuk', label: t('Masuk', 'Joined'), sortable: true, render: r => r.masuk.toLocaleDateString(LOK, { day: 'numeric', month: 'short', year: 'numeric' }) },
     { key: 'id', label: 'ID', hidden: true, sortable: true },
-    { key: 'aksi', label: 'Aksi', align: 'right', hideable: false, exportable: false, render: r => h(Menu, { label: `Aksi untuk ${r.nama}`, items: [
-      { label: 'Ubah', icon: h(Pencil, { size: 16 }), onSelect: () => toast({ title: `Membuka ${r.nama}`, description: 'Contoh: buka formulir ubah.' }) },
-      { label: 'Salin', icon: h(Copy, { size: 16 }), onSelect: () => toast({ title: 'Disalin', tone: 'success' }) },
+    { key: 'aksi', label: t('Aksi', 'Actions'), align: 'right', hideable: false, exportable: false, render: r => h(Menu, { label: t('Aksi untuk {0}', 'Actions for {0}', r.nama), items: [
+      { label: t('Ubah', 'Edit'), icon: h(Pencil, { size: 16 }), onSelect: () => toast({ title: t('Membuka {0}', 'Opening {0}', r.nama), description: t('Contoh: buka formulir ubah.', 'Example: open the edit form.') }) },
+      { label: t('Salin', 'Copy'), icon: h(Copy, { size: 16 }), onSelect: () => toast({ title: t('Disalin', 'Copied'), tone: 'success' }) },
       '-',
-      { label: 'Hapus', icon: h(Trash, { size: 16 }), tone: 'danger', onSelect: () => toast({ title: `${r.nama} tidak dihapus`, description: 'Ini halaman contoh.', tone: 'warning' }) },
+      { label: t('Hapus', 'Delete'), icon: h(Trash, { size: 16 }), tone: 'danger', onSelect: () => toast({ title: t('{0} tidak dihapus', '{0} was not deleted', r.nama), description: t('Ini halaman contoh.', 'This is a demo page.'), tone: 'warning' }) },
     ] }) },
   ];
   return h(DataTable, {
-    title: 'Daftar karyawan (contoh)', rows: KARYAWAN, rowKey: 'id', columns: kolom, summary: ringkasan, selectable: true, columnToggle: true, exportable: true, maxHeight: '70vh',
+    title: t('Daftar karyawan (contoh)', 'Employee list (example)'), rows: KARYAWAN, rowKey: 'id', columns: kolom, summary: ringkasan, selectable: true, columnToggle: true, exportable: true, maxHeight: '70vh',
     bulkActions: (k, bersih) => [
-      h(Button, { key: 'u', size: 'sm', icon: h(Download, { size: 16 }), onClick: () => toast({ title: `${k.length} slip gaji disiapkan`, tone: 'success' }) }, 'Slip gaji'),
-      h(Button, { key: 'n', size: 'sm', variant: 'danger', icon: h(Archive, { size: 16 }), onClick: () => { bersih(); toast({ title: `${k.length} karyawan dinonaktifkan (contoh)`, tone: 'warning' }); } }, 'Nonaktifkan'),
+      h(Button, { key: 'u', size: 'sm', icon: h(Download, { size: 16 }), onClick: () => toast({ title: t('{0} slip gaji disiapkan', '{0} payslips prepared', k.length), tone: 'success' }) }, t('Slip gaji', 'Payslips')),
+      h(Button, { key: 'n', size: 'sm', variant: 'danger', icon: h(Archive, { size: 16 }), onClick: () => { bersih(); toast({ title: t('{0} karyawan dinonaktifkan (contoh)', '{0} employees deactivated (example)', k.length), tone: 'warning' }); } }, t('Nonaktifkan', 'Deactivate')),
     ],
-    detail: r => h('p', { className: 'catatan' }, `${r.nama} · unit ${r.unit} · masuk ${r.masuk.toLocaleDateString('id-ID', { dateStyle: 'long' })}`),
-    footer: rs => ({ nama: `Total ${angka(rs.length)} orang`, gaji: `Rp${angka(rs.reduce((a, k) => a + k.gaji, 0))}` }),
-    actions: h(Button, { size: 'sm', variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Tambah'),
+    detail: r => h('p', { className: 'catatan' }, t('{0} · unit {1} · masuk {2}', '{0} · {1} unit · joined {2}', r.nama, r.unit, r.masuk.toLocaleDateString(LOK, { dateStyle: 'long' }))),
+    footer: rs => ({ nama: t('Total {0} orang', 'Total {0} people', angka(rs.length)), gaji: `Rp${angka(rs.reduce((a, k) => a + k.gaji, 0))}` }),
+    actions: h(Button, { size: 'sm', variant: 'primary', icon: h(Plus, { size: 16 }) }, t('Tambah', 'Add')),
   });
 }
 
@@ -254,99 +346,99 @@ function IsianLanjut() {
   const [berkas, setBerkas] = useState([]);
   const [notif, setNotif] = useState(true);
   const [langkah, setLangkah] = useState(1);
-  const TAHAP = [{ label: 'Data diri', hint: 'Nama & kontak' }, { label: 'Penempatan', hint: 'Unit & kota' }, { label: 'Dokumen', hint: 'KTP & foto' }, { label: 'Kirim' }];
+  const TAHAP = [{ label: t('Data diri', 'Personal data'), hint: t('Nama & kontak', 'Name & contact') }, { label: t('Penempatan', 'Placement'), hint: t('Unit & kota', 'Unit & city') }, { label: t('Dokumen', 'Documents'), hint: t('KTP & foto', 'ID card & photo') }, { label: t('Kirim', 'Submit') }];
   return h('div', { style: { display: 'grid', gap: '20px' } },
     h(Stepper, { steps: TAHAP, current: langkah, onStepClick: setLangkah }),
     h('div', { className: 'baris' },
-      h(Button, { size: 'sm', disabled: langkah === 0, onClick: () => setLangkah(langkah - 1) }, 'Kembali'),
-      h(Button, { size: 'sm', variant: 'primary', disabled: langkah === TAHAP.length - 1, onClick: () => setLangkah(langkah + 1) }, 'Lanjut')),
+      h(Button, { size: 'sm', disabled: langkah === 0, onClick: () => setLangkah(langkah - 1) }, t('Kembali', 'Back')),
+      h(Button, { size: 'sm', variant: 'primary', disabled: langkah === TAHAP.length - 1, onClick: () => setLangkah(langkah + 1) }, t('Lanjut', 'Next'))),
     h('div', { className: 'kisi' },
-      h(Combobox, { label: 'Kota penempatan', options: KOTA, value: kota, onChange: setKota, required: true, hint: 'Ketik untuk mencari, mis. "jak sel".' }),
-      h(NumberInput, { label: 'Gaji pokok', prefix: 'Rp', value: gaji, onChange: setGaji, hint: gaji == null ? 'Belum diisi.' : `Tersimpan sebagai angka: ${gaji}` }),
+      h(Combobox, { label: t('Kota penempatan', 'Placement city'), options: KOTA, value: kota, onChange: setKota, required: true, hint: t('Ketik untuk mencari, mis. "jak sel".', 'Type to search, e.g. "jak sel".') }),
+      h(NumberInput, { label: t('Gaji pokok', 'Base salary'), prefix: 'Rp', value: gaji, onChange: setGaji, hint: gaji == null ? t('Belum diisi.', 'Not filled in yet.') : t('Tersimpan sebagai angka: {0}', 'Stored as a number: {0}', gaji) }),
       h('div', { style: { display: 'grid', gap: '12px', alignContent: 'start' } },
-        h(Switch, { label: 'Kirim pemberitahuan email', hint: 'Langsung berlaku.', checked: notif, onChange: e => { setNotif(e.target.checked); toast({ title: e.target.checked ? 'Pemberitahuan dinyalakan' : 'Pemberitahuan dimatikan', tone: 'success' }); } }),
-        h(Switch, { label: 'Mode perawatan (nonaktif)', disabled: true }))),
-    h(DateRange, { label: 'Periode laporan', value: periode, onChange: setPeriode }),
-    h(FileDrop, { label: 'Lampiran', accept: 'image/*,.pdf', multiple: true, maxSize: 5 * 1048576, value: berkas, onChange: setBerkas, hint: 'Gambar atau PDF.' }));
+        h(Switch, { label: t('Kirim pemberitahuan email', 'Send email notifications'), hint: t('Langsung berlaku.', 'Takes effect immediately.'), checked: notif, onChange: e => { setNotif(e.target.checked); toast({ title: e.target.checked ? t('Pemberitahuan dinyalakan', 'Notifications on') : t('Pemberitahuan dimatikan', 'Notifications off'), tone: 'success' }); } }),
+        h(Switch, { label: t('Mode perawatan (nonaktif)', 'Maintenance mode (disabled)'), disabled: true }))),
+    h(DateRange, { label: t('Periode laporan', 'Report period'), value: periode, onChange: setPeriode }),
+    h(FileDrop, { label: t('Lampiran', 'Attachments'), accept: 'image/*,.pdf', multiple: true, maxSize: 5 * 1048576, value: berkas, onChange: setBerkas, hint: t('Gambar atau PDF.', 'Images or PDF.') }));
 }
 
-const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+const BULAN = !['id', 'en'].includes(BHS) ? Array.from({ length: 12 }, (_, i) => new Date(2026, i, 1).toLocaleDateString(LOK, { month: 'short' })) : t(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'], ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
 const PENJUALAN = BULAN.map((b, i) => ({ label: b, value: 42_000_000 + ((i * 7919) % 23) * 1_900_000 + i * 1_200_000 }));
 const PENGUNJUNG = Array.from({ length: 30 }, (_, i) => ({ label: `${i + 1}`, value: 180 + Math.round(60 * Math.sin(i / 3)) + ((i * 37) % 41) }));
-const rupiahRingkas = v => `Rp${new Intl.NumberFormat('id-ID', { notation: 'compact', maximumFractionDigits: 1 }).format(v)}`;
+const rupiahRingkas = v => `Rp${new Intl.NumberFormat(LOK, { notation: 'compact', maximumFractionDigits: 1 }).format(v)}`;
 function Suara() {
   const [main, setMain] = useState(true);
   return h('div', { style: { display: 'grid', gap: '10px', alignContent: 'start' } },
     h('span', { className: 'ruas-label' }, 'Equalizer'),
     h('div', { className: 'baris', style: { alignItems: 'center' } },
       h(Equalizer, { playing: main }),
-      h(Equalizer, { values: [.2, .55, .9, .7, .4, .25, .6], segments: 6, label: 'Level suara 7 pita frekuensi' }),
-      h(Button, { size: 'sm', 'aria-pressed': main, onClick: () => setMain(!main) }, main ? 'Jeda' : 'Putar')),
-    h('p', { className: 'catatan' }, 'Kiri: hiasan "sedang diputar". Kanan: level nyata per pita (values 0–1).'));
+      h(Equalizer, { values: [.2, .55, .9, .7, .4, .25, .6], segments: 6, label: t('Level suara 7 pita frekuensi', 'Sound level of 7 frequency bands') }),
+      h(Button, { size: 'sm', 'aria-pressed': main, onClick: () => setMain(!main) }, main ? t('Jeda', 'Pause') : t('Putar', 'Play'))),
+    h('p', { className: 'catatan' }, t('Kiri: hiasan "sedang diputar". Kanan: level nyata per pita (values 0–1).', 'Left: a "now playing" decoration. Right: real level per band (values 0–1).')));
 }
 
 function AngkaGrafik() {
   const [muat, setMuat] = useState(false);
   return h('div', { style: { display: 'grid', gap: '20px' } },
     h('div', { className: 'ringkas' },
-      h(Stat, { label: 'Penjualan bulan ini', value: rupiahRingkas(PENJUALAN[11].value), icon: h(Money, { size: 16 }), delta: 12.4, deltaLabel: 'dari bulan lalu', trend: PENJUALAN.map(d => d.value) }),
-      h(Stat, { label: 'Biaya operasional', value: 'Rp18,2 jt', tone: 'warning', icon: h(Receipt, { size: 16 }), delta: -3.1, invert: true, deltaLabel: 'turun = hemat', trend: [21, 20, 22, 19, 18.6, 18.2] }),
-      h(Stat, { label: 'Toko aktif', value: '12', icon: h(Store, { size: 16 }), delta: 0, deltaLabel: 'sama' }),
-      h(Stat, { label: 'Retur', value: '37', tone: 'danger', icon: h(CircleX, { size: 16 }), delta: 8, invert: true, deltaLabel: 'naik = buruk', trend: [20, 24, 26, 31, 34, 37] })),
+      h(Stat, { label: t('Penjualan bulan ini', 'Sales this month'), value: rupiahRingkas(PENJUALAN[11].value), icon: h(Money, { size: 16 }), delta: 12.4, deltaLabel: t('dari bulan lalu', 'from last month'), trend: PENJUALAN.map(d => d.value) }),
+      h(Stat, { label: t('Biaya operasional', 'Operating costs'), value: t('Rp18,2 jt', 'Rp18.2M'), tone: 'warning', icon: h(Receipt, { size: 16 }), delta: -3.1, invert: true, deltaLabel: t('turun = hemat', 'down = savings'), trend: [21, 20, 22, 19, 18.6, 18.2] }),
+      h(Stat, { label: t('Toko aktif', 'Active stores'), value: '12', icon: h(Store, { size: 16 }), delta: 0, deltaLabel: t('sama', 'same') }),
+      h(Stat, { label: t('Retur', 'Returns'), value: '37', tone: 'danger', icon: h(CircleX, { size: 16 }), delta: 8, invert: true, deltaLabel: t('naik = buruk', 'up = bad'), trend: [20, 24, 26, 31, 34, 37] })),
     h('div', { className: 'kisi-lebar' },
-      h('div', { className: 'kartu-grafik' }, h('p', { className: 'eyebrow' }, 'Penjualan per bulan, 2026'), h(BarChart, { label: 'Penjualan per bulan', data: PENJUALAN, format: v => `Rp${angka(v)}` })),
-      h('div', { className: 'kartu-grafik' }, h('p', { className: 'eyebrow' }, 'Pengunjung harian, 30 hari'), h(LineChart, { label: 'Pengunjung harian', data: PENGUNJUNG, format: v => `${angka(v)} orang` }))),
+      h('div', { className: 'kartu-grafik' }, h('p', { className: 'eyebrow' }, t('Penjualan per bulan, 2026', 'Monthly sales, 2026')), h(BarChart, { label: t('Penjualan per bulan', 'Monthly sales'), data: PENJUALAN, format: v => `Rp${angka(v)}` })),
+      h('div', { className: 'kartu-grafik' }, h('p', { className: 'eyebrow' }, t('Pengunjung harian, 30 hari', 'Daily visitors, 30 days')), h(LineChart, { label: t('Pengunjung harian', 'Daily visitors'), data: PENGUNJUNG, format: v => t('{0} orang', '{0} people', angka(v)) }))),
     h('div', { className: 'kisi' },
-      h(Progress, { label: 'Target penjualan', value: 78, hint: 'Rp546 jt dari Rp700 jt' }),
-      h(Progress, { label: 'Kuota penyimpanan', value: 92, tone: 'danger', hint: 'Hampir penuh; hapus arsip lama.' }),
-      h(Progress, { label: 'Mengunggah foto', value: 45, active: true, hint: 'active: daun mengalir selama proses berjalan.' }),
-      h(Progress, { label: 'Menyiapkan laporan', value: null, hint: 'value={null}: lama proses belum diketahui.' }),
+      h(Progress, { label: t('Target penjualan', 'Sales target'), value: 78, hint: t('Rp546 jt dari Rp700 jt', 'Rp546M of Rp700M') }),
+      h(Progress, { label: t('Kuota penyimpanan', 'Storage quota'), value: 92, tone: 'danger', hint: t('Hampir penuh; hapus arsip lama.', 'Almost full; delete old archives.') }),
+      h(Progress, { label: t('Mengunggah foto', 'Uploading photo'), value: 45, active: true, hint: t('active: daun mengalir selama proses berjalan.', 'active: leaves flow while the process runs.') }),
+      h(Progress, { label: t('Menyiapkan laporan', 'Preparing report'), value: null, hint: t('value={null}: lama proses belum diketahui.', 'value={null}: duration not known yet.') }),
       h(Suara),
       h('div', { style: { display: 'grid', gap: '10px' } },
-        h(Button, { size: 'sm', onClick: () => { setMuat(true); setTimeout(() => setMuat(false), 2000); } }, 'Coba kerangka memuat'),
-        muat ? h(Skeleton, { lines: 3 }) : h('p', { className: 'catatan' }, 'Kerangka tampil selama data dimuat, agar tata letak tidak meloncat.'))),
-    h('div', { className: 'kartu-grafik' }, h(EmptyState, { icon: h(Receipt, { size: 26 }), title: 'Belum ada transaksi bulan ini', description: 'Transaksi yang dicatat kasir akan muncul di sini.', action: h(Button, { variant: 'primary', icon: h(Plus, { size: 16 }) }, 'Catat transaksi') })));
+        h(Button, { size: 'sm', onClick: () => { setMuat(true); setTimeout(() => setMuat(false), 2000); } }, t('Coba kerangka memuat', 'Try the loading skeleton')),
+        muat ? h(Skeleton, { lines: 3 }) : h('p', { className: 'catatan' }, t('Kerangka tampil selama data dimuat, agar tata letak tidak meloncat.', 'The skeleton shows while data loads, so the layout does not jump.')))),
+    h('div', { className: 'kartu-grafik' }, h(EmptyState, { icon: h(Receipt, { size: 26 }), title: t('Belum ada transaksi bulan ini', 'No transactions this month'), description: t('Transaksi yang dicatat kasir akan muncul di sini.', 'Transactions recorded by cashiers will appear here.'), action: h(Button, { variant: 'primary', icon: h(Plus, { size: 16 }) }, t('Catat transaksi', 'Record a transaction')) })));
 }
 
 function Pemberitahuan() {
   const toast = useToast();
   return h('div', { className: 'baris' },
-    h(Button, { onClick: () => toast({ title: 'Data tersimpan', description: 'Perubahan profil sudah disimpan.', tone: 'success' }) }, 'Berhasil'),
-    h(Button, { onClick: () => toast({ title: 'Stok menipis', description: 'Beras 5 kg tinggal 3 karung.', tone: 'warning' }) }, 'Peringatan'),
-    h(Button, { onClick: () => toast({ title: 'Gagal menyimpan', description: 'Koneksi terputus. Tetap tampil sampai ditutup.', tone: 'danger' }) }, 'Galat'),
-    h(Button, { onClick: () => toast('Sinkronisasi dimulai') }, 'Info singkat'));
+    h(Button, { onClick: () => toast({ title: t('Data tersimpan', 'Data saved'), description: t('Perubahan profil sudah disimpan.', 'Profile changes have been saved.'), tone: 'success' }) }, t('Berhasil', 'Success')),
+    h(Button, { onClick: () => toast({ title: t('Stok menipis', 'Low stock'), description: t('Beras 5 kg tinggal 3 karung.', 'Only 3 sacks of 5 kg rice left.'), tone: 'warning' }) }, t('Peringatan', 'Warning')),
+    h(Button, { onClick: () => toast({ title: t('Gagal menyimpan', 'Save failed'), description: t('Koneksi terputus. Tetap tampil sampai ditutup.', 'Connection lost. Stays visible until closed.'), tone: 'danger' }) }, t('Galat', 'Error')),
+    h(Button, { onClick: () => toast(t('Sinkronisasi dimulai', 'Sync started')) }, t('Info singkat', 'Short info')));
 }
 
 const NAV = [
-  { title: 'Utama', items: [{ href: '#d-beranda', label: 'Beranda', icon: h(House, { size: 20 }), active: true }, { href: '#d-laporan', label: 'Laporan', icon: h(ChartBar, { size: 20 }) }, { href: '#d-karyawan', label: 'Karyawan', icon: h(Users, { size: 20 }), badge: 3 }] },
-  { title: 'Sistem', items: [{ href: '#d-notif', label: 'Pemberitahuan', icon: h(Bell, { size: 20 }) }, { href: '#d-atur', label: 'Pengaturan', icon: h(Settings, { size: 20 }) }] },
+  { title: t('Utama', 'Main'), items: [{ href: '#d-beranda', label: t('Beranda', 'Home'), icon: h(House, { size: 20 }), active: true }, { href: '#d-laporan', label: t('Laporan', 'Reports'), icon: h(ChartBar, { size: 20 }) }, { href: '#d-karyawan', label: t('Karyawan', 'Employees'), icon: h(Users, { size: 20 }), badge: 3 }] },
+  { title: t('Sistem', 'System'), items: [{ href: '#d-notif', label: t('Pemberitahuan', 'Notifications'), icon: h(Bell, { size: 20 }) }, { href: '#d-atur', label: t('Pengaturan', 'Settings'), icon: h(Settings, { size: 20 }) }] },
 ];
 function Kerangka() {
   return h('div', { className: 'demo-shell' }, h(AppShell, {
-    brand: [h('img', { key: 'i', src: '../dist/svg/layout-grid.svg', alt: '', width: 26, height: 26 }), h('span', { key: 't' }, 'Kas Koperasi')],
+    brand: [h('img', { key: 'i', src: '../dist/svg/layout-grid.svg', alt: '', width: 26, height: 26 }), h('span', { key: 't' }, t('Kas Koperasi', 'Co-op Cash'))],
     nav: NAV,
-    header: h(Breadcrumb, { items: [{ label: 'Beranda', href: '#d-beranda' }, { label: 'Laporan', href: '#d-laporan' }, { label: 'Arus kas' }] }),
-    actions: [h(Button, { key: 'c', size: 'sm', variant: 'ghost', icon: h(Search, { size: 16 }), onClick: () => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true })) }, 'Cari ', h('kbd', { className: 'kbd' }, 'Ctrl K')), h(Menu, { key: 'm', label: 'Akun', icon: h(Users, { size: 18 }), items: [{ label: 'Profil' }, { label: 'Keluar', tone: 'danger' }] })],
+    header: h(Breadcrumb, { items: [{ label: t('Beranda', 'Home'), href: '#d-beranda' }, { label: t('Laporan', 'Reports'), href: '#d-laporan' }, { label: t('Arus kas', 'Cash flow') }] }),
+    actions: [h(Button, { key: 'c', size: 'sm', variant: 'ghost', icon: h(Search, { size: 16 }), onClick: () => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true })) }, t('Cari ', 'Search '), h('kbd', { className: 'kbd' }, 'Ctrl K')), h(Menu, { key: 'm', label: t('Akun', 'Account'), icon: h(Users, { size: 18 }), items: [{ label: t('Profil', 'Profile') }, { label: t('Keluar', 'Sign out'), tone: 'danger' }] })],
   },
   h('div', { className: 'ringkas' },
-    h(Stat, { label: 'Saldo kas', value: 'Rp84,6 jt', icon: h(Wallet, { size: 16 }), delta: 6.3, deltaLabel: 'minggu ini' }),
-    h(Stat, { label: 'Piutang', value: 'Rp12,1 jt', tone: 'warning', icon: h(Receipt, { size: 16 }), delta: -2, invert: true })),
-  h('p', { className: 'catatan' }, 'Ciutkan menu samping dengan tombol di bawahnya (diingat browser). Di layar sempit menu menjadi laci: buka dengan tombol menu, tutup dengan Esc atau klik di luar.')));
+    h(Stat, { label: t('Saldo kas', 'Cash balance'), value: t('Rp84,6 jt', 'Rp84.6M'), icon: h(Wallet, { size: 16 }), delta: 6.3, deltaLabel: t('minggu ini', 'this week') }),
+    h(Stat, { label: t('Piutang', 'Receivables'), value: t('Rp12,1 jt', 'Rp12.1M'), tone: 'warning', icon: h(Receipt, { size: 16 }), delta: -2, invert: true })),
+  h('p', { className: 'catatan' }, t('Ciutkan menu samping dengan tombol di bawahnya (diingat browser). Di layar sempit menu menjadi laci: buka dengan tombol menu, tutup dengan Esc atau klik di luar.', 'Collapse the sidebar with the button below it (the browser remembers). On narrow screens the menu becomes a drawer: open it with the menu button, close it with Esc or a click outside.'))));
 }
 
 const PERINTAH = [
-  ['Tombol & lencana', 'b-tombol'], ['Isian & OTP', 'b-isian'], ['Isian lanjut', 'b-lanjut'], ['Radio & kotak centang', 'b-pilihan'], ['Tab', 'b-tab'],
-  ['Modal', 'b-modal'], ['Pemberitahuan', 'b-toast'], ['Kerangka dasbor', 'b-kerangka'], ['Angka & grafik', 'b-angka'], ['Pohon dalam tabel', 'b-pohon'], ['Cara pasang', 'b-pasang'],
-].map(([label, id]) => ({ id, label, group: 'Bagian', keywords: ['buka', 'lihat'], onSelect: () => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }));
+  [t('Tombol & lencana', 'Buttons & badges'), 'b-tombol'], [t('Isian & OTP', 'Inputs & OTP'), 'b-isian'], [t('Isian lanjut', 'Advanced inputs'), 'b-lanjut'], [t('Radio & kotak centang', 'Radios & checkboxes'), 'b-pilihan'], [t('Tab', 'Tabs'), 'b-tab'],
+  ['Modal', 'b-modal'], [t('Pemberitahuan', 'Notifications'), 'b-toast'], [t('Kerangka dasbor', 'Dashboard shell'), 'b-kerangka'], [t('Angka & grafik', 'Numbers & charts'), 'b-angka'], [t('Pohon dalam tabel', 'Tree in a table'), 'b-pohon'], [t('Cara pasang', 'Installation'), 'b-pasang'],
+].map(([label, id]) => ({ id, label, group: t('Bagian', 'Sections'), keywords: t(['buka', 'lihat'], ['open', 'view']), onSelect: () => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }));
 function Palet() {
   const toast = useToast();
   return h(CommandPalette, { items: [...PERINTAH,
-    { id: 't-terang', label: 'Tema terang', group: 'Tema', onSelect: () => { document.documentElement.dataset.theme = 'light'; } },
-    { id: 't-gelap', label: 'Tema gelap', group: 'Tema', onSelect: () => { document.documentElement.dataset.theme = 'dark'; } },
-    { id: 'a-simpan', label: 'Simpan semua', group: 'Aksi', hint: 'Ctrl S', icon: h(Save, { size: 16 }), onSelect: () => toast({ title: 'Semua tersimpan', tone: 'success' }) }] });
+    { id: 't-terang', label: t('Tema terang', 'Light theme'), group: t('Tema', 'Theme'), onSelect: () => { document.documentElement.dataset.theme = 'light'; } },
+    { id: 't-gelap', label: t('Tema gelap', 'Dark theme'), group: t('Tema', 'Theme'), onSelect: () => { document.documentElement.dataset.theme = 'dark'; } },
+    { id: 'a-simpan', label: t('Simpan semua', 'Save all'), group: t('Aksi', 'Actions'), hint: 'Ctrl S', icon: h(Save, { size: 16 }), onSelect: () => toast({ title: t('Semua tersimpan', 'All saved'), tone: 'success' }) }] });
 }
 
-const pasang = `npm i @ruas-icons/ui @ruas-icons/react
+const pasang = t(`npm i @ruas-icons/ui @ruas-icons/react
 
 // app/layout.tsx: sekali saja
 import "@ruas-icons/ui/ruas-ui.css";
@@ -356,37 +448,56 @@ import { Button, DataTable, Otp, Section, SectionGroup } from "@ruas-icons/ui";
 import { Plus } from "@ruas-icons/react";
 
 <Button variant="primary" icon={<Plus size={16} />}>Tambah data</Button>
-<Otp onComplete={kirimKode} />`;
-const tema = `/* Ikut warna tema aplikasi Anda (opsional) */
+<Otp onComplete={kirimKode} />`, `npm i @ruas-icons/ui @ruas-icons/react
+
+// app/layout.tsx: once
+import "@ruas-icons/ui/ruas-ui.css";
+import { LABEL } from "@ruas-icons/ui";
+import { ${KODE_LABEL} } from "@ruas-icons/ui/bahasa";
+Object.assign(LABEL, ${KODE_LABEL}); // default text${BHS === 'ar' || BHS === 'ur' ? `
+// right-to-left: <html lang="${BHS}" dir="rtl">` : ''}
+
+// components
+import { Button, DataTable, Otp, Section, SectionGroup } from "@ruas-icons/ui";
+import { Plus } from "@ruas-icons/react";
+
+<Button variant="primary" icon={<Plus size={16} />}>Add data</Button>
+<Otp onComplete={sendCode} />`);
+const tema = t(`/* Ikut warna tema aplikasi Anda (opsional) */
 :root {
   --ruas-bambu: var(--primary);
   --ruas-surface: var(--card);
   --ruas-line: var(--border);
-}`;
+}`, `/* Follow your app's theme colours (optional) */
+:root {
+  --ruas-bambu: var(--primary);
+  --ruas-surface: var(--card);
+  --ruas-line: var(--border);
+}`);
 
 function Contoh() {
   return h(ToastProvider, null, h(Palet), h(SectionGroup, null,
-    h('div', { className: 'atas' }, h('div', { className: 'baris', style: { gap: '16px 28px' } }, h(Tema), h(Bingkai)), h('p', { className: 'catatan' }, 'Tekan ', h('kbd', { className: 'kbd' }, 'Ctrl K'), ' untuk palet perintah.')),
-    h(Section, { id: 'b-tombol', title: 'Tombol & lencana', printable: true }, h(Tombol)),
-    h(Section, { id: 'b-isian', title: 'Isian & OTP', printable: true }, h(Isian)),
-    h(Section, { id: 'b-lanjut', title: 'Isian lanjut: cari pilihan, Rupiah, sakelar, rentang tanggal, unggah, langkah' }, h(IsianLanjut)),
-    h(Section, { id: 'b-pilihan', title: 'Radio & kotak centang', printable: true }, h(Pilihan)),
-    h(Section, { id: 'b-tab', title: 'Tab', printable: true }, h(Tabs, { label: 'Data karyawan', items: [
-      { id: 'profil', label: 'Profil', icon: h(Users, { size: 16 }), content: h('p', { className: 'catatan' }, 'Panel profil. Pindah tab dengan panah kiri/kanan, Home, dan End.') },
-      { id: 'gaji', label: 'Penggajian', icon: h(Wallet, { size: 16 }), badge: 3, content: h('p', { className: 'catatan' }, 'Tiga slip gaji menunggu persetujuan.') },
-      { id: 'dokumen', label: 'Dokumen', content: h('p', { className: 'catatan' }, 'Belum ada dokumen.') },
-      { id: 'arsip', label: 'Arsip', disabled: true, content: null },
+    h('div', { className: 'atas' }, h('div', { className: 'baris', style: { gap: '16px 28px' } }, h(Tema), h(Bingkai), h(Warna)), h('p', { className: 'catatan' }, t('Tekan ', 'Press '), h('kbd', { className: 'kbd' }, 'Ctrl K'), t(' untuk palet perintah.', ' for the command palette.'))),
+    h(Section, { id: 'b-tombol', title: t('Tombol & lencana', 'Buttons & badges'), printable: true }, h(Tombol)),
+    h(Section, { id: 'b-isian', title: t('Isian & OTP', 'Inputs & OTP'), printable: true }, h(Isian)),
+    h(Section, { id: 'b-lanjut', title: t('Isian lanjut: cari pilihan, Rupiah, sakelar, rentang tanggal, unggah, langkah', 'Advanced inputs: searchable select, Rupiah, switch, date range, upload, steps') }, h(IsianLanjut)),
+    h(Section, { id: 'b-pilihan', title: t('Radio & kotak centang', 'Radios & checkboxes'), printable: true }, h(Pilihan)),
+    h(Section, { id: 'b-tab', title: t('Tab', 'Tabs'), printable: true }, h(Tabs, { label: t('Data karyawan', 'Employee data'), items: [
+      { id: 'profil', label: t('Profil', 'Profile'), icon: h(Users, { size: 16 }), content: h('p', { className: 'catatan' }, t('Panel profil. Pindah tab dengan panah kiri/kanan, Home, dan End.', 'Profile panel. Move between tabs with the left/right arrows, Home, and End.')) },
+      { id: 'gaji', label: t('Penggajian', 'Payroll'), icon: h(Wallet, { size: 16 }), badge: 3, content: h('p', { className: 'catatan' }, t('Tiga slip gaji menunggu persetujuan.', 'Three payslips are waiting for approval.')) },
+      { id: 'dokumen', label: t('Dokumen', 'Documents'), content: h('p', { className: 'catatan' }, t('Belum ada dokumen.', 'No documents yet.')) },
+      { id: 'arsip', label: t('Arsip', 'Archive'), disabled: true, content: null },
     ] })),
     h(Section, { id: 'b-modal', title: 'Modal' }, h(Modal)),
-    h(Section, { id: 'b-toast', title: 'Pemberitahuan (toast)' }, h(Pemberitahuan)),
-    h(Section, { id: 'b-kerangka', title: 'Kerangka dasbor: menu samping, jejak halaman, bilah atas' }, h(Kerangka)),
-    h(Section, { id: 'b-angka', title: 'Angka & grafik', printable: true }, h(AngkaGrafik)),
-    h(Section, { id: 'b-pohon', title: 'Pohon dalam tabel', printable: true }, h(Pohon)),
+    h(Section, { id: 'b-toast', title: t('Pemberitahuan (toast)', 'Notifications (toast)') }, h(Pemberitahuan)),
+    h(Section, { id: 'b-kerangka', title: t('Kerangka dasbor: menu samping, jejak halaman, bilah atas', 'Dashboard shell: sidebar, breadcrumb, top bar') }, h(Kerangka)),
+    h(Section, { id: 'b-angka', title: t('Angka & grafik', 'Numbers & charts'), printable: true }, h(AngkaGrafik)),
+    h(Section, { id: 'b-pohon', title: t('Pohon dalam tabel', 'Tree in a table'), printable: true }, h(Pohon)),
     h(TabelKaryawan),
-    h(Section, { id: 'b-pasang', title: 'Cara pasang' },
+    h(Section, { id: 'b-pasang', title: t('Cara pasang', 'Installation') },
       h('pre', null, pasang),
       h('pre', null, tema),
-      h('p', { className: 'catatan' }, 'Tabel dengan data besar: kirim `total` dan tangani `onStateChange` agar penyaringan, urutan, dan halaman dikerjakan di server; browser hanya menerima baris yang tampil.'))));
+      h('p', { className: 'catatan' }, t('Tabel dengan data besar: kirim `total` dan tangani `onStateChange` agar penyaringan, urutan, dan halaman dikerjakan di server; browser hanya menerima baris yang tampil.', 'Tables with large data: pass `total` and handle `onStateChange` so filtering, sorting, and paging run on the server; the browser only receives the rows on screen.')))));
 }
 
 ReactDOM.createRoot(document.getElementById('contoh')).render(h(Contoh));
