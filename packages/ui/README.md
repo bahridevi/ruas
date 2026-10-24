@@ -27,6 +27,7 @@ import { Plus } from "@ruas-icons/react";
 |---|---|
 | `Button` | `variant` primary · secondary · danger · ghost; `size` sm · md · lg; `loading`; `icon`. Tombol ikon saja wajib `aria-label`. |
 | `Badge` | `tone` neutral · success · warning · danger · info; `icon` |
+| `IconTile` | Ikon tersemat dalam ubin Sudut Daun: `icon` (mis. `<Wallet />` dari @ruas-icons/react), `tone` (default · success · warning · danger · info · neutral), `size` sm · md · lg, `variant` soft (lapis) · solid (isi) · outline (garis). Tanpa `label` = hiasan; beri `label` bila ikon membawa makna. |
 | `Input`, `Textarea`, `Select`, `Field` | `label`, `hint`, `error` (diumumkan pembaca layar), `required`. `Select` menerima `options` dan `placeholder`. `Field` untuk kontrol buatan sendiri. |
 | `Otp` | Satu kotak per digit; ketik, hapus, panah, tempel sekaligus, isi otomatis SMS (`one-time-code`). `length`, `onComplete`, `name` (input tersembunyi untuk form), `alphanumeric`. |
 | `Checkbox`, `Radio`, `CheckboxGroup`, `RadioGroup` | Radio berbentuk daun bertitik. Grup memakai `fieldset`/`legend`. `CheckboxGroup selectAll` menambah "Pilih semua" (setengah tercentang bila sebagian). `RadioGroup variant="segmented"` untuk pilihan ringkas. |

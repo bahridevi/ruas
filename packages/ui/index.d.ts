@@ -39,6 +39,10 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   icon?: ReactNode;
 }
 export declare function Badge(props: BadgeProps): JSX.Element;
+/** Ikon tersemat dalam ubin Sudut Daun. Tanpa `label` = hiasan; dengan `label` = gambar bermakna bagi pembaca layar. */
+export declare function IconTile(props: HTMLAttributes<HTMLSpanElement> & {
+  icon: ReactNode; tone?: 'default' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'; size?: 'sm' | 'md' | 'lg'; variant?: 'soft' | 'solid' | 'outline'; label?: string;
+}): JSX.Element;
 
 interface FieldBits { label?: ReactNode; hint?: ReactNode; error?: ReactNode; fieldClassName?: string }
 export interface FieldControlProps { id: string; 'aria-describedby'?: string; 'aria-invalid'?: true; required?: boolean }

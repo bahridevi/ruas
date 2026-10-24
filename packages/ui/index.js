@@ -67,6 +67,12 @@ export function Badge({ tone = 'neutral', size = 'md', icon, children, className
   return h('span', { className: cx('ruas-badge', `ruas-badge-${tone}`, size === 'sm' && 'ruas-badge-sm', className), ...p }, icon, children);
 }
 
+// Ikon tersemat bergaya Ruas: ubin Sudut Daun bernada. Tanpa label = hiasan (disembunyikan dari pembaca layar).
+export function IconTile({ icon, tone = 'default', size = 'md', variant = 'soft', label, className, ...p }) {
+  const peran = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true };
+  return h('span', { className: cx('ruas-ikon', `ruas-ikon-${size}`, `ruas-ikon-${variant}`, tone !== 'default' && `ruas-ikon-${tone}`, className), ...peran, ...p }, icon);
+}
+
 const bintang = h('span', { className: 'ruas-wajib', 'aria-hidden': true }, ' *');
 const galat = (id, error) => error && h('p', { id: `${id}-error`, className: 'ruas-galat', role: 'alert' }, h(TriangleAlert, { size: 16 }), error);
 const deskripsi = (id, hint, error) => cx(hint && `${id}-hint`, error && `${id}-error`) || undefined;

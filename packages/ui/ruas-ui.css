@@ -85,6 +85,23 @@
 .ruas-badge-danger { --nada: var(--ruas-bahaya); }
 .ruas-badge-info { --nada: var(--ruas-info); }
 
+/* Ikon tersemat (IconTile): ubin Sudut Daun bernada; gaya soft = lapis, solid = isi, outline = garis, seperti mode ikon Ruas. */
+.ruas-ikon {
+  --nada: var(--ruas-bambu); --ruas-on-nada: var(--ruas-on-bambu);
+  flex: none; display: inline-grid; place-items: center; width: 36px; height: 36px; color: var(--nada);
+  background: color-mix(in srgb, var(--nada) 12%, transparent); border: var(--ruas-chip-lebar, 1px) solid color-mix(in srgb, var(--nada) 22%, transparent); border-radius: 12px 3px 12px 3px;
+}
+.ruas-ikon svg { width: 56%; height: 56%; }
+.ruas-ikon-sm { width: 28px; height: 28px; border-radius: 8px 2px 8px 2px; }
+.ruas-ikon-lg { width: 52px; height: 52px; border-radius: 16px 4px 16px 4px; }
+.ruas-ikon-success { --nada: var(--ruas-sukses, var(--ruas-bambu)); }
+.ruas-ikon-warning { --nada: var(--ruas-kunyit); --ruas-on-nada: var(--ruas-surface); }
+.ruas-ikon-danger { --nada: var(--ruas-bahaya); --ruas-on-nada: var(--ruas-surface); }
+.ruas-ikon-info { --nada: var(--ruas-info); --ruas-on-nada: var(--ruas-surface); }
+.ruas-ikon-neutral { --nada: var(--ruas-muted); --ruas-on-nada: var(--ruas-surface); }
+.ruas-ikon-solid { color: var(--ruas-on-nada); background: var(--nada); border-color: var(--nada); }
+.ruas-ikon-outline { background: transparent; border-width: var(--ruas-bingkai-lebar, 1.5px); border-color: color-mix(in srgb, var(--nada) 75%, transparent); }
+
 /* Isian */
 .ruas-field, .ruas-grup { display: grid; gap: 6px; min-width: 0; }
 .ruas-grup { border: 0; padding: 0; margin: 0; }

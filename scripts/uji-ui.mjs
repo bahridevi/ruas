@@ -201,6 +201,11 @@ assert.ok(daun.length > 30, 'Sudut Daun ditemukan di CSS');
 for (const [s, R, r, R2, r2] of daun) assert.ok(R === R2 && r === r2 && +R === 4 * r, `Sudut Daun harus R:r = 4:1, lengkung di kiri-atas: ${s}`);
 console.log(`✓ ${daun.length} Sudut Daun di ruas-ui.css berbanding 4:1`);
 
+// Ikon tersemat: hiasan disembunyikan, berlabel jadi gambar bermakna; kelas ukuran/gaya/nada.
+const ubin = r(h(UI.IconTile, { icon: h('svg'), tone: 'danger', size: 'lg', variant: 'solid' }));
+assert.match(ubin, /class="ruas-ikon ruas-ikon-lg ruas-ikon-solid ruas-ikon-danger" aria-hidden="true"/);
+assert.match(r(h(UI.IconTile, { icon: h('svg'), label: 'Saldo kas' })), /class="ruas-ikon ruas-ikon-md ruas-ikon-soft" role="img" aria-label="Saldo kas"/);
+
 // Bahasa lain: kunci sama persis dengan LABEL, jenis sama, dan fungsi menghasilkan teks utuh.
 const B = await import('../packages/ui/bahasa.js');
 for (const [nama, L] of Object.entries(B)) {

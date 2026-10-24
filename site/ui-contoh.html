@@ -142,10 +142,10 @@ try {
 const KODE_LABEL = `LABEL_${BHS.toUpperCase()}`;
 if (BHS !== 'id') Object.assign(UI.LABEL, Bahasa[KODE_LABEL]);
 const { createElement: h, useState, useEffect } = React;
-const { Badge, Button, Checkbox, CheckboxGroup, DataTable, Input, Otp, RadioGroup, Section, SectionGroup, Select, Tabs, Textarea,
+const { Badge, Button, IconTile, Checkbox, CheckboxGroup, DataTable, Input, Otp, RadioGroup, Section, SectionGroup, Select, Tabs, Textarea,
   AppShell, BarChart, Breadcrumb, Combobox, CommandPalette, DateRange, EmptyState, FileDrop, LineChart, Menu, NumberInput, Progress, Skeleton,
   Stat, Stepper, Switch, ToastProvider, useToast, Equalizer } = UI;
-const { Plus, Save, Trash, Download, CircleCheck, Clock, CircleX, Info, Users, Wallet, House, ChartBar, Settings, Bell, Pencil, Copy, Search, Money, Receipt, Store, Archive } = Ikon;
+const { Plus, Save, Trash, Download, CircleCheck, Clock, CircleX, Info, Users, Wallet, House, ChartBar, Settings, Bell, Pencil, Copy, Search, Money, Receipt, Store, Archive, TriangleAlert } = Ikon;
 const angka = n => n.toLocaleString('id-ID');
 const LOK = { id: 'id-ID', en: 'en-GB', zh: 'zh-CN', ja: 'ja-JP', ru: 'ru-RU', ar: 'ar-u-nu-latn', ur: 'ur-PK-u-nu-latn' }[BHS];
 
@@ -262,7 +262,14 @@ function Tombol() {
       h(Button, { size: 'sm' }, t('Kecil', 'Small')), h(Button, null, t('Sedang', 'Medium')), h(Button, { size: 'lg', variant: 'primary' }, t('Besar', 'Large'))),
     h('div', { className: 'baris' },
       h(Badge, null, t('Draf', 'Draft')), lencana(AKTIF), lencana(CUTI), lencana(NONAKTIF),
-      h(Badge, { tone: 'info', icon: h(Info, { size: 14 }) }, t('Baru', 'New'))));
+      h(Badge, { tone: 'info', icon: h(Info, { size: 14 }) }, t('Baru', 'New'))),
+    h('div', { className: 'baris', role: 'group', 'aria-label': t('Ikon tersemat (IconTile)', 'Embedded icons (IconTile)') },
+      h(IconTile, { icon: h(Wallet), label: t('Saldo kas', 'Cash balance') }), h(IconTile, { icon: h(CircleCheck), tone: 'success' }), h(IconTile, { icon: h(Receipt), tone: 'warning' }),
+      h(IconTile, { icon: h(CircleX), tone: 'danger' }), h(IconTile, { icon: h(Info), tone: 'info' }), h(IconTile, { icon: h(Archive), tone: 'neutral' }),
+      h(IconTile, { icon: h(Users), size: 'sm' }), h(IconTile, { icon: h(Store), size: 'lg' }),
+      h(IconTile, { icon: h(Bell), variant: 'solid' }), h(IconTile, { icon: h(TriangleAlert), tone: 'warning', variant: 'solid' }), h(IconTile, { icon: h(Trash), tone: 'danger', variant: 'solid' }),
+      h(IconTile, { icon: h(Settings), variant: 'outline' }), h(IconTile, { icon: h(Money), tone: 'info', variant: 'outline', size: 'lg' })),
+    h('p', { className: 'catatan' }, t('Ikon tersemat (IconTile): soft, solid, outline; ukuran sm, md, lg; semua nada.', 'Embedded icons (IconTile): soft, solid, outline; sizes sm, md, lg; every tone.')));
 }
 
 const AKUN = [
