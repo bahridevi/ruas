@@ -161,6 +161,22 @@ assert.match(combo, /type="hidden" name="unit" value="Toko"/);
 assert.deepEqual(UI.dateRangePreset('bulanLalu', new Date(2026, 2, 15)), { from: '2026-02-01', to: '2026-02-28' }, 'bulan lalu, tanggal lokal');
 assert.deepEqual(UI.dateRangePreset('tujuhHari', new Date(2026, 0, 3)), { from: '2025-12-28', to: '2026-01-03' });
 assert.match(r(h(UI.DateRange, { label: 'Periode', defaultValue: { from: '2026-05-02', to: '2026-05-01' } })), /role="alert".*Tanggal awal harus sebelum/, 'rentang terbalik ditolak');
+// Minggu ini mulai Senin (Minggu → mundur 6 hari, lintas tahun), Tahun lalu 1 Jan–31 Des.
+assert.deepEqual(UI.dateRangePreset('mingguIni', new Date(2026, 9, 25)), { from: '2026-10-19', to: '2026-10-25' }, 'Minggu 25 Okt');
+assert.deepEqual(UI.dateRangePreset('mingguIni', new Date(2026, 9, 26)), { from: '2026-10-26', to: '2026-11-01' }, 'Senin 26 Okt');
+assert.deepEqual(UI.dateRangePreset('mingguIni', new Date(2026, 0, 1)), { from: '2025-12-29', to: '2026-01-04' }, 'Kamis 1 Jan');
+assert.deepEqual(UI.dateRangePreset('tahunLalu', new Date(2026, 9, 25)), { from: '2025-01-01', to: '2025-12-31' });
+assert.equal(UI.dateRangeLabel({ from: '2026-10-01', to: '2026-10-15' }), '01/10/2026 – 15/10/2026');
+assert.equal(UI.dateRangeLabel({ from: '', to: '' }), 'Semua tanggal');
+// Varian select: isian tanggal hanya untuk Rentang tanggal…; tombol preset lama tetap di varian bawaan.
+const menuTgl = p => r(h(UI.DateRange, { variant: 'select', ...p }));
+assert.doesNotMatch(menuTgl({ defaultValue: UI.dateRangePreset('bulanIni') }), /type="date"/, 'preset tanpa isian');
+assert.match(menuTgl({ defaultValue: UI.dateRangePreset('bulanIni') }), /<option value="bulanIni" selected="">Bulan ini/);
+assert.match(menuTgl({ defaultValue: { from: '', to: '' } }), /<option value="semua" selected="">Semua tanggal/);
+assert.match(menuTgl({ period: { from: '2026-01-01', to: '2026-06-30' }, defaultValue: { from: '2026-01-01', to: '2026-06-30' } }), /<option value="periode" selected="">Periode \(01\/01\/2026 – 30\/06\/2026\)/);
+assert.equal((menuTgl({ defaultValue: { from: '2026-03-02', to: '2026-03-09' } }).match(/type="date"/g) || []).length, 2, 'rentang bebas → Dari–Sampai');
+assert.match(menuTgl({ defaultValue: { from: '2026-03-09', to: '2026-03-02' } }), /role="alert".*Tanggal awal harus sebelum/, 'rentang terbalik ditolak (select)');
+assert.match(r(h(UI.DateRange, {})), /7 hari terakhir.*Bulan lalu/, 'tombol preset 0.6.0 tetap');
 assert.match(r(h(UI.NumberInput, { label: 'Gaji', prefix: 'Rp', defaultValue: 1250000 })), /inputMode="numeric"[^>]*value="1\.250\.000"|value="1\.250\.000"[^>]*/i);
 const unggah = r(h(UI.FileDrop, { label: 'Foto', accept: 'image/*', maxSize: 5 * 1048576 }));
 assert.match(unggah, /type="file" class="ruas-sr" accept="image\/\*"/);

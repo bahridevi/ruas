@@ -562,6 +562,12 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
 /* Rentang tanggal & isian angka */
 .ruas-rentang-isian { display: flex; flex-wrap: wrap; gap: 10px; }
 .ruas-rentang-isian > .ruas-field { flex: 1 1 150px; }
+.ruas-rentang-isian > .ruas-galat { flex-basis: 100%; }
+/* Varian select: menu Tanggal + isian Dari–Sampai (hanya Rentang tanggal…), membungkus di layar sempit. */
+.ruas-rentang-menu { display: flex; flex-wrap: wrap; gap: 10px; align-items: start; }
+.ruas-rentang-menu > .ruas-field { flex: 1 1 180px; }
+.ruas-rentang-menu > .ruas-rentang-isian { flex: 2 1 310px; }
+.ruas-saringan-lain > .ruas-rentang-menu { flex: 1 1 180px; }
 .ruas-imbuh { direction: ltr; display: flex; align-items: stretch; } /* angka & awalan Rp tetap kiri-ke-kanan */
 .ruas-imbuh .ruas-input { flex: 1; min-width: 0; text-align: right; font-variant-numeric: tabular-nums; }
 .ruas-imbuh-teks { display: grid; place-items: center; padding: 0 10px; font-weight: 600; font-size: .9rem; color: var(--ruas-muted); background: var(--ruas-surface); border: 1px solid var(--ruas-line); }

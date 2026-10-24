@@ -316,8 +316,13 @@ const ringkasan = h('div', { className: 'ringkas' },
   h(Stat, { label: CUTI, value: angka(hitung(CUTI)), tone: 'warning', icon: h(Clock, { size: 16 }) }),
   h(Stat, { label: t('Total gaji', 'Total salaries'), value: `Rp${angka(KARYAWAN.reduce((a, k) => a + k.gaji, 0))}`, icon: h(Wallet, { size: 16 }) }));
 
+// Saringan tanggal standar: periode bawaan aplikasi + preset; tanggal masuk dibandingkan sebagai YYYY-MM-DD lokal.
+const PERIODE = { from: '2021-01-01', to: '2025-12-31' };
+const isoLokal = d => d.toLocaleDateString('sv-SE');
 function TabelKaryawan() {
   const toast = useToast();
+  const [rentang, setRentang] = useState(PERIODE);
+  const baris = KARYAWAN.filter(k => { const d = isoLokal(k.masuk); return (!rentang.from || d >= rentang.from) && (!rentang.to || d <= rentang.to); });
   const kolom = [
     { key: 'nama', label: t('Nama', 'Name'), sortable: true, filter: true, hideable: false },
     { key: 'unit', label: t('Unit', 'Unit'), sortable: true, filter: true, options: UNIT },
@@ -333,7 +338,10 @@ function TabelKaryawan() {
     ] }) },
   ];
   return h(DataTable, {
-    title: t('Daftar karyawan (contoh)', 'Employee list (example)'), rows: KARYAWAN, rowKey: 'id', columns: kolom, summary: ringkasan, selectable: true, columnToggle: true, exportable: true, maxHeight: '70vh',
+    title: t('Daftar karyawan (contoh)', 'Employee list (example)'), rows: baris, rowKey: 'id',
+    filters: h(DateRange, { variant: 'select', period: PERIODE, value: rentang, onChange: setRentang }),
+    filtersActive: rentang.from || rentang.to ? 1 : 0, onClearFilters: () => setRentang({ from: '', to: '' }),
+    printHeader: h('p', null, t('Masuk: {0}', 'Joined: {0}', UI.dateRangeLabel(rentang))), columns: kolom, summary: ringkasan, selectable: true, columnToggle: true, exportable: true, maxHeight: '70vh',
     bulkActions: (k, bersih) => [
       h(Button, { key: 'u', size: 'sm', icon: h(Download, { size: 16 }), onClick: () => toast({ title: t('{0} slip gaji disiapkan', '{0} payslips prepared', k.length), tone: 'success' }) }, t('Slip gaji', 'Payslips')),
       h(Button, { key: 'n', size: 'sm', variant: 'danger', icon: h(Archive, { size: 16 }), onClick: () => { bersih(); toast({ title: t('{0} karyawan dinonaktifkan (contoh)', '{0} employees deactivated (example)', k.length), tone: 'warning' }); } }, t('Nonaktifkan', 'Deactivate')),

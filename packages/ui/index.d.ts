@@ -15,6 +15,7 @@ export interface Labels {
   aksi: string; navigasi: string; jejak: string; bukaMenu: string; tutupMenu: string; ciutkanMenu: string; lebarkanMenu: string; lewati: string;
   palet: string; cariPerintah: string; tanpaHasil: string; hasil: (n: number) => string; pemberitahuan: string; pilihOpsi: string; opsiLagi: (n: number) => string;
   dari: string; sampai: string; rentangSalah: string; hariIni: string; tujuhHari: string; bulanIni: string; bulanLalu: string; tahunIni: string;
+  tanggal: string; mingguIni: string; tahunLalu: string; rentangTanggal: string; semuaTanggal: string; periode: string;
   seretBerkas: string; pilihBerkas: string; hapusBerkas: (nama: string) => string; terlaluBesar: (nama: string, batas: string) => string; jenisSalah: (nama: string) => string; batasBerkas: (batas: string) => string;
   langkah: (i: number, n: number) => string; selesai: string; naik: string; turun: string; tetap: string;
   tren: string; lihatTabel: string; sembunyikanTabel: string; nilai: string; label: string;
@@ -185,11 +186,21 @@ export declare const Combobox: ForwardRefExoticComponent<Teks & {
 } & RefAttributes<HTMLInputElement>>;
 
 export interface DateRangeValue { from: string; to: string }
-export type DateRangePresetKey = 'hariIni' | 'tujuhHari' | 'bulanIni' | 'bulanLalu' | 'tahunIni';
+export type DateRangePresetKey = 'hariIni' | 'tujuhHari' | 'mingguIni' | 'bulanIni' | 'bulanLalu' | 'tahunIni' | 'tahunLalu';
+/** Pilihan aktif varian select: 'periode', kunci preset, 'rentang' (Rentang tanggal…) atau 'semua'. */
+export type DateRangeChoice = DateRangePresetKey | 'periode' | 'rentang' | 'semua';
+/** Label cetak: "01/10/2026 – 15/10/2026", satu tanggal, atau "Semua tanggal" bila from dan to kosong. */
+export declare function dateRangeLabel(value: DateRangeValue, labels?: Partial<Labels>): string;
 export declare function dateRangePreset(key: DateRangePresetKey, now?: Date): DateRangeValue;
 /** Rentang tanggal (YYYY-MM-DD) + pilihan cepat. */
 export declare function DateRange(props: Teks & {
-  label?: ReactNode; hint?: ReactNode; error?: ReactNode; value?: DateRangeValue; defaultValue?: DateRangeValue; onChange?: (value: DateRangeValue) => void;
+  label?: ReactNode; hint?: ReactNode; error?: ReactNode; value?: DateRangeValue; defaultValue?: DateRangeValue;
+  /** `choice` hanya dikirim varian select. */
+  onChange?: (value: DateRangeValue, choice?: DateRangeChoice) => void;
+  /** 'buttons' (bawaan): dua isian + tombol preset. 'select': satu menu Tanggal; isian Dari–Sampai muncul untuk Rentang tanggal…. */
+  variant?: 'buttons' | 'select';
+  /** Varian select: rentang bawaan aplikasi (mis. periode pembukuan), tampil sebagai pilihan pertama. */
+  period?: DateRangeValue; periodLabel?: string;
   presets?: DateRangePresetKey[] | false; min?: string; max?: string; required?: boolean; disabled?: boolean; className?: string;
 }): JSX.Element;
 

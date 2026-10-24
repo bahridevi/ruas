@@ -33,6 +33,7 @@ export const LABEL = {
   pemberitahuan: 'Pemberitahuan', pilihOpsi: 'Pilih…', opsiLagi: n => `${angka(n)} pilihan lain. Ketik untuk mempersempit.`,
   dari: 'Dari', sampai: 'Sampai', rentangSalah: 'Tanggal awal harus sebelum atau sama dengan tanggal akhir.',
   hariIni: 'Hari ini', tujuhHari: '7 hari terakhir', bulanIni: 'Bulan ini', bulanLalu: 'Bulan lalu', tahunIni: 'Tahun ini',
+  tanggal: 'Tanggal', mingguIni: 'Minggu ini', tahunLalu: 'Tahun lalu', rentangTanggal: 'Rentang tanggal…', semuaTanggal: 'Semua tanggal', periode: 'Periode',
   seretBerkas: 'Seret berkas ke sini, atau', pilihBerkas: 'pilih berkas', hapusBerkas: nama => `Hapus ${nama}`,
   terlaluBesar: (nama, batas) => `${nama} lebih dari ${batas}.`, jenisSalah: nama => `${nama} bukan jenis berkas yang diterima.`, batasBerkas: batas => `Maksimal ${batas} per berkas.`,
   langkah: (i, n) => `Langkah ${i} dari ${n}`, selesai: 'selesai', naik: 'naik', turun: 'turun', tetap: 'tetap',
@@ -168,7 +169,7 @@ function Grup({ id, label, hint, error, required, className, children }) {
 function useNilai(value, defaultValue, onChange) {
   const [sendiri, setSendiri] = useState(defaultValue);
   const v = value === undefined ? sendiri : value;
-  return [v, x => { if (value === undefined) setSendiri(x); onChange?.(x); }];
+  return [v, (x, ...lain) => { if (value === undefined) setSendiri(x); onChange?.(x, ...lain); }];
 }
 
 export function RadioGroup({ label, name, options, value, defaultValue, onChange, hint, error, required, inline, variant, disabled, className }) {
@@ -905,23 +906,62 @@ const tgl = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')
 const PRESET = {
   hariIni: d => [d, d],
   tujuhHari: d => [new Date(d.getFullYear(), d.getMonth(), d.getDate() - 6), d],
+  // Minggu dimulai Senin: getDay() Minggu = 0 → mundur 6 hari.
+  mingguIni: d => [new Date(d.getFullYear(), d.getMonth(), d.getDate() - (d.getDay() + 6) % 7), new Date(d.getFullYear(), d.getMonth(), d.getDate() - (d.getDay() + 6) % 7 + 6)],
   bulanIni: d => [new Date(d.getFullYear(), d.getMonth(), 1), new Date(d.getFullYear(), d.getMonth() + 1, 0)],
   bulanLalu: d => [new Date(d.getFullYear(), d.getMonth() - 1, 1), new Date(d.getFullYear(), d.getMonth(), 0)],
   tahunIni: d => [new Date(d.getFullYear(), 0, 1), new Date(d.getFullYear(), 11, 31)],
+  tahunLalu: d => [new Date(d.getFullYear() - 1, 0, 1), new Date(d.getFullYear() - 1, 11, 31)],
 };
+const PRESET_TOMBOL = ['hariIni', 'tujuhHari', 'bulanIni', 'bulanLalu', 'tahunIni'];
+const PRESET_MENU = ['hariIni', 'mingguIni', 'bulanIni', 'tahunIni', 'tahunLalu'];
 export const dateRangePreset = (kunci, kini = new Date()) => { const [a, b] = PRESET[kunci](kini); return { from: tgl(a), to: tgl(b) }; };
 
-// Rentang tanggal: dua <input type="date"> bawaan + pilihan cepat. Nilai { from, to } berformat YYYY-MM-DD.
-export function DateRange({ label, hint, error, value, defaultValue = { from: '', to: '' }, onChange, presets = Object.keys(PRESET), min, max, required, disabled, labels, className }) {
+// Label cetak: "01/10/2026 – 15/10/2026", satu tanggal, atau "Semua tanggal" bila kosong.
+const dmy = s => s.split('-').reverse().join('/');
+export const dateRangeLabel = ({ from, to }, labels) => !from && !to ? { ...LABEL, ...labels }.semuaTanggal
+  : from === to ? dmy(from) : `${from ? dmy(from) : '…'} – ${to ? dmy(to) : '…'}`;
+
+// Pilihan aktif dibaca dari nilai: kosong = semua, sama dengan periode/preset = itu, selain itu = rentang bebas.
+const cocokRentang = (v, period, presets) => !v.from && !v.to ? 'semua'
+  : period && v.from === period.from && v.to === period.to ? 'periode'
+  : presets.find(k => { const p = dateRangePreset(k); return p.from === v.from && p.to === v.to; }) || 'rentang';
+
+// Rentang tanggal. Bawaan: dua <input type="date"> + tombol pilihan cepat. variant="select": satu menu Tanggal
+// (Periode, preset, Rentang tanggal…, Semua tanggal); isian Dari–Sampai hanya muncul untuk Rentang tanggal….
+// Nilai { from, to } berformat YYYY-MM-DD lokal; Semua = { from: '', to: '' }. onChange(nilai, pilihan).
+export function DateRange({ label, hint, error, value, defaultValue = { from: '', to: '' }, onChange, variant, period, periodLabel, presets, min, max, required, disabled, labels, className }) {
   const L = { ...LABEL, ...labels };
   const id = useId();
+  const menu = variant === 'select';
+  const daftar = presets ?? (menu ? PRESET_MENU : PRESET_TOMBOL);
+  const [bebas, setBebas] = useState(false);
   const [v, ubah] = useNilai(value, defaultValue, onChange);
+  // Rentang tanggal… tetap terpilih walau isinya kebetulan sama dengan preset (kecuali dikosongkan dari luar).
+  const pilihan = bebas && (v.from || v.to) ? 'rentang' : cocokRentang(v, period, daftar || []);
   const salah = v.from && v.to && v.from > v.to ? L.rentangSalah : null;
+  if (menu) {
+    const pilih = k => {
+      setBebas(k === 'rentang');
+      // Rentang tanggal… diisi awal dari rentang aktif; dari Semua: periode, atau bulan ini.
+      ubah(k === 'semua' ? { from: '', to: '' } : k === 'periode' ? period : k !== 'rentang' ? dateRangePreset(k)
+        : v.from && v.to ? v : period ?? dateRangePreset('bulanIni'), k);
+    };
+    return h('div', { className: cx('ruas-rentang-menu', className) },
+      h(Select, { label: label ?? L.tanggal, hint, error, disabled, value: pilihan, onChange: e => pilih(e.target.value), options: [
+        period && { value: 'periode', label: periodLabel ?? `${L.periode} (${dateRangeLabel(period, L)})` },
+        ...(daftar || []).map(k => ({ value: k, label: L[k] })),
+        { value: 'rentang', label: L.rentangTanggal }, { value: 'semua', label: L.semuaTanggal }].filter(Boolean) }),
+      pilihan === 'rentang' && h('div', { role: 'group', 'aria-label': L.rentangTanggal, className: 'ruas-rentang-isian' },
+        h(Input, { type: 'date', label: L.dari, value: v.from, min, max: v.to || max, disabled, 'aria-invalid': salah ? true : undefined, 'aria-describedby': salah ? `${id}-error` : undefined, onChange: e => ubah({ ...v, from: e.target.value }, 'rentang') }),
+        h(Input, { type: 'date', label: L.sampai, value: v.to, min: v.from || min, max, disabled, 'aria-invalid': salah ? true : undefined, 'aria-describedby': salah ? `${id}-error` : undefined, onChange: e => ubah({ ...v, to: e.target.value }, 'rentang') }),
+        galat(id, salah)));
+  }
   return h(Grup, { id, label, hint, error: error ?? salah, required, className: cx('ruas-rentang', className) },
     h('div', { className: 'ruas-rentang-isian' },
       h(Input, { type: 'date', label: L.dari, value: v.from, min, max: v.to || max, required, disabled, 'aria-invalid': salah ? true : undefined, onChange: e => ubah({ ...v, from: e.target.value }) }),
       h(Input, { type: 'date', label: L.sampai, value: v.to, min: v.from || min, max, required, disabled, 'aria-invalid': salah ? true : undefined, onChange: e => ubah({ ...v, to: e.target.value }) })),
-    presets && presets.length > 0 && h('div', { className: 'ruas-alat' }, presets.map(k => {
+    daftar && daftar.length > 0 && h('div', { className: 'ruas-alat' }, daftar.map(k => {
       const p = dateRangePreset(k);
       return h(Button, { key: k, size: 'sm', disabled, 'aria-pressed': v.from === p.from && v.to === p.to, onClick: () => ubah(p) }, L[k]);
     })));
