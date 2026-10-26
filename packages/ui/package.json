@@ -1,8 +1,8 @@
 {
   "name": "@ruas-icons/ui",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Komponen dasbor bergaya Ruas untuk React/Next.js: kerangka dasbor, tabel berpaginasi (pilih baris, CSV), isian (OTP, Rupiah, cari pilihan, rentang tanggal, unggah), toast, palet perintah, KPI dan grafik.",
-  "license": "MIT",
+  "license": "MIT AND OFL-1.1",
   "homepage": "https://ruas.metabahri.com/site/ui.html",
   "repository": { "type": "git", "url": "git+https://github.com/bahridevi/ruas.git", "directory": "packages/ui" },
   "bugs": "https://github.com/bahridevi/ruas/issues",
@@ -13,10 +13,11 @@
   "exports": {
     ".": { "types": "./index.d.ts", "default": "./index.js" },
     "./bahasa": { "types": "./bahasa.d.ts", "default": "./bahasa.js" },
-    "./ruas-ui.css": "./ruas-ui.css"
+    "./ruas-ui.css": "./ruas-ui.css",
+    "./ruas-font.css": "./ruas-font.css"
   },
   "sideEffects": ["*.css"],
-  "files": ["index.js", "index.d.ts", "bahasa.js", "bahasa.d.ts", "ruas-ui.css"],
+  "files": ["index.js", "index.d.ts", "bahasa.js", "bahasa.d.ts", "ruas-ui.css", "ruas-font.css", "fonts"],
   "dependencies": {
     "@ruas-icons/react": "^0.1.0"
   },

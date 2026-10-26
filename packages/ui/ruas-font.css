@@ -1,0 +1,18 @@
+/* Font Ruas (pilihan): huruf Atkinson Hyperlegible Next, angka 0–9 "Ruas Angka", judul Bricolage Grotesque.
+   Ruas Angka = angka Inter 4.1 (SIL OFL 1.1, lihat fonts/OFL-Inter.txt): angka bersih tanpa nol bercoret, sedangkan huruf
+   tetap Atkinson yang membedakan I/l/1. Dibuat dengan:
+     python -m fontTools.subset InterVariable.ttf --unicodes=U+0030-0039 --layout-features=tnum,pnum,lnum --flavor=woff
+   lalu nama keluarga diganti "Ruas Angka". Atkinson Next/Mono, Bricolage, dan Noto Sans Arabic dimuat aplikasi
+   (lihat README); bila belum dimuat, browser memakai font sistem. */
+@font-face {
+  font-family: "Ruas Angka"; src: url("./fonts/ruas-angka.woff") format("woff");
+  font-weight: 100 900; font-display: swap; unicode-range: U+30-39;
+}
+/* html:root lebih kuat dari :root di ruas-ui.css, jadi urutan impor kedua berkas tidak berpengaruh. */
+html:root {
+  --ruas-font: "Ruas Angka", "Atkinson Hyperlegible Next", "Noto Sans Arabic", system-ui, sans-serif;
+  --ruas-font-judul: "Bricolage Grotesque", "Ruas Angka", "Atkinson Hyperlegible Next", "Noto Sans Arabic", system-ui, sans-serif;
+  --ruas-mono: "Ruas Angka", "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
+}
+body { font-family: var(--ruas-font); }
+:where(h1, h2, h3), .ruas-bab-judul, .ruas-dialog-judul, .ruas-hampa-judul, .ruas-merek { font-family: var(--ruas-font-judul); }

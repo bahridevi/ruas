@@ -42,7 +42,7 @@
 [dir="ltr"] { --ruas-arah: 1; --ruas-mulai: 0%; --ruas-arah-gradasi: 90deg; }
 [dir="rtl"] :is(.ruas-bab-chev, .ruas-pohon-btn svg, .ruas-buka-btn svg, .ruas-paging .ruas-btn svg, .ruas-ciut-btn svg) { scale: -1 1; }
 /* Huruf Arab bersambung: jarak antarhuruf dan huruf monospace memutus sambungannya. */
-:is(:lang(ar), :lang(ur), :lang(fa)) :is(.ruas-label, .ruas-tabel th, .ruas-stat-label, .ruas-palet-grup, .ruas-nav-judul, .ruas-bab .ruas-bab .ruas-bab-judul) { letter-spacing: 0; font-family: inherit; }
+:is(:lang(ar), :lang(ur), :lang(fa)) :is(.ruas-label, .ruas-tabel th, .ruas-stat-label, .ruas-palet-grup, .ruas-nav-judul, .ruas-bab .ruas-bab .ruas-bab-judul, .ruas-bab-meta, .ruas-grafik-teks) { letter-spacing: 0; font-family: inherit; }
 
 /* Tombol */
 .ruas-btn {

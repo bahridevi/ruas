@@ -11,6 +11,7 @@ npm i @ruas-icons/ui @ruas-icons/react
 ```tsx
 // app/layout.tsx: sekali saja
 import "@ruas-icons/ui/ruas-ui.css";
+import "@ruas-icons/ui/ruas-font.css"; // pilihan: font Ruas, lihat bagian Font
 ```
 
 ```tsx
@@ -191,4 +192,32 @@ Bingkai kartu (`Section`, tabel, `Stat`, `Dialog`, toast) dan lencana mengikuti 
 }
 ```
 
-Huruf mengikuti aplikasi. Komponen memakai `"use client"`, jadi bisa diimpor langsung dari Server Component Next.js.
+## Font
+
+Tanpa `ruas-font.css`, huruf mengikuti aplikasi. Dengan `ruas-font.css` (pilihan), Ruas memakai susunan khasnya:
+
+| Peran | Font |
+|---|---|
+| Teks & antarmuka | **Atkinson Hyperlegible Next**: dirancang Braille Institute agar I/l/1 dan huruf mirip lainnya tidak tertukar |
+| Angka 0–9 | **Ruas Angka**: angka Inter (bersih, tanpa nol bercoret), disertakan di paket (7 KB, OFL 1.1) |
+| Judul | **Bricolage Grotesque** |
+| Kode & label kecil | **Atkinson Hyperlegible Mono**, angkanya juga Ruas Angka |
+| Arab & Urdu | **Noto Sans Arabic**; Cina, Jepang, dan Rusia memakai font sistem |
+
+Ruas Angka ikut paket. Font lain dimuat aplikasi, misalnya dari Google Fonts (berkas Arab hanya diunduh bila halaman berisi huruf Arab):
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap">
+```
+
+Bila belum dimuat atau Google Fonts tidak boleh dipakai, browser memakai font sistem. Tampilan tetap rapi, dan angka tetap Ruas Angka. Ganti sebagian lewat token, misalnya judul yang lebih formal:
+
+```css
+:root:root { --ruas-font-judul: var(--ruas-font); }
+```
+
+Token: `--ruas-font` (teks), `--ruas-font-judul` (judul `h1`–`h3`, `Section`, `Dialog`, `EmptyState`, merek), `--ruas-mono` (label, kode, angka kecil).
+
+Komponen memakai `"use client"`, jadi bisa diimpor langsung dari Server Component Next.js.

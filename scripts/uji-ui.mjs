@@ -1,6 +1,6 @@
 // Uji paket @ruas-icons/ui: logika tabel dan markup aksesibel. Jalankan `npm run rakit && npm run uji`.
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { createElement as h } from 'react';
 import { renderToStaticMarkup as r } from 'react-dom/server';
 import * as UI from '../packages/ui/index.js';
@@ -221,6 +221,12 @@ console.log(`✓ ${daun.length} Sudut Daun di ruas-ui.css berbanding 4:1`);
 const ubin = r(h(UI.IconTile, { icon: h('svg'), tone: 'danger', size: 'lg', variant: 'solid' }));
 assert.match(ubin, /class="ruas-ikon ruas-ikon-lg ruas-ikon-solid ruas-ikon-danger" aria-hidden="true"/);
 assert.match(r(h(UI.IconTile, { icon: h('svg'), label: 'Saldo kas' })), /class="ruas-ikon ruas-ikon-md ruas-ikon-soft" role="img" aria-label="Saldo kas"/);
+
+// Font pilihan: berkas Ruas Angka yang dirujuk ruas-font.css ada dan ikut terbit di paket.
+const cssFont = readFileSync(new URL('../packages/ui/ruas-font.css', import.meta.url), 'utf8');
+for (const [, berkas] of cssFont.matchAll(/url\("\.\/([^"]+)"\)/g)) assert.ok(existsSync(new URL('../packages/ui/' + berkas, import.meta.url)), 'berkas font hilang: ' + berkas);
+const pkgUi = JSON.parse(readFileSync(new URL('../packages/ui/package.json', import.meta.url), 'utf8'));
+assert.ok(pkgUi.files.includes('ruas-font.css') && pkgUi.files.includes('fonts'), 'ruas-font.css dan fonts/ harus ikut terbit');
 
 // Bahasa lain: kunci sama persis dengan LABEL, jenis sama, dan fungsi menghasilkan teks utuh.
 const B = await import('../packages/ui/bahasa.js');
