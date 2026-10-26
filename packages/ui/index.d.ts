@@ -145,6 +145,7 @@ export declare function DataTable<R>(props: Teks & {
   /** Kelas tambahan per baris, mis. warna kondisi. */ rowClassName?: (row: R) => string | undefined;
   /** Saringan tambahan milik aplikasi (periode, rentang tanggal…) di bagian Saringan. */ filters?: ReactNode;
   /** Jumlah saringan tambahan yang aktif (ikut "x saringan aktif"). */ filtersActive?: number;
+  /** Letak label isian Saringan: 'side' (bawaan, di kiri isian, hemat tinggi) atau 'top' (di atas isian). Ukuran lewat token CSS --ruas-saring-*. */ filterLabels?: 'side' | 'top';
   /** Dipanggil oleh "Hapus saringan" agar aplikasi mengosongkan saringan tambahannya. */ onClearFilters?: () => void;
   /** Kotak centang per baris + "Pilih semua di halaman ini". Butuh rowKey. */ selectable?: boolean;
   /** Tombol aksi massal di bilah "n dipilih". */ bulkActions?: (keys: (string | number)[], clear: () => void) => ReactNode;

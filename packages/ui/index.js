@@ -528,7 +528,7 @@ const takCetak = c => (c.exportable === false ? 'ruas-tak-cetak' : undefined);
 
 export function DataTable({
   title, columns, rows = [], rowKey, summary, actions, total, grandTotal, onStateChange, fetchAllRows, loading,
-  detail, footer, filters, filtersActive = 0, onClearFilters, printHeader, printFooter, rowClassName, defaultDetailOpen, searchable = true,
+  detail, footer, filters, filtersActive = 0, onClearFilters, filterLabels = 'side', printHeader, printFooter, rowClassName, defaultDetailOpen, searchable = true,
   selectable, bulkActions, onSelectionChange, columnToggle, exportable, exportName, maxHeight,
   pageSizes = [10, 25, 50, 100], defaultPageSize, defaultOpen = true, emptyText, labels, className,
 }) {
@@ -662,9 +662,10 @@ export function DataTable({
     h(SectionGroup, { labels },
       summary && h(Section, { title: L.ringkasan, level: 4, className: 'ruas-noprint' }, summary),
       h(Section, { title: L.saringan, meta: nSaring ? L.saringanAktif(nSaring) : null, level: 4, className: 'ruas-noprint' },
-        filters && h('div', { className: 'ruas-saringan-lain' }, filters),
-        h('div', { className: 'ruas-saringan' },
-          searchable && h(Input, { type: 'search', label: L.cari, placeholder: L.cariContoh, value: st.q, onChange: e => ubah({ q: e.target.value }) }),
+        // Satu baris: saringan aplikasi, Cari, Hapus saringan (membungkus di layar sempit); label di kiri isian atau di atasnya.
+        h('div', { className: cx('ruas-saringan', filterLabels === 'top' ? 'ruas-saringan-atas' : 'ruas-saringan-samping') },
+          filters,
+          searchable && h(Input, { type: 'search', label: L.cari, placeholder: L.cariContoh, value: st.q, onChange: e => ubah({ q: e.target.value }), fieldClassName: 'ruas-saringan-cari' }),
           h(Button, { icon: h(Close, { size: 16 }), disabled: !nSaring, onClick: () => { ubah({ q: '', filters: {} }); onClearFilters?.(); } }, L.hapusSaringan))),
       h('div', { ref: daftar },
         printHeader && h('div', { className: 'ruas-cetak-saja' }, printHeader),

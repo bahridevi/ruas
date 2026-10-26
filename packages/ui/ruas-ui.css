@@ -187,6 +187,8 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 .ruas-kelompok, .ruas-sub { display: grid; gap: 12px; }
 .ruas-alat { display: flex; flex-wrap: wrap; gap: 8px; }
 .ruas-kelompok > .ruas-alat { gap: 2px; margin-inline-start: -6px; }
+/* Buka/Gulung semua: alat bantu, lebih kecil dari judul bagian. */
+.ruas-kelompok > .ruas-alat .ruas-btn { min-height: 28px; padding-inline: 8px; font-size: .78rem; }
 .ruas-bab { color: var(--ruas-ink); background: var(--ruas-surface); border: var(--ruas-bingkai-lebar, 1px) solid var(--ruas-bingkai, var(--ruas-line)); border-radius: 16px 4px 16px 4px; min-width: 0; }
 .ruas-bab-kepala { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; padding-block: 2px; padding-inline: 4px 10px; min-height: 44px; }
 .ruas-bab-judul { flex: 1 1 14em; min-width: 0; margin: 0; font-weight: 700; font-size: 1rem; line-height: 1.3; font-family: inherit; }
@@ -197,7 +199,7 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 /* Bagian di dalam bagian = cabang pohon: tanpa kotak, judul kecil, isi menjorok dengan garis panduan. */
 .ruas-bab .ruas-bab { background: none; border: 0; border-radius: 0; }
 .ruas-bab .ruas-bab .ruas-bab-kepala { min-height: 30px; padding: 0; }
-.ruas-bab .ruas-bab .ruas-bab-judul { font: 600 .7rem/1.3 var(--ruas-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ruas-muted); }
+.ruas-bab .ruas-bab .ruas-bab-judul { font: 700 .72rem/1.3 var(--ruas-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ruas-ink); }
 .ruas-bab .ruas-bab .ruas-bab-judul button { gap: 6px; padding: 6px 4px; margin-inline-start: -4px; width: auto; }
 .ruas-bab .ruas-bab .ruas-bab-chev { width: 14px; height: 14px; }
 .ruas-bab .ruas-bab .ruas-bab-isi { padding-block: 2px 6px; padding-inline: 14px 0; margin-inline-start: 2px; border-inline-start: 1px solid var(--ruas-line); gap: 10px; }
@@ -215,8 +217,31 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 }
 
 /* Tabel */
-.ruas-saringan { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
-.ruas-saringan > .ruas-field { flex: 1 1 260px; }
+/* Saringan tabel: satu baris (membungkus di layar sempit), isian rendah. Label di kiri (.ruas-saringan-samping, bawaan)
+   atau di atas (.ruas-saringan-atas, prop filterLabels="top"). Atur lewat token, mis. di :root atau .ruas-datatable:
+   --ruas-saring-tinggi (32px), --ruas-saring-lebar (15em, tiap isian), --ruas-saring-lebar-tanggal (11.5em, Dari/Sampai),
+   --ruas-saring-lebar-cari (16em, lebar awal Cari yang lalu mengisi sisa), --ruas-saring-label (5.5em, kolom label di HP).
+   Satu isian bisa diberi lebar sendiri lewat fieldClassName. */
+.ruas-saringan { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: end; }
+.ruas-saringan-samping { align-items: center; }
+.ruas-saringan-samping .ruas-field { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 8px; }
+.ruas-saringan-samping .ruas-field > :not(.ruas-label) { grid-column: 2; }
+.ruas-saringan-samping .ruas-label { white-space: nowrap; }
+.ruas-saringan .ruas-label { font-size: .68rem; }
+.ruas-saringan .ruas-input { min-height: var(--ruas-saring-tinggi, 32px); padding-block: 4px; font-size: .875rem; }
+.ruas-saringan .ruas-btn { min-height: var(--ruas-saring-tinggi, 32px); font-size: .82rem; }
+/* Rentang tanggal: Tanggal, Dari, Sampai ikut berjajar sebagai anggota baris yang sama. */
+.ruas-saringan :is(.ruas-rentang-menu, .ruas-rentang-isian) { display: contents; }
+/* :is(...) > .ruas-field mengalahkan aturan lentur bawaan DateRange agar token lebar berlaku. */
+.ruas-saringan .ruas-field, .ruas-saringan .ruas-rentang-menu > .ruas-field { flex: 0 1 var(--ruas-saring-lebar, 15em); }
+.ruas-saringan .ruas-rentang-isian > .ruas-field { flex: 0 1 var(--ruas-saring-lebar-tanggal, 11.5em); }
+.ruas-saringan .ruas-rentang-isian > .ruas-galat { flex-basis: 100%; }
+.ruas-saringan > .ruas-saringan-cari { flex: 1 1 var(--ruas-saring-lebar-cari, 16em); }
+@media (max-width: 600px) {
+  .ruas-saringan .ruas-field, .ruas-saringan :is(.ruas-rentang-menu, .ruas-rentang-isian) > .ruas-field { flex: 1 1 100%; }
+  .ruas-saringan-samping .ruas-field { grid-template-columns: var(--ruas-saring-label, 5.5em) minmax(0, 1fr); }
+  .ruas-saringan-samping .ruas-label { white-space: normal; }
+}
 .ruas-tabel-gulir { overflow-x: auto; background: var(--ruas-surface); border: var(--ruas-bingkai-lebar, 1px) solid var(--ruas-bingkai, var(--ruas-line)); border-radius: 12px 3px 12px 3px; }
 /* Padat: sel 4 px atas-bawah, garis baris tipis, zebra lembut (baris rincian tidak dihitung), sorot jelas saat hover. */
 .ruas-tabel { --sel-y: 4px; --sel-x: 10px; width: 100%; border-collapse: collapse; font-size: .85rem; line-height: 1.35; font-variant-numeric: tabular-nums; }
@@ -273,10 +298,11 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 .ruas-saringan-lain { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-bottom: 10px; }
 .ruas-saringan-lain > .ruas-field { flex: 1 1 180px; }
 .ruas-kosong { text-align: center !important; color: var(--ruas-muted); padding: 28px 12px !important; }
-.ruas-paging { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; font-size: .88rem; color: var(--ruas-muted); font-variant-numeric: tabular-nums; }
+.ruas-paging { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; font-size: .82rem; color: var(--ruas-muted); font-variant-numeric: tabular-nums; }
 .ruas-paging-kanan { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .ruas-paging label { display: inline-flex; align-items: center; gap: 8px; }
 .ruas-paging .ruas-select { width: auto; }
+.ruas-paging :is(.ruas-input, .ruas-btn) { min-height: 32px; padding-block: 4px; font-size: .82rem; }
 
 .ruas-saring-baris .ruas-input, .ruas-saring-baris .ruas-select { min-width: 7.5em; }
 .ruas-cetak-saja { display: none; }

@@ -88,8 +88,9 @@ assert.match(rinci, /aria-expanded="false" aria-label="Buka rincian"/);
 assert.doesNotMatch(rinci, /rincian Orang 1</, 'rincian tertutup saat awal');
 assert.match(rinci, /Buka semua rincian/);
 assert.match(rinci, /<tfoot><tr><td class="ruas-buka"><\/td><td class="ruas-no"><\/td><td[^>]*>Total<\/td><td[^>]*>23<\/td>/, 'total dari semua 23 baris, bukan hanya halaman');
-assert.match(rinci, /ruas-saringan-lain[^>]*><span>Periode/);
+assert.match(rinci, /class="ruas-saringan ruas-saringan-samping"><span>Periode<\/span><div class="ruas-field ruas-saringan-cari">/); // satu baris: saringan aplikasi, Cari, Hapus saringan
 assert.match(rinci, /1 saringan aktif/);
+assert.match(r(h(UI.DataTable, { rowKey: 'id', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], filterLabels: 'top' })), /class="ruas-saringan ruas-saringan-atas"/, 'label saringan di atas isian');
 
 // Kaki beberapa baris, kop/tanda tangan hanya tercetak, ringkasan & saringan tidak tercetak.
 const kaki2 = r(h(UI.DataTable, { title: 'Kas', rows: baris, columns: [{ key: 'nama', label: 'Nama' }], summary: 'ringkas',

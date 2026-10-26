@@ -100,6 +100,28 @@ Rincian per baris, baris total, dan saringan milik aplikasi:
 
 `footer` menerima semua baris hasil saringan (bukan hanya halaman ini), jadi totalnya ikut saringan.
 
+Isian di `filters` tampil sebaris dengan Cari dan Hapus saringan: label di kiri isian, tinggi 32 px, rentang tanggal (`DateRange variant="select"`) ikut berjajar. Di layar sempit tiap isian satu baris dengan label rata kiri.
+
+Semua bisa diubah pengembang: `filterLabels="top"` menaruh label di atas isian (gaya formulir biasa). Ukuran lewat token CSS di `:root` atau pada satu tabel lewat `className`:
+
+| Token | Bawaan | Fungsi |
+|---|---|---|
+| `--ruas-saring-tinggi` | `32px` | tinggi isian & tombol saringan |
+| `--ruas-saring-lebar` | `15em` | lebar tiap isian |
+| `--ruas-saring-lebar-tanggal` | `11.5em` | lebar Dari/Sampai pada rentang tanggal |
+| `--ruas-saring-lebar-cari` | `16em` | lebar awal Cari (lalu mengisi sisa baris) |
+| `--ruas-saring-label` | `5.5em` | kolom label di layar sempit (label di samping) |
+
+Satu isian saja yang perlu lebar lain? Beri `fieldClassName` miliknya sendiri.
+
+```css
+.tabel-lega { --ruas-saring-tinggi: 40px; --ruas-saring-lebar: 20em; }
+```
+
+```jsx
+<DataTable className="tabel-lega" filterLabels="top" … />
+```
+
 Pilih baris, aksi massal, tombol Kolom, Unduh CSV, dan menu aksi per baris:
 
 ```tsx
