@@ -55,7 +55,8 @@
 .ruas-btn:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 2px; }
 .ruas-btn:disabled { opacity: .5; cursor: not-allowed; }
 .ruas-btn:active:not(:disabled) { box-shadow: 0 0 0 3px color-mix(in srgb, var(--ruas-aktif, var(--ruas-bambu)) 45%, transparent); }
-.ruas-btn[aria-pressed="true"], .ruas-btn[aria-current]:not([aria-current="false"]) { background: var(--ruas-aktif, var(--ruas-bambu)); border-color: var(--ruas-aktif, var(--ruas-bambu)); color: var(--ruas-on-aktif, var(--ruas-on-bambu)); }
+/* :is() menyamai kekuatan :hover di atas dan ditulis sesudahnya, jadi teks tetap terbaca saat tombol terpilih disorot. */
+.ruas-btn:is([aria-pressed="true"], [aria-current]:not([aria-current="false"])) { background: var(--ruas-aktif, var(--ruas-bambu)); border-color: var(--ruas-aktif, var(--ruas-bambu)); color: var(--ruas-on-aktif, var(--ruas-on-bambu)); }
 .ruas-btn-primary { background: var(--ruas-bambu); border-color: var(--ruas-bambu); color: var(--ruas-on-bambu); }
 .ruas-btn-primary:hover:not(:disabled) { background: var(--ruas-ink); border-color: var(--ruas-ink); color: var(--ruas-surface); }
 .ruas-btn-danger { color: var(--ruas-bahaya); border-color: var(--ruas-bahaya); }
