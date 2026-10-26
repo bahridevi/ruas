@@ -32,7 +32,7 @@ import { Plus } from "@ruas-icons/react";
 | `Input`, `Textarea`, `Select`, `Field` | `label`, `hint`, `error` (diumumkan pembaca layar), `required`. `Select` menerima `options` dan `placeholder`. `Field` untuk kontrol buatan sendiri. |
 | `Otp` | Satu kotak per digit; ketik, hapus, panah, tempel sekaligus, isi otomatis SMS (`one-time-code`). `length`, `onComplete`, `name` (input tersembunyi untuk form), `alphanumeric`. |
 | `Checkbox`, `Radio`, `CheckboxGroup`, `RadioGroup` | Radio berbentuk daun bertitik. Grup memakai `fieldset`/`legend`. `CheckboxGroup selectAll` menambah "Pilih semua" (setengah tercentang bila sebagian). `RadioGroup variant="segmented"` untuk pilihan ringkas. |
-| `Tabs` | `items` `{ id, label, content, icon?, badge?, disabled? }`; panah kiri/kanan, Home, End. |
+| `Tabs` | `items` `{ id, label, content, icon?, badge?, disabled? }`; panah kiri/kanan, Home, End; `size="sm"` padat. Deretan tab tidak ikut tercetak. |
 | `Section`, `SectionGroup` | Bagian yang tergulung menjadi satu baris. `SectionGroup` memberi tombol Buka semua / Gulung semua (berlaku juga untuk yang bersarang). `printable` mencetak bagian itu saja. |
 | `Dialog` | Jendela modal dari `<dialog>` bawaan: fokus terkurung, Esc dan klik latar menutup, gulir latar terkunci, fokus awal ke isian pertama. `title`, `description`, `icon`, `tone` default · danger · warning, `size` sm · md · lg · xl, `footer`, `alert` (galat di dalam modal), `onSubmit` (kotak menjadi `<form>`). Di HP tampil sebagai lembar bawah. |
 | `TreeCell` | Sel kolom pertama tabel bertingkat: garis panduan per tingkat, tombol buka/gulung kecil, titik untuk daun. `depth`, `expanded`, `onToggle`, `label`. |

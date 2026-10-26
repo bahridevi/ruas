@@ -42,6 +42,7 @@ assert.equal((otp.match(/data-terisi=""/g) || []).length, 2);
 
 // Tab: satu tab terpilih dan bisa difokus, sisanya tabindex -1.
 const tab = r(h(UI.Tabs, { label: 'Data', items: [{ id: 'a', label: 'A', content: 'isi A' }, { id: 'b', label: 'B', content: 'isi B' }] }));
+assert.match(r(h(UI.Tabs, { label: 'Data', size: 'sm', items: [{ id: 'a', label: 'A', content: 'isi A' }] })), /class="ruas-tabs ruas-tabs-sm"/, 'Tabs padat');
 assert.match(tab, /role="tablist" aria-label="Data"/);
 assert.equal((tab.match(/aria-selected="true"/g) || []).length, 1);
 assert.match(tab, /tabindex="-1"/);
@@ -144,7 +145,7 @@ const shell = r(h(UI.AppShell, { brand: h('b', null, 'Kas'), header: 'Judul', na
 assert.match(shell, /href="#ruas-isi"[^>]*>Lewati ke isi/);
 assert.match(shell, /<nav aria-label="Navigasi utama"/);
 assert.match(shell, /href="\/" class="ruas-nav-butir" aria-current="page"/);
-assert.match(shell, /<main id="ruas-isi" tabindex="-1"/);
+assert.match(shell, /<main id="ruas-isi" tabindex="-1" class="ruas-shell-isi"/);
 assert.match(shell, /aria-label="Buka menu"[^>]*aria-expanded="false"/);
 const jejak = r(h(UI.Breadcrumb, { items: [{ label: 'Beranda', href: '/' }, { label: 'Kas' }] }));
 assert.match(jejak, /<a href="\/">Beranda<\/a>.*<span aria-current="page">Kas<\/span>/);

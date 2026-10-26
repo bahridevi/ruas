@@ -71,7 +71,7 @@ export declare function Otp(props: Teks & {
 }): JSX.Element;
 
 export interface TabItem { id: string; label: ReactNode; content: ReactNode; icon?: ReactNode; badge?: ReactNode; disabled?: boolean }
-export declare function Tabs(props: { items: TabItem[]; value?: string; defaultValue?: string; onChange?: (id: string) => void; label: string; className?: string }): JSX.Element;
+export declare function Tabs(props: { items: TabItem[]; value?: string; defaultValue?: string; onChange?: (id: string) => void; label: string; /** 'sm' = padat (tinggi tab ±30 px, jarak ke isi 10 px). Bawaan 'md'. */ size?: 'sm' | 'md'; className?: string }): JSX.Element;
 
 export declare function SectionGroup(props: Teks & { children?: ReactNode; toolbar?: boolean; className?: string }): JSX.Element;
 export declare function Section(props: Teks & {

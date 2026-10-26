@@ -177,10 +177,16 @@ textarea.ruas-input { min-height: 96px; resize: vertical; line-height: 1.5; }
 }
 .ruas-tab:hover:not(:disabled) { color: var(--ruas-ink); background: color-mix(in srgb, var(--ruas-bambu) 7%, transparent); }
 .ruas-tab[aria-selected="true"] { color: var(--ruas-aktif-teks, var(--ruas-aktif, var(--ruas-bambu))); border-bottom-color: var(--ruas-aktif, var(--ruas-bambu)); background: color-mix(in srgb, var(--ruas-aktif, var(--ruas-bambu)) 12%, transparent); font-weight: 700; }
-.ruas-tab:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: -2px; }
+.ruas-tab:focus-visible { outline: 2px solid var(--ruas-bambu); }
+/* Garis sorot/fokus (termasuk milik aplikasi) digambar di dalam tab: deretan tab bergulir, garis di luar akan terpotong. */
+.ruas-tab:is(:hover, :focus-visible) { outline-offset: -3px; }
 .ruas-tab:disabled { opacity: .45; cursor: not-allowed; }
 .ruas-tab-badge { font: 600 .7rem/1 var(--ruas-mono); padding: 3px 6px; border-radius: 6px 1.5px 6px 1.5px; background: color-mix(in srgb, currentColor 12%, transparent); }
 .ruas-tabpanel { padding-top: 16px; }
+/* size="sm": tab padat untuk sub-halaman; anak langsung saja agar Tabs bersarang tetap ukurannya sendiri. */
+.ruas-tabs-sm > .ruas-tablist > .ruas-tab { padding: 6px 10px; gap: 6px; font-size: .82rem; }
+.ruas-tabs-sm > .ruas-tablist > .ruas-tab svg { width: 16px; height: 16px; }
+.ruas-tabs-sm > .ruas-tabpanel { padding-top: 10px; }
 .ruas-tabpanel:focus-visible { outline: 2px solid var(--ruas-bambu); outline-offset: 4px; border-radius: 4px; }
 
 /* Bagian yang bisa digulung */
@@ -512,8 +518,9 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
 .ruas-atas-isi { flex: 1; min-width: 0; }
 .ruas-atas-aksi { display: flex; align-items: center; gap: 6px; }
 .ruas-laci-btn { display: none !important; }
-.ruas-isi { flex: 1; display: grid; align-content: start; gap: 16px; padding: 20px; min-width: 0; }
-.ruas-isi:focus { outline: none; }
+/* Bukan .ruas-isi: nama itu milik mode ikon Ruas (ruas.css). */
+.ruas-shell-isi { flex: 1; display: grid; align-content: start; gap: 16px; padding: 20px; min-width: 0; }
+.ruas-shell-isi:focus { outline: none; }
 .ruas-kaki { padding: 12px 20px; font-size: .8rem; color: var(--ruas-muted); border-top: 1px solid var(--ruas-line); }
 .ruas-tirai { display: none; }
 @media (min-width: 901px) {
@@ -535,7 +542,7 @@ html:has(.ruas-dialog[open]) { overflow: hidden; }
   .ruas-laci-btn, .ruas-laci-tutup { display: inline-flex !important; }
   .ruas-ciut-btn { display: none; }
   .ruas-atas { padding: 8px 12px; }
-  .ruas-isi { padding: 16px; }
+  .ruas-shell-isi { padding: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .ruas-samping, .ruas-ciut-btn svg { transition: none; } }
 

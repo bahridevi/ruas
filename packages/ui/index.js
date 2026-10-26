@@ -263,7 +263,7 @@ export function Otp({ length = 6, value, defaultValue = '', onChange, onComplete
 }
 
 // Tab ARIA: panah kiri/kanan, Home, End berpindah dan langsung membuka tab.
-export function Tabs({ items, value, defaultValue, onChange, label, className }) {
+export function Tabs({ items, value, defaultValue, onChange, label, size = 'md', className }) {
   const id = useId();
   const tombol = useRef([]);
   const [aktif, pilih] = useNilai(value, defaultValue ?? items.find(t => !t.disabled)?.id, onChange);
@@ -279,8 +279,8 @@ export function Tabs({ items, value, defaultValue, onChange, label, className })
     tombol.current[items.indexOf(t)]?.focus();
   };
   const t = items.find(x => x.id === aktif);
-  return h('div', { className: cx('ruas-tabs', className) },
-    h('div', { role: 'tablist', 'aria-label': label, className: 'ruas-tablist', onKeyDown: geser },
+  return h('div', { className: cx('ruas-tabs', size === 'sm' && 'ruas-tabs-sm', className) },
+    h('div', { role: 'tablist', 'aria-label': label, className: 'ruas-tablist ruas-noprint', onKeyDown: geser },
       items.map((x, i) => h('button', {
         key: x.id, ref: el => { tombol.current[i] = el; }, type: 'button', role: 'tab', className: 'ruas-tab',
         id: `${id}-t${i}`, 'aria-selected': x.id === aktif, 'aria-controls': `${id}-p`, tabIndex: x.id === aktif ? 0 : -1,
@@ -721,7 +721,7 @@ export function AppShell({ brand, nav = [], header, actions, footer, children, l
         h(Button, { ref: tombolLaci, variant: 'ghost', className: 'ruas-laci-btn', icon: h(IkonMenu, { size: 20 }), 'aria-label': L.bukaMenu, title: L.bukaMenu, 'aria-expanded': laci, 'aria-controls': navId, onClick: () => setLaci(true) }),
         h('div', { className: 'ruas-atas-isi' }, header),
         actions && h('div', { className: 'ruas-atas-aksi' }, actions)),
-      h('main', { id: 'ruas-isi', tabIndex: -1, className: 'ruas-isi' }, children),
+      h('main', { id: 'ruas-isi', tabIndex: -1, className: 'ruas-shell-isi' }, children),
       footer && h('footer', { className: 'ruas-kaki' }, footer)));
 }
 
