@@ -178,6 +178,15 @@ assert.equal((menuTgl({ defaultValue: { from: '2026-03-02', to: '2026-03-09' } }
 assert.match(menuTgl({ defaultValue: { from: '2026-03-09', to: '2026-03-02' } }), /role="alert".*Tanggal awal harus sebelum/, 'rentang terbalik ditolak (select)');
 assert.match(r(h(UI.DateRange, {})), /7 hari terakhir.*Bulan lalu/, 'tombol preset 0.6.0 tetap');
 assert.match(r(h(UI.NumberInput, { label: 'Gaji', prefix: 'Rp', defaultValue: 1250000 })), /inputMode="numeric"[^>]*value="1\.250\.000"|value="1\.250\.000"[^>]*/i);
+// Desimal & locale: sen tampil lengkap, papan ketik desimal di HP, pemisah mengikuti negara.
+const isianAngka = p => r(h(UI.NumberInput, { label: 'Nominal', ...p })).match(/<input[^>]*>/)[0];
+assert.match(isianAngka({ decimals: 2, defaultValue: 1250000.5 }), /value="1\.250\.000,50"/);
+assert.match(isianAngka({ decimals: 2, defaultValue: 1250000.5 }), /inputMode="decimal"/);
+assert.match(isianAngka({ decimals: 2, locale: 'en-US', defaultValue: 1250000.5 }), /value="1,250,000\.50"/);
+assert.match(isianAngka({ decimals: 2, locale: 'en-IN', defaultValue: 1250000.5 }), /value="12,50,000\.50"/);
+assert.match(isianAngka({ decimals: 3, minDecimals: 0, defaultValue: 2.5 }), /value="2,5"/);
+assert.match(isianAngka({ locale: 'ar-EG', defaultValue: 1250 }), /value="1[^"]?250"/, 'angka tetap Latin');
+assert.match(isianAngka({ defaultValue: 1250.7 }), /value="1\.251"/, 'bawaan tetap bulat');
 const unggah = r(h(UI.FileDrop, { label: 'Foto', accept: 'image/*', maxSize: 5 * 1048576 }));
 assert.match(unggah, /type="file" class="ruas-sr" accept="image\/\*"/);
 assert.match(unggah, /Maksimal 5 MB per berkas\./);

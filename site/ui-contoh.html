@@ -358,6 +358,8 @@ function IsianLanjut() {
   const [kota, setKota] = useState('');
   const [periode, setPeriode] = useState(UI.dateRangePreset('bulanIni'));
   const [gaji, setGaji] = useState(5250000);
+  const [emas, setEmas] = useState(1325750.5);
+  const [dolar, setDolar] = useState(1249.99);
   const [berkas, setBerkas] = useState([]);
   const [notif, setNotif] = useState(true);
   const [langkah, setLangkah] = useState(1);
@@ -370,6 +372,8 @@ function IsianLanjut() {
     h('div', { className: 'kisi' },
       h(Combobox, { label: t('Kota penempatan', 'Placement city'), options: KOTA, value: kota, onChange: setKota, required: true, hint: t('Ketik untuk mencari, mis. "jak sel".', 'Type to search, e.g. "jak sel".') }),
       h(NumberInput, { label: t('Gaji pokok', 'Base salary'), prefix: 'Rp', value: gaji, onChange: setGaji, hint: gaji == null ? t('Belum diisi.', 'Not filled in yet.') : t('Tersimpan sebagai angka: {0}', 'Stored as a number: {0}', gaji) }),
+      h(NumberInput, { label: t('Harga emas per gram (bersen)', 'Gold price per gram (with cents)'), prefix: 'Rp', decimals: 2, value: emas, onChange: setEmas, hint: emas == null ? t('Belum diisi.', 'Not filled in yet.') : t('Tersimpan sebagai angka: {0}', 'Stored as a number: {0}', emas) }),
+      h(NumberInput, { label: t('Tagihan dalam dolar AS (format en-US)', 'Invoice in US dollars (en-US format)'), prefix: '$', decimals: 2, locale: 'en-US', value: dolar, onChange: setDolar, hint: dolar == null ? t('Belum diisi.', 'Not filled in yet.') : t('Tersimpan sebagai angka: {0}', 'Stored as a number: {0}', dolar) }),
       h('div', { style: { display: 'grid', gap: '12px', alignContent: 'start' } },
         h(Switch, { label: t('Kirim pemberitahuan email', 'Send email notifications'), hint: t('Langsung berlaku.', 'Takes effect immediately.'), checked: notif, onChange: e => { setNotif(e.target.checked); toast({ title: e.target.checked ? t('Pemberitahuan dinyalakan', 'Notifications on') : t('Pemberitahuan dimatikan', 'Notifications off'), tone: 'success' }); } }),
         h(Switch, { label: t('Mode perawatan (nonaktif)', 'Maintenance mode (disabled)'), disabled: true }))),

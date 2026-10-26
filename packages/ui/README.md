@@ -43,7 +43,7 @@ import { Plus } from "@ruas-icons/react";
 | `Menu` | Menu aksi (bawaan tombol "⋯"): `items` `{ label, icon, onSelect, tone: "danger", disabled }`, `'-'` = garis pemisah. Panah, Home/End, Esc; memakai popover bawaan browser. |
 | `Combobox` | Pilihan yang bisa dicari (kota, pelanggan, akun). Cocok per kata tanpa peduli huruf besar/kecil; `limit` (bawaan 50) menjaga daftar tetap ringan; data besar: `onSearch` lalu isi `options` dari server. `name` untuk form. |
 | `DateRange` | Dua `<input type="date">` bawaan + tombol pilihan cepat (Hari ini, 7 hari terakhir, Bulan ini, Bulan lalu, Tahun ini). `variant="select"`: saringan tanggal standar untuk daftar, satu menu **Tanggal** berisi Periode (prop `period`, label bisa diganti `periodLabel`), Hari ini, Minggu ini (mulai Senin), Bulan ini, Tahun ini, Tahun lalu, Rentang tanggal…, Semua tanggal; isian Dari–Sampai hanya muncul untuk Rentang tanggal… dan diisi dari rentang aktif. Muat di `filters` DataTable. Nilai `{ from, to }` YYYY-MM-DD menurut tanggal lokal (bukan UTC); Semua tanggal = `{ from: "", to: "" }`. `onChange(nilai, pilihan)`; `dateRangePreset("mingguIni")` untuk nilai awal; `dateRangeLabel(nilai)` untuk label cetak ("01/10/2026 – 15/10/2026" / "Semua tanggal"). |
-| `NumberInput` | Angka berpemisah ribuan saat diketik (`1.250.000`); Rupiah: `prefix="Rp"`. Nilai bilangan bulat atau `null`, kursor tidak meloncat. Negatif hanya bila `min < 0`. |
+| `NumberInput` | Angka berpemisah ribuan saat diketik (`1.250.000`); Rupiah: `prefix="Rp"`. Bersen: `decimals={2}` (`1.250.000,50`; tombol titik/koma numpad dibaca sebagai koma desimal). Negara lain: `locale` (`en-US` 1,250,000.50 · `fr-FR` 1 250 000,50 · `de-CH` 1’250’000.50 · `en-IN` 12,50,000.50). `minDecimals` mengatur angka nol di belakang koma setelah isian ditinggalkan (bawaan = `decimals`). Nilai `number` atau `null`, kursor tidak meloncat, angka Arab-Hindi yang diketik dibaca biasa. Negatif hanya bila `min < 0`. Maks. 15 digit; hitung uang di server dalam satuan terkecil (sen) agar bebas galat pembulatan. |
 | `FileDrop` | Seret-lepas atau pilih berkas, pratinjau gambar, hapus per berkas. `accept`, `multiple`, `maxSize` (byte) dengan pesan galat Bahasa Indonesia. Server tetap wajib memeriksa ulang. |
 | `Stepper` | Langkah formulir panjang: `steps` `{ label, hint }`, `current`, `onStepClick` (langkah yang sudah lewat bisa diklik). Tegak di HP. |
 | `AppShell` | Kerangka dasbor: menu samping berkelompok (`nav`), bisa diciutkan jadi ikon saja (diingat browser), laci di HP (Esc/klik luar menutup, isi belakang `inert`), bilah atas (`header`, `actions`), tautan "Lewati ke isi". `linkAs={Link}` untuk Next.js. |
@@ -63,7 +63,7 @@ Object.assign(LABEL, LABEL_AR); // sebelum render pertama
 // Arab & Urdu ditulis kanan-ke-kiri: <html lang="ar" dir="rtl">
 ```
 
-Dengan `dir="rtl"`, tata letak bercermin (menu samping, laci, sakelar, panah halaman, aliran progres), sedangkan Sudut Daun tetap di arah baku sesuai falsafah. Isian Rupiah dan OTP tetap kiri-ke-kanan. Format angka tetap Indonesia (titik ribuan), sesuai penulisan Rupiah.
+Dengan `dir="rtl"`, tata letak bercermin (menu samping, laci, sakelar, panah halaman, aliran progres), sedangkan Sudut Daun tetap di arah baku sesuai falsafah. Isian Rupiah dan OTP tetap kiri-ke-kanan. Format angka bawaan tetap Indonesia (titik ribuan), sesuai penulisan Rupiah; ganti per isian dengan `locale`.
 
 ## Tabel
 

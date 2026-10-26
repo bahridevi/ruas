@@ -204,9 +204,12 @@ export declare function DateRange(props: Teks & {
   presets?: DateRangePresetKey[] | false; min?: string; max?: string; required?: boolean; disabled?: boolean; className?: string;
 }): JSX.Element;
 
-/** Isian angka berpemisah ribuan; Rupiah = prefix="Rp". Nilai bilangan bulat atau null. */
+/** Isian angka berpemisah ribuan; Rupiah = prefix="Rp", bersen = decimals={2}. Nilai number atau null. */
 export declare const NumberInput: ForwardRefExoticComponent<FieldBits & Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'defaultValue' | 'onChange' | 'prefix' | 'min'> & {
   value?: number | null; defaultValue?: number | null; onChange?: (value: number | null) => void; prefix?: ReactNode; suffix?: ReactNode; /** < 0 = boleh negatif. */ min?: number;
+  /** Angka di belakang koma yang boleh diketik (bawaan 0 = bulat). */ decimals?: number;
+  /** Angka di belakang koma yang selalu tampil setelah isian ditinggalkan (bawaan = decimals, mis. 12,50). */ minDecimals?: number;
+  /** Format pemisah ribuan/desimal, mis. 'en-US' (1,250,000.50), 'fr-FR', 'en-IN'. Bawaan 'id-ID'. */ locale?: string;
 } & RefAttributes<HTMLInputElement>>;
 
 /** Unggah berkas seret-lepas + pratinjau. maxSize dalam byte. Server tetap wajib memeriksa ulang. */

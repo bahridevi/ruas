@@ -967,30 +967,60 @@ export function DateRange({ label, hint, error, value, defaultValue = { from: ''
     })));
 }
 
-// Isian angka berpemisah ribuan (1.250.000), mis. Rupiah: <NumberInput prefix="Rp" />. Nilai = bilangan bulat atau null.
-// Kursor tetap di posisi digit yang sama walau titik ribuan bertambah/berkurang. Negatif hanya bila min < 0.
-export const NumberInput = forwardRef(function NumberInput({ value, defaultValue = null, onChange, prefix, suffix, label, hint, error, id, min, className, fieldClassName, ...p }, ref) {
+// Isian angka berpemisah ribuan, mis. Rupiah: <NumberInput prefix="Rp" />; bersen: decimals={2}. Nilai = number atau null.
+// Format mengikuti locale lewat Intl (id-ID 1.250.000,50 · en-US 1,250,000.50 · fr-FR 1 250 000,50 · en-IN 12,50,000.50),
+// selalu angka Latin; angka Arab-Hindi yang diketik dibaca biasa. Kursor tetap di posisi digit yang sama walau pemisah
+// bertambah/berkurang. Negatif hanya bila min < 0. Maksimal 15 digit (batas presisi number).
+const pemisahAngka = loc => {
+  const b = new Intl.NumberFormat(loc, { numberingSystem: 'latn' }).formatToParts(1234567.5);
+  return b.find(x => x.type === 'decimal')?.value ?? '.';
+};
+export const NumberInput = forwardRef(function NumberInput({ value, defaultValue = null, onChange, prefix, suffix, label, hint, error, id, min, decimals = 0, minDecimals = decimals, locale = 'id-ID', className, fieldClassName, onBlur, ...p }, ref) {
   const [v, ubah] = useNilai(value, defaultValue, onChange);
+  // Teks selama mengetik, agar "12," dan "12,50" tidak dirapikan menjadi "12" / "12,5" di tengah ketikan.
+  const [teks, setTeks] = useState(null);
   const el = useRef(null);
   const kursor = useRef(null);
+  const des = useMemo(() => pemisahAngka(locale), [locale]);
+  const fmt = useMemo(() => new Intl.NumberFormat(locale, { numberingSystem: 'latn', minimumFractionDigits: minDecimals, maximumFractionDigits: decimals }), [locale, minDecimals, decimals]);
+  const fmtBulat = useMemo(() => new Intl.NumberFormat(locale, { numberingSystem: 'latn' }), [locale]);
+  const kunci = c => /\d/.test(c) || (decimals > 0 && c === des) || (min < 0 && c === '-');
+  const baca = s => {
+    const neg = min < 0 && s.trim().startsWith('-');
+    const i = decimals > 0 ? s.indexOf(des) : -1;
+    const bulat = (i < 0 ? s : s.slice(0, i)).replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 15 - decimals);
+    const pecahan = i < 0 ? null : s.slice(i + 1).replace(/\D/g, '').slice(0, decimals);
+    return {
+      nilai: bulat || pecahan != null ? Number(`${neg ? '-' : ''}${bulat || 0}.${pecahan || 0}`) : null,
+      tampil: (neg ? '-' : '') + (bulat ? fmtBulat.format(BigInt(bulat)) : pecahan != null ? '0' : '') + (pecahan != null ? des + pecahan : ''),
+    };
+  };
   useLayoutEffect(() => {
     const x = el.current;
     if (kursor.current == null || !x) return;
     let i = 0, d = 0;
-    while (i < x.value.length && d < kursor.current) { if (/\d/.test(x.value[i])) d++; i++; }
+    while (i < x.value.length && d < kursor.current) { if (kunci(x.value[i])) d++; i++; }
     x.setSelectionRange(i, i);
     kursor.current = null;
   });
   const ganti = e => {
-    const s = e.target.value;
-    kursor.current = s.slice(0, e.target.selectionStart ?? s.length).replace(/\D/g, '').length;
-    const d = s.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 15);
-    const neg = min < 0 && s.trim().startsWith('-');
-    ubah(d ? (neg ? -Number(d) : Number(d)) : null);
+    let s = e.target.value.replace(/[٠-٩]/g, c => c.charCodeAt(0) - 0x660).replace(/[۰-۹]/g, c => c.charCodeAt(0) - 0x6F0);
+    let pos = e.target.selectionStart ?? s.length;
+    // Titik atau koma yang baru diketik (mis. dari numpad) = pemisah desimal, apa pun locale-nya.
+    const ketik = e.nativeEvent?.data;
+    if (decimals > 0 && (ketik === '.' || ketik === ',') && ketik !== des && s[pos - 1] === ketik) s = s.slice(0, pos - 1) + des + s.slice(pos);
+    // ",5" ditampilkan "0,5": sisipkan nol di sini juga agar kursor tetap di belakang koma.
+    if (decimals > 0 && /^\s*-?$/.test(s.slice(0, s.indexOf(des)))) { s = s.replace(des, '0' + des); if (pos > s.indexOf(des) - 1) pos++; }
+    kursor.current = [...s.slice(0, pos)].filter(kunci).length;
+    const { nilai, tampil } = baca(s);
+    setTeks(tampil);
+    ubah(nilai);
   };
+  // Teks ketikan dipakai selama nilainya sama; bila nilai diubah dari luar atau isian ditinggalkan, tampil format penuh.
+  const tampil = teks != null && baca(teks).nilai === v ? teks : v == null ? '' : fmt.format(v);
   return h(Field, { label, hint, error, id, required: p.required, className: fieldClassName }, a => h('div', { className: 'ruas-imbuh' },
     prefix && h('span', { className: 'ruas-imbuh-teks', 'aria-hidden': true }, prefix),
-    h('input', { ref: pasangRef(el, ref), ...a, ...p, type: 'text', inputMode: 'numeric', autoComplete: 'off', className: cx('ruas-input', className), value: v == null ? '' : angka(v), onChange: ganti }),
+    h('input', { ref: pasangRef(el, ref), ...a, ...p, type: 'text', inputMode: decimals > 0 ? 'decimal' : 'numeric', autoComplete: 'off', className: cx('ruas-input', className), value: tampil, onChange: ganti, onBlur: e => { setTeks(null); onBlur?.(e); } }),
     suffix && h('span', { className: 'ruas-imbuh-teks', 'aria-hidden': true }, suffix)));
 });
 
